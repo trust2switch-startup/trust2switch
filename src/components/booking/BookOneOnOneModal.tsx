@@ -15,10 +15,10 @@ interface BookOneOnOneModalProps {
 }
 
 const sessionTypes = [
-  { id: 'technical', label: 'Technical Guidance', duration: '60 min', price: '$99' },
-  { id: 'career', label: 'Career Counseling', duration: '45 min', price: '$79' },
-  { id: 'project', label: 'Project Review', duration: '90 min', price: '$149' },
-  { id: 'interview', label: 'Interview Prep', duration: '60 min', price: '$99' },
+  { id: 'technical', label: 'Technical Guidance', duration: '60 min', price: '₹8,299' },
+  { id: 'career', label: 'Career Counseling', duration: '45 min', price: '₹6,599' },
+  { id: 'project', label: 'Project Review', duration: '90 min', price: '₹12,499' },
+  { id: 'interview', label: 'Interview Prep', duration: '60 min', price: '₹8,299' },
 ];
 
 export const BookOneOnOneModal: React.FC<BookOneOnOneModalProps> = ({
