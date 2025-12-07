@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { products, productSortOptions } from '@/config/products';
 import { content } from '@/config/content';
+import { Product } from '@/types';
 import { Search, Code, FileText, Layout } from 'lucide-react';
 
 export default function ShopPage() {
