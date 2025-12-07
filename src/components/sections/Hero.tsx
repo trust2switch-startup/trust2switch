@@ -9,34 +9,34 @@ export const Hero: React.FC = () => {
   const [isCallbackModalOpen, setIsCallbackModalOpen] = useState(false);
 
   return (
-    <section id="hero" className="pt-8 relative bg-slate-900 overflow-hidden min-h-[600px] flex items-center" style={{ scrollMarginTop: '120px' }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-12 grid md:grid-cols-2 gap-12 items-center">
+    <section id="hero" className="pt-4 sm:pt-8 relative bg-slate-900 overflow-hidden min-h-[500px] sm:min-h-[600px] flex items-center" style={{ scrollMarginTop: '120px' }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-8 sm:py-12 grid md:grid-cols-2 gap-8 sm:gap-12 items-center">
         {/* Left Side: Slogan & CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-white relative z-20"
+          className="text-white relative z-20 text-center md:text-left"
         >
-          <p className="text-orange-400 text-lg font-semibold mb-3 tracking-wider uppercase">
+          <p className="text-orange-400 text-sm sm:text-base lg:text-lg font-semibold mb-2 sm:mb-3 tracking-wider uppercase">
             Your Career Transformation Partner
           </p>
-          <h1 className="text-4xl sm:text-6xl font-extrabold leading-tight mb-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-4 sm:mb-6">
             Trust Your Transition. <span className="text-orange-300">Switch to Success.</span>
           </h1>
-          <p className="mb-8 max-w-md text-slate-300">
+          <p className="mb-6 sm:mb-8 max-w-md mx-auto md:mx-0 text-sm sm:text-base text-slate-300">
             Acquire in-demand skills, build industry-level portfolios, and land your dream job with 1-on-1 mentorship.
           </p>
           
           {/* CTA Button with Motion */}
           <button
             onClick={() => setIsCallbackModalOpen(true)}
-            className="group relative bg-orange-700 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-xl shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-orange-300 min-w-[220px] flex items-center justify-center overflow-hidden"
+            className="group relative bg-orange-700 hover:bg-orange-600 text-white font-bold py-2.5 sm:py-3 px-6 sm:px-8 rounded-xl shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-orange-300 w-full sm:w-auto sm:min-w-[220px] flex items-center justify-center overflow-hidden mx-auto md:mx-0"
           >
-            <span className="text whitespace-nowrap transition-all duration-300 group-hover:opacity-0 group-hover:-translate-x-2">
+            <span className="text-sm sm:text-base whitespace-nowrap transition-all duration-300 group-hover:opacity-0 group-hover:-translate-x-2">
               Request a Call Back
             </span>
-            <Phone className="absolute w-6 h-6 opacity-0 translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" />
+            <Phone className="absolute w-5 h-5 sm:w-6 sm:h-6 opacity-0 translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" />
           </button>
         </motion.div>
 
@@ -45,7 +45,7 @@ export const Hero: React.FC = () => {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="video-container shadow-2xl rounded-xl border-4 border-white/20"
+          className="video-container shadow-2xl rounded-xl border-2 sm:border-4 border-white/20 mt-6 md:mt-0"
         >
           <iframe 
             src="https://www.youtube.com/embed/dQw4w9WgXcQ?controls=0&autoplay=0&mute=1" 

@@ -1,105 +1,103 @@
 'use client';
 
 import React from 'react';
+import { motion } from 'framer-motion';
+import { Star } from 'lucide-react';
+
+
+const ratings = [
+  {
+    score: '4.8',
+    max: '5.0',
+    platform: 'Google Reviews',
+    color: 'text-blue-600',
+    stars: 4.8,
+  },
+  {
+    score: '4.9',
+    max: '5.0',
+    platform: 'Course Report',
+    color: 'text-green-600',
+    stars: 4.9,
+  },
+  {
+    score: '4.8',
+    max: '5.0',
+    platform: 'Switch Up',
+    color: 'text-red-500',
+    stars: 4.8,
+  },
+];
+
+const StarRating = ({ rating }: { rating: number }) => {
+  return (
+    <div className="flex items-center space-x-0.5 text-amber-400">
+      {[1, 2, 3, 4, 5].map((star) => {
+        const isFull = star <= Math.floor(rating);
+        const isHalf = !isFull && star === Math.ceil(rating) && rating % 1 >= 0.4; // Simple half logic
+
+        return (
+          <span key={star} className="relative">
+            {isFull ? (
+              <Star className="w-4 h-4 fill-current" />
+            ) : isHalf ? (
+              <div className="relative">
+                <Star className="w-4 h-4 text-gray-300" />
+                <div className="absolute top-0 left-0 w-1/2 overflow-hidden">
+                  <Star className="w-4 h-4 fill-current text-amber-400" />
+                </div>
+              </div>
+            ) : (
+              <Star className="w-4 h-4 text-gray-300" />
+            )}
+          </span>
+        );
+      })}
+    </div>
+  );
+};
 
 export const PlatformRatings: React.FC = () => {
-  const ratings = [
-    {
-      score: '4.6/5.0',
-      platform: 'GOOGLE REVIEWS',
-      color: 'text-blue-500',
-      stars: 4.6,
-    },
-    {
-      score: '4.6/5.0',
-      platform: 'COURSE REPORT',
-      color: 'text-green-600',
-      stars: 4.6,
-    },
-    {
-      score: '4.6/5.0',
-      platform: 'SWITCH UP',
-      color: 'text-red-500',
-      stars: 4.6,
-    },
-  ];
-
-  const renderStars = (rating: number, index: number) => {
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 >= 0.5;
-    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-    const gradientId = `halfOutline-${index}`;
-
-    return (
-      <div className="flex justify-center text-orange-400 mb-1 space-x-1 text-lg">
-        {[...Array(fullStars)].map((_, i) => (
-          <svg
-            key={`full-${i}`}
-            width="1.0em"
-            height="1.0em"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            stroke="currentColor"
-            strokeWidth="1.5"
-          >
-            <path
-              fill="currentColor"
-              d="M12 .587l3.668 7.568L24 9.748l-6 5.848 1.416 8.268L12 19.771l-7.416 4.093L6 15.596 0 9.748l8.332-1.593z"
-            />
-          </svg>
-        ))}
-        {hasHalfStar && (
-          <svg width="1.0em" height="1.0em" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-            <defs>
-              <linearGradient id={gradientId}>
-                <stop offset="50%" stopColor="currentColor" />
-                <stop offset="50%" stopColor="transparent" />
-              </linearGradient>
-            </defs>
-            <path
-              fill={`url(#${gradientId})`}
-              d="M12 .587l3.668 7.568L24 9.748l-6 5.848 1.416 8.268L12 19.771l-7.416 4.093L6 15.596 0 9.748l8.332-1.593z"
-            />
-          </svg>
-        )}
-        {[...Array(emptyStars)].map((_, i) => (
-          <svg
-            key={`empty-${i}`}
-            width="1.0em"
-            height="1.0em"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-          >
-            <path
-              d="M12 .587l3.668 7.568L24 9.748l-6 5.848 1.416 8.268L12 19.771l-7.416 4.093L6 15.596 0 9.748l8.332-1.593z"
-            />
-          </svg>
-        ))}
-      </div>
-    );
-  };
-
   return (
-    <section id="ratings" className="py-6 bg-slate-100" style={{ scrollMarginTop: '120px' }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-4">
-          <h3 className="text-4xl md:text-3xl font-semibold text-slate-800 tracking-wide">
-            Trusted by 1000+ Learners Worldwide for Authenticity & Excellence
-          </h3>
-        </div>
-        <br />
-        <div className="flex flex-wrap justify-center gap-8 md:gap-16 items-center">
-          {ratings.map((rating, index) => (
-            <div key={index} className="text-center p-2">
-              <p className="text-3xl font-bold text-black mb-1">{rating.score}</p>
-              {renderStars(rating.stars, index)}
-              <p className={`text-sm ${rating.color} uppercase tracking-wider font-semibold`}>
-                {rating.platform}
-              </p>
-            </div>
-          ))}
+    <section className="py-6 sm:py-8 bg-white border-b border-slate-100">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6 md:gap-12">
+
+          {/* Heading Section - Compact & Left Aligned on Desktop */}
+          <div className="text-center md:text-left md:w-1/3 w-full md:w-auto">
+            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 leading-tight">
+              Trusted by 1000+ Learners
+            </h3>
+            <p className="text-slate-500 text-xs sm:text-sm mt-1">
+              Consistently rated for authenticity & excellence.
+            </p>
+          </div>
+
+          {/* Ratings Grid - Compact Row */}
+          <div className="flex flex-wrap justify-center md:justify-end gap-3 sm:gap-4 md:gap-8 flex-1 w-full md:w-auto">
+            {ratings.map((item, index) => (
+              <motion.div
+                key={item.platform}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1, duration: 0.4 }}
+                viewport={{ once: true }}
+                className="flex flex-col items-center md:items-start p-2 sm:p-3 rounded-xl hover:bg-slate-50 transition-colors duration-200 min-w-[100px] sm:min-w-[120px]"
+              >
+                <div className="flex items-baseline space-x-1">
+                  <span className="text-xl sm:text-2xl font-bold text-slate-900">{item.score}</span>
+                  <span className="text-[10px] sm:text-xs text-slate-400 font-medium">/ {item.max}</span>
+                </div>
+
+                <StarRating rating={item.stars} />
+
+                <span className={`text-[10px] sm:text-xs font-bold uppercase tracking-wider mt-1 sm:mt-1.5 ${item.color}`}>
+                  {item.platform}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+
         </div>
       </div>
     </section>

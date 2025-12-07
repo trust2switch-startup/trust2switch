@@ -11,7 +11,7 @@ export const FloatingButton: React.FC = () => {
 
   return (
     <>
-      <div className="fixed bottom-6 right-6 z-40">
+      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40">
         <AnimatePresence>
           {isOpen && (
             <motion.div
@@ -27,19 +27,19 @@ export const FloatingButton: React.FC = () => {
                   setIsModalOpen(true);
                   setIsOpen(false);
                 }}
-                className="w-14 h-14 bg-primary-600 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-primary-700 transition-colors"
+                className="w-12 h-12 sm:w-14 sm:h-14 bg-primary-600 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-primary-700 transition-colors"
                 aria-label="Request Callback"
               >
-                <Phone className="w-6 h-6" />
+                <Phone className="w-5 h-5 sm:w-6 sm:h-6" />
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => window.open('https://wa.me/1234567890', '_blank')}
-                className="w-14 h-14 bg-green-500 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-green-600 transition-colors"
+                className="w-12 h-12 sm:w-14 sm:h-14 bg-green-500 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-green-600 transition-colors"
                 aria-label="WhatsApp"
               >
-                <MessageCircle className="w-6 h-6" />
+                <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" />
               </motion.button>
             </motion.div>
           )}
@@ -48,14 +48,14 @@ export const FloatingButton: React.FC = () => {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={() => setIsOpen(!isOpen)}
-          className={`w-16 h-16 rounded-full shadow-2xl flex items-center justify-center transition-all ${
+          className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full shadow-2xl flex items-center justify-center transition-all ${
             isOpen
               ? 'bg-red-500 hover:bg-red-600 text-white'
               : 'bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-700 hover:to-secondary-700 text-white'
           }`}
           aria-label="Contact Options"
         >
-          {isOpen ? <X className="w-6 h-6" /> : <Phone className="w-6 h-6" />}
+          {isOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Phone className="w-5 h-5 sm:w-6 sm:h-6" />}
         </motion.button>
       </div>
       <CallbackModal

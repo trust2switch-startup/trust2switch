@@ -28,9 +28,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, compact = tru
         whileHover={{ y: -2 }}
         className="group"
       >
-        <div className="bg-white rounded-lg border border-slate-200 hover:border-orange-300 hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-row h-32 w-[380px] flex-shrink-0">
+        <div className="bg-white rounded-lg border border-slate-200 hover:border-orange-300 hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-row h-28 sm:h-32 w-full sm:w-[320px] md:w-[360px] lg:w-[380px] flex-shrink-0">
           {/* Image - Left Side */}
-          <div className="relative w-28 h-32 flex-shrink-0 overflow-hidden bg-slate-100">
+          <div className="relative w-24 h-28 sm:w-28 sm:h-32 flex-shrink-0 overflow-hidden bg-slate-100">
             <Image
               src={product.image}
               alt={product.title}
@@ -56,7 +56,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, compact = tru
           </div>
 
           {/* Content - Right Side */}
-          <div className="flex-1 flex flex-col p-3 min-w-0">
+          <div className="flex-1 flex flex-col p-2 sm:p-3 min-w-0">
             {/* Top Row: Category, Rating, SKU */}
             <div className="flex items-start justify-between mb-1">
               <div className="flex items-center gap-2 flex-1 min-w-0">
