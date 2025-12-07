@@ -1,0 +1,217 @@
+'use client';
+
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { Code, Database, Brain, Cloud, Settings, Palette, Globe, FileText, Briefcase, BarChart3, Sparkles } from 'lucide-react';
+import { BookOpen, Calculator, Atom, FlaskConical, Laptop, BookMarked } from 'lucide-react';
+
+const professionalCourses = [
+  { title: 'Full Stack Development', description: 'Master front-end & back-end technologies (MERN/MEAN) with real-time projects.', icon: Code },
+  { title: 'Data Science & ML', description: 'Become an expert in Python, statistics, and advanced modeling algorithms.', icon: BarChart3 },
+  { title: 'Generative AI', description: 'Build applications using LLMs, prompt engineering, and Gen AI frameworks.', icon: Sparkles },
+  { title: 'Cloud Computing', description: 'Achieve certification in leading cloud infrastructure platforms like AWS & Azure.', icon: Cloud },
+  { title: 'DevOps & CI/CD', description: 'Jenkins, Docker, Kubernetes, and continuous deployment practices.', icon: Settings },
+  { title: 'UI/UX Design', description: 'Figma mastery, design thinking, and user research methodologies.', icon: Palette },
+  { title: 'Web Fundamentals', description: 'HTML, CSS, & JavaScript. Foundation building blocks for web careers.', icon: Globe },
+  { title: 'SQL & Databases', description: 'Essential skills for data analysis, query optimization and backend development.', icon: Database },
+  { title: 'Python Fundamentals', description: 'Core programming and scripting for automation and data handling.', icon: Code },
+  { title: 'Java & Spring Boot', description: 'Enterprise application development and object-oriented design.', icon: Briefcase },
+  { title: 'Excel Mastery', description: 'Advanced analysis, pivots, and automation with VBA for business.', icon: FileText },
+  { title: 'Artificial Intelligence', description: 'Deep learning and computer vision specialization.', icon: Brain },
+];
+
+const schoolSubjects = [
+  { title: 'Mathematics', description: 'Algebra, Calculus, Geometry', icon: Calculator },
+  { title: 'Physics', description: 'Mechanics, Optics, Modern Physics', icon: Atom },
+  { title: 'Chemistry', description: 'Organic, Inorganic, Physical', icon: FlaskConical },
+  { title: 'Programming', description: 'Python, C++, Java for Beginners', icon: Laptop },
+  { title: 'English', description: 'Grammar, Literature, Essay Writing', icon: BookMarked },
+  { title: 'Regular Subjects', description: 'History, Geography, Biology', icon: BookOpen },
+];
+
+export const CourseSections: React.FC = () => {
+  const [showMore, setShowMore] = useState(false);
+  const visibleCourses = showMore ? professionalCourses : professionalCourses.slice(0, 8);
+  const hiddenCourses = professionalCourses.slice(8);
+
+  return (
+    <section id="program-categories" className="py-16 lg:py-24 bg-slate-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4">
+            Choose Your Path to <span className="bg-gradient-to-r from-indigo-600 to-orange-500 bg-clip-text text-transparent">Mastery</span>
+          </h2>
+          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+            Explore our comprehensive range of professional courses and school mentorship programs designed to accelerate your learning journey.
+          </p>
+        </div>
+
+        {/* Professional/College Students Section */}
+        <div id="professional-section" className="mb-20" style={{ scrollMarginTop: '120px' }}>
+          <div className="flex items-center gap-4 mb-10">
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-orange-400 to-transparent"></div>
+            <h3 className="text-2xl md:text-3xl font-bold text-slate-900 flex items-center gap-2 whitespace-nowrap">
+              <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">Pro</span>
+              <span>fessionals & College Students</span>
+            </h3>
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-orange-400 to-transparent"></div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {visibleCourses.map((course, index) => {
+              const Icon = course.icon;
+              return (
+                <Link
+                  key={index}
+                  href="/courses"
+                  className="group"
+                >
+                  <div className="bg-white p-6 rounded-2xl shadow-lg border-2 border-slate-100 transition-all duration-300 transform hover:scale-[1.03] hover:shadow-2xl flex flex-col justify-between h-full min-h-[300px] hover:border-indigo-200 relative overflow-hidden">
+                    {/* Gradient Background on Hover */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 to-indigo-100/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-0"></div>
+                    
+                    {/* Top Icon */}
+                    <div className="relative z-10 mb-4">
+                      <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                        <Icon className="w-7 h-7 text-white" />
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="relative z-10 flex-1">
+                      <h4 className="text-lg font-bold text-slate-900 mb-3 group-hover:text-indigo-900 transition-colors">{course.title}</h4>
+                      <p className="text-sm text-slate-600 leading-relaxed group-hover:text-slate-700 transition-colors">{course.description}</p>
+                    </div>
+
+                    {/* Button */}
+                    <div className="relative z-10 mt-6">
+                      <div className="w-full text-sm font-semibold text-white bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-600 hover:shadow-lg py-2.5 px-4 rounded-xl transition-all duration-200 text-center group-hover:scale-105">
+                        View Details
+                      </div>
+                    </div>
+
+                    {/* Decorative Corner */}
+                    <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-indigo-500 to-indigo-600 opacity-5 rounded-bl-full"></div>
+                  </div>
+                </Link>
+              );
+            })}
+            {showMore && hiddenCourses.map((course, index) => {
+              const Icon = course.icon;
+              return (
+                <Link
+                  key={`hidden-${index}`}
+                  href="/courses"
+                  className="group"
+                >
+                  <div className="bg-white p-6 rounded-2xl shadow-lg border-2 border-slate-100 transition-all duration-300 transform hover:scale-[1.03] hover:shadow-2xl flex flex-col justify-between h-full min-h-[300px] hover:border-indigo-200 relative overflow-hidden">
+                    {/* Gradient Background on Hover */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 to-indigo-100/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-0"></div>
+                    
+                    {/* Top Icon */}
+                    <div className="relative z-10 mb-4">
+                      <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                        <Icon className="w-7 h-7 text-white" />
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="relative z-10 flex-1">
+                      <h4 className="text-lg font-bold text-slate-900 mb-3 group-hover:text-indigo-900 transition-colors">{course.title}</h4>
+                      <p className="text-sm text-slate-600 leading-relaxed group-hover:text-slate-700 transition-colors">{course.description}</p>
+                    </div>
+
+                    {/* Button */}
+                    <div className="relative z-10 mt-6">
+                      <div className="w-full text-sm font-semibold text-white bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-600 hover:shadow-lg py-2.5 px-4 rounded-xl transition-all duration-200 text-center group-hover:scale-105">
+                        View Details
+                      </div>
+                    </div>
+
+                    {/* Decorative Corner */}
+                    <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-indigo-500 to-indigo-600 opacity-5 rounded-bl-full"></div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* View More Button */}
+          {professionalCourses.length > 8 && (
+            <div className="text-center mt-12">
+              <button
+                onClick={() => {
+                  setShowMore(!showMore);
+                  if (showMore) {
+                    setTimeout(() => {
+                      document.getElementById('professional-section')?.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                  }
+                }}
+                className="group relative inline-flex items-center gap-2 text-indigo-600 border-2 border-indigo-600 hover:bg-gradient-to-r hover:from-indigo-600 hover:to-indigo-700 hover:text-white hover:border-transparent font-semibold py-3 px-8 rounded-full transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-indigo-300 shadow-md hover:shadow-lg transform hover:scale-105"
+              >
+                <span>{showMore ? 'View Less' : 'View More Courses'}</span>
+                <span className={`transition-transform duration-300 ${showMore ? 'rotate-180' : ''}`}>
+                  ↓
+                </span>
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* School Mentorship Section */}
+        <div id="school-mentorship" style={{ scrollMarginTop: '120px' }}>
+          <div className="flex items-center gap-4 mb-10">
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-indigo-400 to-transparent"></div>
+            <h3 className="text-2xl md:text-3xl font-bold text-slate-900 flex items-center gap-2 whitespace-nowrap">
+              <span className="bg-gradient-to-r from-indigo-500 to-indigo-600 bg-clip-text text-transparent">School</span>
+              <span>Mentorship & Tutoring</span>
+            </h3>
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-indigo-400 to-transparent"></div>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            {schoolSubjects.map((subject, index) => {
+              const Icon = subject.icon;
+              return (
+                <Link
+                  key={index}
+                  href="/courses"
+                  className="group"
+                >
+                  <div className="bg-white p-6 text-center rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-2 border-slate-100 hover:border-orange-200 flex flex-col justify-between h-full min-h-[220px] relative overflow-hidden">
+                    {/* Gradient Background on Hover */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-orange-50 to-orange-100/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-0"></div>
+                    
+                    {/* Icon */}
+                    <div className="relative z-10 mb-4 flex justify-center">
+                      <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                        <Icon className="w-8 h-8 text-white" />
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="relative z-10 flex-1">
+                      <p className="font-bold text-slate-900 mb-2 group-hover:text-orange-900 transition-colors">{subject.title}</p>
+                      <p className="text-xs text-slate-600 group-hover:text-slate-700 transition-colors leading-relaxed">{subject.description}</p>
+                    </div>
+
+                    {/* Button */}
+                    <div className="relative z-10 mt-4">
+                      <div className="w-full text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-600 py-2 rounded-xl transition-all duration-200 group-hover:shadow-lg group-hover:scale-105">
+                        View Details
+                      </div>
+                    </div>
+
+                    {/* Decorative Elements */}
+                    <div className="absolute top-2 right-2 w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 opacity-10 rounded-full blur-sm"></div>
+                    <div className="absolute bottom-2 left-2 w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-600 opacity-10 rounded-full blur-sm"></div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+

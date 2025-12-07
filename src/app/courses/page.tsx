@@ -51,21 +51,24 @@ export default function CoursesPage() {
   }, [searchQuery, selectedCategory, selectedLevel, sortBy]);
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-slate-50">
       {/* Header */}
-      <section className="bg-gradient-to-r from-primary-600 to-secondary-600 py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 py-20 relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <h1 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4">
             {content.courses.title}
           </h1>
-          <p className="text-xl text-primary-100">
+          <p className="text-xl text-slate-300">
             {content.courses.subtitle}
           </p>
         </div>
       </section>
 
       {/* Filters */}
-      <section className="py-8 bg-white border-b border-neutral-200">
+      <section className="py-8 bg-white border-b border-slate-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-4 items-stretch">
             <div className="flex-1 min-w-0">
@@ -80,7 +83,7 @@ export default function CoursesPage() {
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white min-w-[150px]"
+              className="px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white min-w-[150px] text-slate-700"
             >
               {categories.map((category) => (
                 <option key={category} value={category}>
@@ -91,7 +94,7 @@ export default function CoursesPage() {
             <select
               value={selectedLevel}
               onChange={(e) => setSelectedLevel(e.target.value)}
-              className="px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white min-w-[150px]"
+              className="px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white min-w-[150px] text-slate-700"
             >
               {levels.map((level) => (
                 <option key={level} value={level}>
@@ -102,7 +105,7 @@ export default function CoursesPage() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white min-w-[180px]"
+              className="px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white min-w-[180px] text-slate-700"
             >
               <option value="popular">Most Popular</option>
               <option value="rating">Highest Rated</option>
@@ -114,7 +117,7 @@ export default function CoursesPage() {
       </section>
 
       {/* Courses Grid */}
-      <section className="py-12">
+      <section className="py-12 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {filteredCourses.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -124,7 +127,7 @@ export default function CoursesPage() {
             </div>
           ) : (
             <div className="text-center py-16">
-              <p className="text-xl text-neutral-600">{content.courses.empty}</p>
+              <p className="text-xl text-slate-600">{content.courses.empty}</p>
             </div>
           )}
         </div>

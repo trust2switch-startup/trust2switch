@@ -45,19 +45,19 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
         </div>
         <CardContent className="flex-1 flex flex-col">
           <div className="mb-4">
-            <Badge variant="default" className="mb-2">{course.category}</Badge>
-            <h3 className="text-xl font-semibold text-neutral-900 mb-2 line-clamp-2">
+            <Badge variant="default" className="mb-2 bg-indigo-100 text-indigo-700">{course.category}</Badge>
+            <h3 className="text-xl font-semibold text-slate-900 mb-2 line-clamp-2">
               {course.title}
             </h3>
-            <p className="text-neutral-600 text-sm mb-4 line-clamp-2">
+            <p className="text-slate-600 text-sm mb-4 line-clamp-2">
               {course.description}
             </p>
           </div>
 
-          <div className="flex items-center gap-4 text-sm text-neutral-600 mb-4">
+          <div className="flex items-center gap-4 text-sm text-slate-600 mb-4">
             <div className="flex items-center gap-1">
               <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-              <span>{course.rating}</span>
+              <span className="font-medium">{course.rating}</span>
             </div>
             <div className="flex items-center gap-1">
               <Users className="w-4 h-4" />
@@ -69,21 +69,21 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
             </div>
           </div>
 
-          <div className="mt-auto pt-4 border-t border-neutral-200">
+          <div className="mt-auto pt-4 border-t border-slate-200">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-baseline gap-2">
-                <span className="text-2xl font-bold text-primary-600">
+                <span className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-orange-500 bg-clip-text text-transparent">
                   {formatPrice(course.price)}
                 </span>
                 {course.originalPrice && (
-                  <span className="text-sm text-neutral-500 line-through">
+                  <span className="text-sm text-slate-500 line-through">
                     {formatPrice(course.originalPrice)}
                   </span>
                 )}
               </div>
             </div>
             <Link href={`/courses/${course.slug}`} className="block">
-              <Button variant="primary" className="w-full hover:scale-105 transition-transform">
+              <Button variant="primary" className="w-full hover:scale-105 transition-transform bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-600 text-white shadow-lg">
                 View Details
               </Button>
             </Link>

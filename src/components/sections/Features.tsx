@@ -25,10 +25,10 @@ export const Features: React.FC = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-heading font-bold text-neutral-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-heading font-bold text-slate-900 mb-4">
             {content.home.features.title}
           </h2>
-          <p className="text-xl text-neutral-600 max-w-2xl mx-auto">
+          <p className="text-xl text-slate-600 max-w-2xl mx-auto">
             {content.home.features.subtitle}
           </p>
         </motion.div>
@@ -36,6 +36,10 @@ export const Features: React.FC = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {content.home.features.items.map((feature, index) => {
             const Icon = iconMap[feature.icon] || Users;
+            // Alternate between indigo and orange for visual variety
+            const useOrange = index % 2 === 1;
+            const iconGradient = useOrange ? 'from-orange-500 to-orange-600' : 'from-indigo-500 to-indigo-600';
+            const bgGradient = useOrange ? 'from-orange-50 to-orange-100/50' : 'from-indigo-50 to-indigo-100/50';
             return (
               <motion.div
                 key={index}
@@ -43,14 +47,22 @@ export const Features: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                whileHover={{ scale: 1.02, y: -4 }}
-                className="p-6 rounded-xl bg-gradient-to-br from-neutral-50 to-white border border-neutral-100 hover:shadow-xl hover:border-primary-200 transition-all duration-300"
+                whileHover={{ scale: 1.03, y: -6 }}
+                className="group p-6 rounded-2xl bg-white border-2 border-slate-100 hover:border-transparent hover:shadow-2xl transition-all duration-300 relative overflow-hidden"
               >
-                <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
-                  <Icon className="w-6 h-6 text-primary-600" />
+                {/* Gradient Background on Hover */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${bgGradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-0`}></div>
+                
+                <div className="relative z-10">
+                  <div className={`w-14 h-14 bg-gradient-to-br ${iconGradient} rounded-xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
+                    <Icon className="w-7 h-7 text-white" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-slate-900 mb-2 group-hover:text-slate-800 transition-colors">{feature.title}</h3>
+                  <p className="text-slate-600 group-hover:text-slate-700 transition-colors leading-relaxed">{feature.description}</p>
                 </div>
-                <h3 className="text-xl font-semibold text-neutral-900 mb-2">{feature.title}</h3>
-                <p className="text-neutral-600">{feature.description}</p>
+
+                {/* Decorative Corner */}
+                <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${iconGradient} opacity-5 rounded-bl-full`}></div>
               </motion.div>
             );
           })}

@@ -4,6 +4,7 @@ import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingButton } from '@/components/ui/FloatingButton';
+import { ScrollHandler } from '@/components/ScrollHandler';
 import { theme } from '@/config/theme';
 import { content } from '@/config/content';
 
@@ -54,7 +55,8 @@ export default function RootLayout({
           '--color-secondary-900': theme.colors.secondary[900],
         } as React.CSSProperties}>
           <Header />
-          <main>{children}</main>
+          <ScrollHandler />
+          <main className="pt-24">{children}</main>
           <Footer />
           <FloatingButton />
         </div>
