@@ -55,4 +55,29 @@ export interface BlogPost {
   readTime: string;
 }
 
+export interface Product {
+  id: string;
+  sku: string;
+  title: string;
+  description: string;
+  longDescription?: string;
+  image: string;
+  category: string;
+  price: number;
+  originalPrice?: number;
+  currency?: string;
+  inStock: boolean;
+  stockQuantity?: number;
+  rating?: number;
+  reviews?: number;
+  tags: string[];
+  features?: string[];
+  fileFormat?: string;
+  fileSize?: string;
+  deliveryMethod?: string;
+  isPopular?: boolean;
+  isNew?: boolean;
+  isFeatured?: boolean;
+}
+
 

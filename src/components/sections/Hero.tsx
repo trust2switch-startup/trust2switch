@@ -1,81 +1,65 @@
 'use client';
 
-import React from 'react';
-import Link from 'next/link';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/Button';
-import { Play } from 'lucide-react';
-import { content } from '@/config/content';
+import { Phone } from 'lucide-react';
+import { CallbackModal } from '@/components/booking/CallbackModal';
 
 export const Hero: React.FC = () => {
+  const [isCallbackModalOpen, setIsCallbackModalOpen] = useState(false);
+
   return (
-    <section className="relative bg-gradient-to-br from-primary-50 via-white to-secondary-50 py-20 lg:py-32 overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-secondary-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Content */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+    <section id="hero" className="pt-8 relative bg-slate-900 overflow-hidden min-h-[600px] flex items-center" style={{ scrollMarginTop: '120px' }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-12 grid md:grid-cols-2 gap-12 items-center">
+        {/* Left Side: Slogan & CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-white relative z-20"
+        >
+          <p className="text-orange-400 text-lg font-semibold mb-3 tracking-wider uppercase">
+            Your Career Transformation Partner
+          </p>
+          <h1 className="text-4xl sm:text-6xl font-extrabold leading-tight mb-6">
+            Trust Your Transition. <span className="text-orange-300">Switch to Success.</span>
+          </h1>
+          <p className="mb-8 max-w-md text-slate-300">
+            Acquire in-demand skills, build industry-level portfolios, and land your dream job with 1-on-1 mentorship.
+          </p>
+          
+          {/* CTA Button with Motion */}
+          <button
+            onClick={() => setIsCallbackModalOpen(true)}
+            className="group relative bg-orange-700 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-xl shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-orange-300 min-w-[220px] flex items-center justify-center overflow-hidden"
           >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-neutral-900 mb-6 leading-tight">
-              {content.home.hero.title}
-            </h1>
-            <p className="text-xl text-neutral-600 mb-8 leading-relaxed">
-              {content.home.hero.subtitle}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/courses" className="w-full sm:w-auto">
-                <Button variant="primary" size="lg" className="w-full sm:w-auto shadow-lg hover:shadow-xl hover:scale-105 transition-all">
-                  {content.home.hero.ctaPrimary}
-                </Button>
-              </Link>
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="w-full sm:w-auto hover:bg-primary-50 hover:scale-105 transition-all"
-                onClick={() => {
-                  // This will be handled by a parent component or can link to a demo page
-                  window.location.href = '/courses';
-                }}
-              >
-                <Play className="w-5 h-5 mr-2 inline" />
-                {content.home.hero.ctaSecondary}
-              </Button>
-            </div>
-          </motion.div>
+            <span className="text whitespace-nowrap transition-all duration-300 group-hover:opacity-0 group-hover:-translate-x-2">
+              Request a Call Back
+            </span>
+            <Phone className="absolute w-6 h-6 opacity-0 translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" />
+          </button>
+        </motion.div>
 
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="grid grid-cols-2 gap-6"
-          >
-            {content.home.hero.stats.map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-                className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all"
-              >
-                <div className="text-4xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent mb-2">
-                  {stat.value}
-                </div>
-                <div className="text-neutral-600 font-medium">{stat.label}</div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
+        {/* Right Side: Video Section */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="video-container shadow-2xl rounded-xl border-4 border-white/20"
+        >
+          <iframe 
+            src="https://www.youtube.com/embed/dQw4w9WgXcQ?controls=0&autoplay=0&mute=1" 
+            frameBorder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowFullScreen
+            className="w-full h-full"
+          />
+        </motion.div>
       </div>
+      <CallbackModal
+        isOpen={isCallbackModalOpen}
+        onClose={() => setIsCallbackModalOpen(false)}
+      />
     </section>
   );
 };

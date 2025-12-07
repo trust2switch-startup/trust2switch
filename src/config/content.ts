@@ -4,8 +4,8 @@
 export const content = {
   site: {
     name: 'Trust2Switch',
-    tagline: 'Master IT Skills & Transform Your Tech Career',
-    description: 'Trust2Switch offers world-class IT courses to help you master in-demand technologies, switch careers, and land your dream tech job.',
+    tagline: 'Your Path to Career Success | World-Class Ed-Tech',
+    description: 'Trust Your Transition. Switch to Success. Acquire in-demand skills, build industry-level portfolios, and land your dream job with 1-on-1 mentorship.',
     url: 'https://trust2switch.com',
   },
   navigation: {
@@ -18,14 +18,14 @@ export const content = {
   },
   home: {
     hero: {
-      title: 'Master IT Skills & Land Your Dream Tech Job',
-      subtitle: 'Learn cutting-edge technologies from industry experts. Get hands-on experience, career support, and 1-on-1 mentorship to accelerate your tech career.',
-      ctaPrimary: 'Explore IT Courses',
+      title: 'Trust Your Transition. Switch to Success.',
+      subtitle: 'Acquire in-demand skills, build industry-level portfolios, and land your dream job with 1-on-1 mentorship.',
+      ctaPrimary: 'Request a Call Back',
       ctaSecondary: 'Book Free Demo',
       stats: [
-        { value: '10K+', label: 'Students Enrolled' },
+        { value: '1000+', label: 'Learners Worldwide' },
+        { value: '4.6/5.0', label: 'Average Rating' },
         { value: '50+', label: 'Expert Instructors' },
-        { value: '200+', label: 'Courses Available' },
         { value: '95%', label: 'Success Rate' },
       ],
     },
@@ -183,6 +183,22 @@ export const content = {
     backToBlog: 'Back to Blog',
     author: 'By',
     date: 'Published on',
+  },
+  shop: {
+    title: 'Shop',
+    subtitle: 'Browse and purchase projects, research papers, and templates',
+    empty: 'No products found',
+    addToCart: 'Add to Cart',
+    viewDetails: 'View Details',
+    checkout: 'Proceed to Checkout',
+    cart: 'Shopping Cart',
+    cartEmpty: 'Your cart is empty',
+    total: 'Total',
+    filters: {
+      all: 'All Products',
+      category: 'Category',
+      sort: 'Sort By',
+    },
   },
   footer: {
     description: 'Transform your career with expert-led courses. Join thousands of successful career switchers.',

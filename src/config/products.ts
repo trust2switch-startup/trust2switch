@@ -1,0 +1,246 @@
+// Product/SKU Configuration
+// All products available for purchase are defined here
+
+import { Product } from '@/types';
+
+export const products: Product[] = [
+  {
+    id: '1',
+    sku: 'PROJ-001',
+    title: 'E-Commerce Full Stack Project',
+    description: 'Complete e-commerce application with React, Node.js, and MongoDB. Includes authentication, payment integration, and admin dashboard.',
+    longDescription: 'A comprehensive full-stack e-commerce solution built with modern technologies. Features include user authentication, product catalog, shopping cart, payment processing with Stripe, order management, and a complete admin dashboard for managing products, orders, and users.',
+    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800',
+    category: 'Projects',
+    price: 3999,
+    originalPrice: 6499,
+    currency: 'INR',
+    inStock: true,
+    stockQuantity: 100,
+    rating: 4.8,
+    reviews: 124,
+    tags: ['React', 'Node.js', 'MongoDB', 'Full Stack', 'E-Commerce'],
+    features: [
+      'Complete source code',
+      'Documentation',
+      'Video walkthrough',
+      'Database schema',
+      'API documentation',
+      'Deployment guide'
+    ],
+    fileFormat: 'ZIP',
+    fileSize: '25 MB',
+    deliveryMethod: 'Instant Download',
+    isPopular: true,
+    isFeatured: true
+  },
+  {
+    id: '2',
+    sku: 'RES-001',
+    title: 'Machine Learning Research Paper',
+    description: 'Advanced research paper on deep learning applications in healthcare. Published in top-tier conference with comprehensive analysis.',
+    longDescription: 'This research paper presents novel approaches to applying deep learning in healthcare diagnostics. It includes detailed methodology, experimental results, and comparative analysis with existing solutions. The paper has been peer-reviewed and published in a top-tier conference.',
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800',
+    category: 'Research Papers',
+    price: 2499,
+    currency: 'INR',
+    inStock: true,
+    rating: 4.9,
+    reviews: 89,
+    tags: ['Machine Learning', 'Deep Learning', 'Healthcare', 'Research'],
+    features: [
+      'PDF format',
+      'Complete methodology',
+      'Source code',
+      'Dataset references',
+      'Bibliography',
+      'Supplementary materials'
+    ],
+    fileFormat: 'PDF',
+    fileSize: '8 MB',
+    deliveryMethod: 'Instant Download',
+    isNew: true
+  },
+  {
+    id: '3',
+    sku: 'PROJ-002',
+    title: 'Social Media Dashboard',
+    description: 'Real-time social media analytics dashboard with data visualization, user engagement metrics, and content scheduling features.',
+    longDescription: 'A powerful social media management dashboard that aggregates data from multiple platforms. Features include real-time analytics, engagement metrics, content scheduling, audience insights, and customizable reports. Built with React and D3.js for beautiful data visualizations.',
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800',
+    category: 'Projects',
+    price: 3299,
+    originalPrice: 4999,
+    currency: 'INR',
+    inStock: true,
+    stockQuantity: 50,
+    rating: 4.6,
+    reviews: 67,
+    tags: ['React', 'Dashboard', 'Analytics', 'Data Visualization'],
+    features: [
+      'React components',
+      'Chart library integration',
+      'API integration examples',
+      'Responsive design',
+      'Documentation'
+    ],
+    fileFormat: 'ZIP',
+    fileSize: '18 MB',
+    deliveryMethod: 'Instant Download',
+    isPopular: true
+  },
+  {
+    id: '4',
+    sku: 'TEMP-001',
+    title: 'Professional Portfolio Template',
+    description: 'Modern, responsive portfolio template perfect for developers, designers, and freelancers. Fully customizable with multiple sections.',
+    longDescription: 'A stunning portfolio template built with Next.js and Tailwind CSS. Features include dark mode, smooth animations, contact form integration, blog section, and SEO optimization. Perfect for showcasing your work and attracting clients.',
+    image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800',
+    category: 'Templates',
+    price: 1999,
+    currency: 'INR',
+    inStock: true,
+    stockQuantity: 200,
+    rating: 4.7,
+    reviews: 156,
+    tags: ['Next.js', 'Portfolio', 'Template', 'Responsive'],
+    features: [
+      'Fully responsive',
+      'Dark mode support',
+      'SEO optimized',
+      'Contact form',
+      'Blog section',
+      'Easy customization'
+    ],
+    fileFormat: 'ZIP',
+    fileSize: '12 MB',
+    deliveryMethod: 'Instant Download',
+    isFeatured: true
+  },
+  {
+    id: '5',
+    sku: 'RES-002',
+    title: 'Blockchain Technology Research',
+    description: 'Comprehensive research on blockchain applications in supply chain management. Includes case studies and implementation strategies.',
+    longDescription: 'This research paper explores the application of blockchain technology in supply chain management. It includes detailed case studies, implementation strategies, and analysis of benefits and challenges. Perfect for researchers and industry professionals.',
+    image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800',
+    category: 'Research Papers',
+    price: 2899,
+    currency: 'INR',
+    inStock: true,
+    rating: 4.5,
+    reviews: 43,
+    tags: ['Blockchain', 'Supply Chain', 'Research', 'Technology'],
+    features: [
+      'PDF format',
+      'Case studies',
+      'Implementation guide',
+      'References',
+      'Data analysis'
+    ],
+    fileFormat: 'PDF',
+    fileSize: '6 MB',
+    deliveryMethod: 'Instant Download'
+  },
+  {
+    id: '6',
+    sku: 'PROJ-003',
+    title: 'Task Management API',
+    description: 'RESTful API for task management with authentication, real-time updates, and team collaboration features. Built with Express.js.',
+    longDescription: 'A production-ready RESTful API for task management applications. Features include JWT authentication, real-time updates with WebSockets, team collaboration, file attachments, and comprehensive API documentation. Perfect for learning backend development.',
+    image: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800',
+    category: 'Projects',
+    price: 3699,
+    originalPrice: 5799,
+    currency: 'INR',
+    inStock: true,
+    stockQuantity: 75,
+    rating: 4.8,
+    reviews: 98,
+    tags: ['Node.js', 'Express', 'API', 'REST', 'Backend'],
+    features: [
+      'Complete API code',
+      'Postman collection',
+      'Database schema',
+      'Authentication setup',
+      'API documentation',
+      'Testing examples'
+    ],
+    fileFormat: 'ZIP',
+    fileSize: '15 MB',
+    deliveryMethod: 'Instant Download',
+    isNew: true
+  },
+  {
+    id: '7',
+    sku: 'TEMP-002',
+    title: 'E-Learning Platform Template',
+    description: 'Complete e-learning platform template with course management, student dashboard, and payment integration. Ready to customize.',
+    longDescription: 'A comprehensive e-learning platform template featuring course management, student enrollment, progress tracking, quizzes, certificates, and payment integration. Built with modern technologies and fully responsive design.',
+    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800',
+    category: 'Templates',
+    price: 4999,
+    originalPrice: 7499,
+    currency: 'INR',
+    inStock: true,
+    stockQuantity: 30,
+    rating: 4.9,
+    reviews: 112,
+    tags: ['E-Learning', 'Template', 'Education', 'Platform'],
+    features: [
+      'Course management',
+      'Student dashboard',
+      'Payment integration',
+      'Progress tracking',
+      'Certificate generation',
+      'Admin panel'
+    ],
+    fileFormat: 'ZIP',
+    fileSize: '35 MB',
+    deliveryMethod: 'Instant Download',
+    isPopular: true,
+    isFeatured: true
+  },
+  {
+    id: '8',
+    sku: 'RES-003',
+    title: 'Cybersecurity Analysis Report',
+    description: 'In-depth analysis of modern cybersecurity threats and defense strategies. Includes real-world attack scenarios and solutions.',
+    longDescription: 'A comprehensive cybersecurity analysis report covering modern threats, attack vectors, and defense strategies. Includes real-world case studies, vulnerability assessments, and recommended security practices for organizations.',
+    image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800',
+    category: 'Research Papers',
+    price: 3299,
+    currency: 'INR',
+    inStock: true,
+    rating: 4.7,
+    reviews: 56,
+    tags: ['Cybersecurity', 'Security', 'Analysis', 'Research'],
+    features: [
+      'PDF format',
+      'Case studies',
+      'Threat analysis',
+      'Defense strategies',
+      'Best practices',
+      'References'
+    ],
+    fileFormat: 'PDF',
+    fileSize: '10 MB',
+    deliveryMethod: 'Instant Download'
+  }
+];
+
+export const productCategories = [
+  'All',
+  'Projects',
+  'Research Papers',
+  'Templates'
+];
+
+export const productSortOptions = [
+  { value: 'popular', label: 'Most Popular' },
+  { value: 'newest', label: 'Newest First' },
+  { value: 'price-low', label: 'Price: Low to High' },
+  { value: 'price-high', label: 'Price: High to Low' },
+  { value: 'rating', label: 'Highest Rated' }
+];
+

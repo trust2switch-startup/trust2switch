@@ -49,24 +49,29 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
     .slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-slate-50">
       {/* Header */}
-      <section className="bg-gradient-to-r from-primary-600 to-secondary-600 py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 py-20 relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl"></div>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <Link
             href="/blog"
-            className="inline-flex items-center text-primary-100 hover:text-white mb-6 transition-colors"
+            className="inline-flex items-center text-slate-300 hover:text-orange-400 mb-6 transition-colors group"
           >
-            <ArrowLeft className="w-5 h-5 mr-2" />
+            <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
             {content.blog.backToBlog}
           </Link>
-          <Badge variant="default" className="mb-4">{post.category}</Badge>
-          <h1 className="text-4xl md:text-5xl font-heading font-bold text-white mb-6">
+          <Badge variant="default" className="mb-4 bg-orange-500/20 text-orange-300 border-orange-400/30 backdrop-blur-sm">
+            {post.category}
+          </Badge>
+          <h1 className="text-4xl md:text-5xl font-heading font-bold text-white mb-6 leading-tight">
             {post.title}
           </h1>
-          <div className="flex flex-wrap items-center gap-6 text-primary-100">
-            <div className="flex items-center gap-2">
-              <div className="relative w-10 h-10 rounded-full overflow-hidden">
+          <div className="flex flex-wrap items-center gap-6 text-slate-300">
+            <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg">
+              <div className="relative w-10 h-10 rounded-full overflow-hidden ring-2 ring-indigo-300">
                 <Image
                   src={post.author.image}
                   alt={post.author.name}
@@ -76,15 +81,15 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
               </div>
               <div>
                 <div className="text-white font-medium">{post.author.name}</div>
-                <div className="text-sm">{post.author.role}</div>
+                <div className="text-xs text-slate-400">{post.author.role}</div>
               </div>
             </div>
-            <div className="flex items-center gap-1">
-              <Calendar className="w-5 h-5" />
+            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg">
+              <Calendar className="w-5 h-5 text-orange-400" />
               <span>{formatDate(post.publishedAt)}</span>
             </div>
-            <div className="flex items-center gap-1">
-              <Clock className="w-5 h-5" />
+            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg">
+              <Clock className="w-5 h-5 text-orange-400" />
               <span>{post.readTime}</span>
             </div>
           </div>
@@ -92,9 +97,9 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
       </section>
 
       {/* Featured Image */}
-      <section className="py-8">
+      <section className="py-8 bg-slate-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative h-96 w-full rounded-xl overflow-hidden">
+          <div className="relative h-96 w-full rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
             <Image
               src={post.image}
               alt={post.title}
@@ -106,14 +111,14 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
       </section>
 
       {/* Content */}
-      <section className="py-12">
+      <section className="py-12 bg-slate-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Main Content */}
             <article className="lg:col-span-2">
-              <Card>
-                <CardContent>
-                  <div className="prose prose-lg max-w-none">
+              <Card className="border-2 border-slate-200 hover:shadow-xl transition-shadow">
+                <CardContent className="p-8">
+                  <div className="prose prose-lg max-w-none prose-headings:text-slate-900 prose-p:text-slate-700 prose-strong:text-slate-900 prose-a:text-indigo-600 prose-a:no-underline hover:prose-a:underline prose-ul:text-slate-700 prose-ol:text-slate-700 prose-li:text-slate-700">
                     <ReactMarkdown>{post.content}</ReactMarkdown>
                   </div>
                 </CardContent>
@@ -122,7 +127,9 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
               {/* Tags */}
               <div className="mt-6 flex flex-wrap gap-2">
                 {post.tags.map((tag) => (
-                  <Badge key={tag} variant="default">{tag}</Badge>
+                  <Badge key={tag} variant="default" className="bg-indigo-100 text-indigo-700 border-indigo-200">
+                    {tag}
+                  </Badge>
                 ))}
               </div>
             </article>
@@ -130,13 +137,14 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
             {/* Sidebar */}
             <aside className="space-y-6">
               {/* Author Card */}
-              <Card>
-                <CardContent>
-                  <h3 className="text-xl font-heading font-bold text-neutral-900 mb-4">
+              <Card className="border-2 border-slate-200 hover:shadow-xl transition-shadow">
+                <CardContent className="p-6">
+                  <h3 className="text-xl font-heading font-bold text-slate-900 mb-4 flex items-center gap-2">
+                    <div className="w-1 h-5 bg-gradient-to-b from-orange-500 to-orange-600 rounded-full"></div>
                     About the Author
                   </h3>
                   <div className="flex items-center gap-4 mb-4">
-                    <div className="relative w-16 h-16 rounded-full overflow-hidden">
+                    <div className="relative w-16 h-16 rounded-full overflow-hidden ring-2 ring-indigo-200 shadow-md">
                       <Image
                         src={post.author.image}
                         alt={post.author.name}
@@ -145,8 +153,8 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                       />
                     </div>
                     <div>
-                      <div className="font-semibold text-neutral-900">{post.author.name}</div>
-                      <div className="text-sm text-neutral-600">{post.author.role}</div>
+                      <div className="font-semibold text-slate-900">{post.author.name}</div>
+                      <div className="text-sm text-slate-600">{post.author.role}</div>
                     </div>
                   </div>
                 </CardContent>
@@ -154,9 +162,10 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
               {/* Related Posts */}
               {relatedPosts.length > 0 && (
-                <Card>
-                  <CardContent>
-                    <h3 className="text-xl font-heading font-bold text-neutral-900 mb-4">
+                <Card className="border-2 border-slate-200 hover:shadow-xl transition-shadow">
+                  <CardContent className="p-6">
+                    <h3 className="text-xl font-heading font-bold text-slate-900 mb-4 flex items-center gap-2">
+                      <div className="w-1 h-5 bg-gradient-to-b from-indigo-500 to-indigo-600 rounded-full"></div>
                       {content.blog.related}
                     </h3>
                     <div className="space-y-4">
@@ -166,8 +175,8 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                           href={`/blog/${relatedPost.slug}`}
                           className="block group"
                         >
-                          <div className="flex gap-3">
-                            <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+                          <div className="flex gap-3 p-3 rounded-lg hover:bg-indigo-50 transition-colors">
+                            <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 border-2 border-slate-200 group-hover:border-indigo-300 transition-colors">
                               <Image
                                 src={relatedPost.image}
                                 alt={relatedPost.title}
@@ -175,11 +184,11 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                                 className="object-cover group-hover:scale-105 transition-transform"
                               />
                             </div>
-                            <div>
-                              <h4 className="text-sm font-semibold text-neutral-900 group-hover:text-primary-600 transition-colors line-clamp-2">
+                            <div className="flex-1">
+                              <h4 className="text-sm font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-2 mb-1">
                                 {relatedPost.title}
                               </h4>
-                              <p className="text-xs text-neutral-500 mt-1">
+                              <p className="text-xs text-slate-500">
                                 {formatDate(relatedPost.publishedAt)}
                               </p>
                             </div>
