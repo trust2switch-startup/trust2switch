@@ -24,52 +24,52 @@ export const Footer: React.FC = () => {
 
       <div className="relative z-10">
         {/* Main Footer Content */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 lg:py-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 mb-8 sm:mb-10 lg:mb-12">
             {/* Brand Section */}
             <div className="lg:col-span-1">
-              <div className="flex items-center gap-2 mb-6">
-                <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center shadow-lg">
-                  <GraduationCap className="w-6 h-6 text-white" />
+              <div className="flex items-center gap-2 mb-4 sm:mb-6">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center shadow-lg">
+                  <GraduationCap className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                 </div>
-                <h4 className="text-2xl font-bold tracking-tight text-white">
+                <h4 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
                   Trust<span className="text-orange-400">2</span>Switch
                 </h4>
               </div>
-              <p className="text-slate-300 text-sm leading-relaxed mb-6">
+              <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6">
                 Empowering Your Future. Transform your career with expert-led courses and 1-on-1 mentorship.
               </p>
               
               {/* Contact Info */}
-              <div className="space-y-3">
-                <a href="mailto:info@trust2switch.com" className="flex items-center gap-3 text-slate-300 hover:text-orange-400 transition-colors group">
-                  <div className="w-8 h-8 bg-slate-700 rounded-lg flex items-center justify-center group-hover:bg-orange-500/20 transition-colors">
-                    <Mail className="w-4 h-4" />
+              <div className="space-y-2 sm:space-y-3">
+                <a href="mailto:info@trust2switch.com" className="flex items-center gap-2 sm:gap-3 text-slate-300 hover:text-orange-400 transition-colors group">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 bg-slate-700 rounded-lg flex items-center justify-center group-hover:bg-orange-500/20 transition-colors flex-shrink-0">
+                    <Mail className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </div>
-                  <span className="text-sm">info@trust2switch.com</span>
+                  <span className="text-xs sm:text-sm break-all">info@trust2switch.com</span>
                 </a>
-                <a href="tel:0000000000" className="flex items-center gap-3 text-slate-300 hover:text-orange-400 transition-colors group">
-                  <div className="w-8 h-8 bg-slate-700 rounded-lg flex items-center justify-center group-hover:bg-orange-500/20 transition-colors">
-                    <Phone className="w-4 h-4" />
+                <a href="tel:0000000000" className="flex items-center gap-2 sm:gap-3 text-slate-300 hover:text-orange-400 transition-colors group">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 bg-slate-700 rounded-lg flex items-center justify-center group-hover:bg-orange-500/20 transition-colors flex-shrink-0">
+                    <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </div>
-                  <span className="text-sm">+1 (000) 000-0000</span>
+                  <span className="text-xs sm:text-sm">+1 (000) 000-0000</span>
                 </a>
-                <div className="flex items-start gap-3 text-slate-300">
-                  <div className="w-8 h-8 bg-slate-700 rounded-lg flex items-center justify-center mt-0.5">
-                    <MapPin className="w-4 h-4" />
+                <div className="flex items-start gap-2 sm:gap-3 text-slate-300">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 bg-slate-700 rounded-lg flex items-center justify-center mt-0.5 flex-shrink-0">
+                    <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </div>
-                  <span className="text-sm">123 Education Street, Learning City, LC 12345</span>
+                  <span className="text-xs sm:text-sm">123 Education Street, Learning City, LC 12345</span>
                 </div>
               </div>
             </div>
 
             {/* Quick Links */}
             <div>
-              <h5 className="font-bold text-white mb-6 text-lg flex items-center gap-2">
-                <div className="w-1 h-5 bg-gradient-to-b from-orange-500 to-orange-600 rounded-full"></div>
+              <h5 className="font-bold text-white mb-4 sm:mb-6 text-base sm:text-lg flex items-center gap-2">
+                <div className="w-1 h-4 sm:h-5 bg-gradient-to-b from-orange-500 to-orange-600 rounded-full"></div>
                 Quick Links
               </h5>
-              <ul className="space-y-3">
+              <ul className="space-y-2 sm:space-y-3">
                 <li>
                   <Link href="/#hero" className="text-slate-300 hover:text-orange-400 transition-all duration-200 flex items-center gap-2 group">
                     <span className="w-0 group-hover:w-2 h-0.5 bg-orange-400 transition-all duration-200"></span>
@@ -111,11 +111,11 @@ export const Footer: React.FC = () => {
 
             {/* Policies & Support */}
             <div>
-              <h5 className="font-bold text-white mb-6 text-lg flex items-center gap-2">
-                <div className="w-1 h-5 bg-gradient-to-b from-indigo-500 to-indigo-600 rounded-full"></div>
+              <h5 className="font-bold text-white mb-4 sm:mb-6 text-base sm:text-lg flex items-center gap-2">
+                <div className="w-1 h-4 sm:h-5 bg-gradient-to-b from-indigo-500 to-indigo-600 rounded-full"></div>
                 Policies
               </h5>
-              <ul className="space-y-3">
+              <ul className="space-y-2 sm:space-y-3">
                 <li>
                   <Link href="#" className="text-slate-300 hover:text-orange-400 transition-all duration-200 flex items-center gap-2 group">
                     <span className="w-0 group-hover:w-2 h-0.5 bg-orange-400 transition-all duration-200"></span>
@@ -151,29 +151,29 @@ export const Footer: React.FC = () => {
 
             {/* Newsletter & Social */}
             <div>
-              <h5 className="font-bold text-white mb-6 text-lg flex items-center gap-2">
-                <div className="w-1 h-5 bg-gradient-to-b from-orange-500 to-orange-600 rounded-full"></div>
+              <h5 className="font-bold text-white mb-4 sm:mb-6 text-base sm:text-lg flex items-center gap-2">
+                <div className="w-1 h-4 sm:h-5 bg-gradient-to-b from-orange-500 to-orange-600 rounded-full"></div>
                 Stay Updated
               </h5>
-              <p className="text-slate-300 text-sm mb-4">
+              <p className="text-slate-300 text-xs sm:text-sm mb-3 sm:mb-4">
                 Subscribe to our newsletter for course updates and career tips.
               </p>
-              <form onSubmit={handleNewsletterSubmit} className="mb-6">
+              <form onSubmit={handleNewsletterSubmit} className="mb-4 sm:mb-6">
                 <div className="flex gap-2">
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Your email"
-                    className="flex-1 px-4 py-2.5 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm"
+                    className="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-xs sm:text-sm"
                     required
                   />
                   <button
                     type="submit"
-                    className="px-4 py-2.5 bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-600 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+                    className="px-3 sm:px-4 py-2 sm:py-2.5 bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-600 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 flex-shrink-0"
                     aria-label="Subscribe"
                   >
-                    <Send className="w-5 h-5" />
+                    <Send className="w-4 h-4 sm:w-5 sm:h-5" />
                   </button>
                 </div>
               </form>
@@ -234,12 +234,12 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* Bottom Bar */}
-          <div className="border-t border-slate-700 pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <div className="text-slate-400 text-sm text-center md:text-left">
+          <div className="border-t border-slate-700 pt-6 sm:pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4">
+              <div className="text-slate-400 text-xs sm:text-sm text-center md:text-left">
                 &copy; {currentYear} Trust2Switch. All rights reserved.
               </div>
-              <div className="flex items-center gap-2 text-slate-400 text-sm">
+              <div className="flex items-center gap-1.5 sm:gap-2 text-slate-400 text-xs sm:text-sm">
                 <span>Built with</span>
                 <span className="text-orange-400">❤️</span>
                 <span>Trust and Ambition</span>

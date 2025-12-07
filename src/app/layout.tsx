@@ -56,7 +56,7 @@ export default function RootLayout({
         } as React.CSSProperties}>
           <Header />
           <ScrollHandler />
-          <main className="pt-24">{children}</main>
+          <main className="pt-[88px] sm:pt-24">{children}</main>
           <Footer />
           <FloatingButton />
         </div>

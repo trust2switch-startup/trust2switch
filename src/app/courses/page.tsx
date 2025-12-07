@@ -53,37 +53,37 @@ export default function CoursesPage() {
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Header */}
-      <section className="bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 py-20 relative overflow-hidden">
+      <section className="bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 py-12 sm:py-16 lg:py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
         <div className="absolute top-0 right-0 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <h1 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-white mb-3 sm:mb-4">
             {content.courses.title}
           </h1>
-          <p className="text-xl text-slate-300">
+          <p className="text-base sm:text-lg lg:text-xl text-slate-300">
             {content.courses.subtitle}
           </p>
         </div>
       </section>
 
       {/* Filters */}
-      <section className="py-8 bg-white border-b border-slate-200 shadow-sm">
+      <section className="py-4 sm:py-6 lg:py-8 bg-white border-b border-slate-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row gap-4 items-stretch">
+          <div className="flex flex-col lg:flex-row gap-3 sm:gap-4 items-stretch">
             <div className="flex-1 min-w-0">
               <Input
                 type="text"
                 placeholder="Search courses..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full"
+                className="w-full text-sm sm:text-base"
               />
             </div>
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white min-w-[150px] text-slate-700"
+              className="px-3 sm:px-4 py-2 sm:py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white min-w-full lg:min-w-[150px] text-slate-700 text-sm sm:text-base"
             >
               {categories.map((category) => (
                 <option key={category} value={category}>
@@ -94,7 +94,7 @@ export default function CoursesPage() {
             <select
               value={selectedLevel}
               onChange={(e) => setSelectedLevel(e.target.value)}
-              className="px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white min-w-[150px] text-slate-700"
+              className="px-3 sm:px-4 py-2 sm:py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white min-w-full lg:min-w-[150px] text-slate-700 text-sm sm:text-base"
             >
               {levels.map((level) => (
                 <option key={level} value={level}>
@@ -105,7 +105,7 @@ export default function CoursesPage() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white min-w-[180px] text-slate-700"
+              className="px-3 sm:px-4 py-2 sm:py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white min-w-full lg:min-w-[180px] text-slate-700 text-sm sm:text-base"
             >
               <option value="popular">Most Popular</option>
               <option value="rating">Highest Rated</option>
@@ -117,10 +117,10 @@ export default function CoursesPage() {
       </section>
 
       {/* Courses Grid */}
-      <section className="py-12 bg-slate-50">
+      <section className="py-8 sm:py-10 lg:py-12 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {filteredCourses.length > 0 ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {filteredCourses.map((course) => (
                 <CourseCard key={course.id} course={course} />
               ))}

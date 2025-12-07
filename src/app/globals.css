@@ -18,14 +18,24 @@
 
   /* Scroll padding for anchor links to account for fixed header */
   html {
-    scroll-padding-top: 120px;
+    scroll-padding-top: 88px;
     scroll-behavior: smooth;
   }
 
   /* Individual section scroll margins */
   section[id],
   div[id] {
-    scroll-margin-top: 120px;
+    scroll-margin-top: 88px;
+  }
+
+  @media (min-width: 640px) {
+    html {
+      scroll-padding-top: 120px;
+    }
+    section[id],
+    div[id] {
+      scroll-margin-top: 120px;
+    }
   }
 }
 
@@ -68,6 +78,33 @@
     width: 200%;
     display: flex;
     gap: 2rem;
+  }
+
+  /* Continuous Smooth Marquee Animation */
+  @keyframes marquee-smooth {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-33.333%);
+    }
+  }
+  
+  .animate-marquee-smooth {
+    animation: marquee-smooth 30s linear infinite;
+    will-change: transform;
+    width: 300%;
+  }
+  
+  .animate-marquee-smooth:hover {
+    animation-play-state: paused;
+  }
+  
+  /* Smooth card interactions */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-marquee-smooth {
+      animation: none;
+    }
   }
 
   /* Video Container Aspect Ratio */
