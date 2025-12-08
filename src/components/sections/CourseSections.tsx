@@ -39,7 +39,7 @@ export const CourseSections: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10 sm:mb-12 lg:mb-16">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 mb-3 sm:mb-4 px-2">
-            Choose Your Path to <span className="bg-gradient-to-r from-indigo-600 to-orange-500 bg-clip-text text-transparent">Mastery</span>
+            Choose Your Path to <span className="bg-gradient-to-r from-orange-600 to-orange-500 bg-clip-text text-transparent">Mastery</span>
           </h2>
           <p className="text-sm sm:text-base lg:text-lg text-slate-600 max-w-2xl mx-auto px-4">
             Explore our comprehensive range of professional courses and school mentorship programs designed to accelerate your learning journey.

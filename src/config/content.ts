@@ -109,6 +109,12 @@ export const content = {
       subtitle: 'Join thousands of students who have successfully transformed their careers',
       button: 'Start Learning Today',
     },
+    careerAdvice: {
+      headline: "Trying to Figure Out Which Tech Role Matches Your Skills and Ambitions?",
+      content: "Get FREE, expert-backed career advice tailored to today’s tech market. Learn which roles offer the best salaries, growth, and future demand—whether it’s Full Stack, Data Science, Cloud, or AI/ML—and make a confident, future-proof decision.",
+      ctaPrimary: "Free",
+      ctaSecondary: "Take 10 seconds: click and tell us a bit..",
+    },
   },
   courses: {
     title: 'All Courses',
