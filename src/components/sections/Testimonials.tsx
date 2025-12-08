@@ -82,11 +82,11 @@ export const Testimonials: React.FC = () => {
           className="text-center mb-8 sm:mb-10 lg:mb-16"
         >
           <div className="inline-flex items-center justify-center mb-4">
-            <div className="w-12 h-1 bg-gradient-to-r from-transparent via-orange-400 to-transparent"></div>
-            <Quote className="w-8 h-8 text-orange-400 mx-4" />
-            <div className="w-12 h-1 bg-gradient-to-r from-transparent via-orange-400 to-transparent"></div>
+            <div className="w-12 h-1 bg-gradient-to-r from-transparent via-[#84994F] to-transparent"></div>
+            <Quote className="w-8 h-8 text-[#84994F] mx-4" />
+            <div className="w-12 h-1 bg-gradient-to-r from-transparent via-[#84994F] to-transparent"></div>
           </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold bg-gradient-to-r from-indigo-800 to-indigo-600 bg-clip-text text-transparent mb-3 sm:mb-4 px-2">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold bg-[#435663] bg-clip-text text-transparent mb-3 sm:mb-4 px-2">
             Hear From Our Successful Learners
           </h2>
           <p className="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto">
@@ -116,7 +116,7 @@ export const Testimonials: React.FC = () => {
 
               {/* Quote Icon */}
               <div className="absolute top-4 right-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                <Quote className="w-16 h-16 text-indigo-600" />
+                <Quote className="w-16 h-16 text-[#84994F]" />
               </div>
 
               <div className="relative z-10">
@@ -132,7 +132,7 @@ export const Testimonials: React.FC = () => {
 
                 {/* Quote Text */}
                 <p className="text-slate-700 leading-relaxed mb-6 text-sm sm:text-base relative z-10">
-                  <Quote className="w-5 h-5 text-orange-400/50 inline-block mr-2 -mt-1" />
+                  <Quote className="w-5 h-5 text-[#84994F] inline-block mr-2 -mt-1" />
                   {testimonial.quote}
                 </p>
 

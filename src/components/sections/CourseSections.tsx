@@ -39,7 +39,7 @@ export const CourseSections: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10 sm:mb-12 lg:mb-16">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 mb-3 sm:mb-4 px-2">
-            Choose Your Path to <span className="bg-gradient-to-r from-orange-600 to-orange-500 bg-clip-text text-transparent">Mastery</span>
+            Choose Your Path to <span className="bg-[#84994F] bg-clip-text text-transparent">Mastery</span>
           </h2>
           <p className="text-sm sm:text-base lg:text-lg text-slate-600 max-w-2xl mx-auto px-4">
             Explore our comprehensive range of professional courses and school mentorship programs designed to accelerate your learning journey.
@@ -71,7 +71,7 @@ export const CourseSections: React.FC = () => {
                     
                     {/* Top Icon */}
                     <div className="relative z-10 mb-4">
-                      <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                      <div className="w-14 h-14 bg-[#435663] rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
                         <Icon className="w-7 h-7 text-white" />
                       </div>
                     </div>
@@ -84,7 +84,7 @@ export const CourseSections: React.FC = () => {
 
                     {/* Button */}
                     <div className="relative z-10 mt-6">
-                      <div className="w-full text-sm font-semibold text-white bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-600 hover:shadow-lg py-2.5 px-4 rounded-xl transition-all duration-200 text-center group-hover:scale-105">
+                      <div className="w-full text-sm font-semibold text-white bg-[#84994F] hover:from-green-500 hover:to-green-600 hover:shadow-lg py-2.5 px-4 rounded-xl transition-all duration-200 text-center group-hover:scale-105">
                         View Details
                       </div>
                     </div>
@@ -109,7 +109,7 @@ export const CourseSections: React.FC = () => {
                     
                     {/* Top Icon */}
                     <div className="relative z-10 mb-3 sm:mb-4">
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-[#435663] rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
                         <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                       </div>
                     </div>
@@ -122,7 +122,7 @@ export const CourseSections: React.FC = () => {
 
                     {/* Button */}
                     <div className="relative z-10 mt-4 sm:mt-6">
-                      <div className="w-full text-xs sm:text-sm font-semibold text-white bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-600 hover:shadow-lg py-2 sm:py-2.5 px-3 sm:px-4 rounded-lg sm:rounded-xl transition-all duration-200 text-center group-hover:scale-105">
+                      <div className="w-full text-xs sm:text-sm font-semibold text-white bg-#84994F hover:from-green-500 hover:to-green-600 hover:shadow-lg py-2 sm:py-2.5 px-3 sm:px-4 rounded-lg sm:rounded-xl transition-all duration-200 text-center group-hover:scale-105">
                         View Details
                       </div>
                     </div>
@@ -183,7 +183,7 @@ export const CourseSections: React.FC = () => {
                     
                     {/* Icon */}
                     <div className="relative z-10 mb-2 sm:mb-3 lg:mb-4 flex justify-center">
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-[#435663] rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
                         <Icon className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" />
                       </div>
                     </div>
@@ -196,7 +196,7 @@ export const CourseSections: React.FC = () => {
 
                     {/* Button */}
                     <div className="relative z-10 mt-2 sm:mt-3 lg:mt-4">
-                      <div className="w-full text-[10px] sm:text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-600 py-1.5 sm:py-2 rounded-lg sm:rounded-xl transition-all duration-200 group-hover:shadow-lg group-hover:scale-105">
+                      <div className="w-full text-[10px] sm:text-xs font-semibold text-white bg-[#84994F] hover:from-green-500 hover:to-green-600 py-1.5 sm:py-2 rounded-lg sm:rounded-xl transition-all duration-200 group-hover:shadow-lg group-hover:scale-105">
                         View Details
                       </div>
                     </div>

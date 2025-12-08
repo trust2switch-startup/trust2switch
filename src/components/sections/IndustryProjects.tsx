@@ -25,7 +25,7 @@ export const IndustryProjects: React.FC = () => {
             <div className="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-8">
               {/* Icon Section */}
               <div className="flex-shrink-0">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center shadow-lg">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-gradient-to-br from-[#435663] to-[#435663] flex items-center justify-center shadow-lg">
                   <Briefcase className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
                 </div>
               </div>
@@ -44,7 +44,7 @@ export const IndustryProjects: React.FC = () => {
                   <Button
                     variant="primary"
                     size="md"
-                    className="group flex items-center gap-2 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
+                    className="group bg-[#84994F] flex items-center gap-2 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
                   >
                     <span>Explore Projects & Research Papers</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />

@@ -23,11 +23,11 @@ export const Header: React.FC = () => {
   return (
     <>
       {/* Top Announcement Bar */}
-      <div className="fixed top-0 left-0 w-full bg-gradient-to-r from-orange-600 to-orange-500 text-white text-[10px] sm:text-xs py-1.5 sm:py-2 z-[60] shadow-md">
+      <div className="fixed top-0 left-0 w-full bg-gradient-to-r from-green-900 to-[#84994F] text-white text-[10px] sm:text-xs py-1.5 sm:py-2 z-[60] shadow-md">
         <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 flex items-center justify-center gap-1 sm:gap-2 flex-wrap">
           <span className="font-semibold hidden xs:inline">🎓</span>
           <span className="text-center px-1">New Batch Starting Soon! Limited Seats Available</span>
-          <Link href="/#professional-section" className="underline font-bold hover:text-orange-200 ml-1 sm:ml-2 whitespace-nowrap">
+          <Link href="/#professional-section" className="underline font-extrabold hover:text-orange-200 ml-1 sm:ml-2 whitespace-nowrap">
             Enroll Now →
           </Link>
         </div>
@@ -36,10 +36,10 @@ export const Header: React.FC = () => {
       <nav 
         id="navbar" 
         className={`fixed top-[32px] sm:top-8 left-0 w-full z-50 transition-all duration-300 ${
-          scrolled 
+          !scrolled 
             ? 'bg-slate-800/95 backdrop-blur-sm'
-            : 'bg-slate-900 backdrop-blur-md' 
-            // : 'bg-slate-900 backdrop-blur-md shadow-xl' 
+            // : 'bg-slate-900 backdrop-blur-md'
+            : 'bg-slate-900 backdrop-blur-md shadow-xl' 
         }`}
       >
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
@@ -49,11 +49,11 @@ export const Header: React.FC = () => {
               href="/#hero" 
               className="flex-shrink-0 flex items-center space-x-1.5 sm:space-x-2 group"
             >
-              <div className="w-7 h-7 sm:w-9 sm:h-9 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center transform group-hover:scale-110 transition-transform">
+              <div className="w-7 h-7 sm:w-9 sm:h-9 bg-gradient-to-br from-[#84994F] to-[#84994F] rounded-lg flex items-center justify-center transform group-hover:scale-110 transition-transform">
                 <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
               <span className="text-base sm:text-xl font-bold tracking-tight text-white">
-                Trust<span className="text-orange-400">2</span>Switch
+                Trust<span className="text-[#84994F]">2</span>Switch
               </span>
             </Link>
 
@@ -161,7 +161,7 @@ export const Header: React.FC = () => {
               {/* CTA Button */}
               <button
                 onClick={() => setIsCallbackModalOpen(true)}
-                className="ml-2 xl:ml-4 flex items-center gap-1.5 xl:gap-2 bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-600 text-white font-semibold text-xs xl:text-sm py-1.5 xl:py-2 px-3 xl:px-5 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-orange-300 whitespace-nowrap"
+                className="ml-2 xl:ml-4 flex items-center gap-1.5 xl:gap-2 bg-gradient-to-r from-[#84994F] to-[#84994F] hover:from-[#435663] hover:to-[#435663] text-white font-semibold text-xs xl:text-sm py-1.5 xl:py-2 px-3 xl:px-5 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-orange-300 whitespace-nowrap"
               >
                 <Phone className="w-3 xl:w-3.5 h-3 xl:h-3.5" />
                 <span className="hidden lg:inline">Get Started</span>
@@ -242,7 +242,7 @@ export const Header: React.FC = () => {
                     setIsCallbackModalOpen(true);
                     setMobileMenuOpen(false);
                   }}
-                  className="w-full mt-4 flex items-center justify-center gap-2 bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-600 text-white font-semibold text-sm py-2.5 px-5 rounded-full shadow-lg transform hover:scale-105 transition-all duration-200"
+                  className="w-full mt-4 flex items-center justify-center gap-2 bg-gradient-to-r from-o[#84994F] to-[#84994F] hover:from-[#435663] hover:to-[#435663] text-white font-semibold text-sm py-2.5 px-5 rounded-full shadow-lg transform hover:scale-105 transition-all duration-200"
                 >
                   <Phone className="w-4 h-4" />
                   <span>Get Started</span>

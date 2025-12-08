@@ -18,11 +18,11 @@ export const Hero: React.FC = () => {
           transition={{ duration: 0.6 }}
           className="text-white relative z-20 text-center md:text-left"
         >
-          <p className="text-orange-400 text-sm sm:text-base lg:text-lg font-semibold mb-2 sm:mb-3 tracking-wider uppercase">
+          <p className="text-[#84994F] text-sm sm:text-base lg:text-lg font-semibold mb-2 sm:mb-3 tracking-wider uppercase">
             Your Career Transformation Partner
           </p>
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-4 sm:mb-6">
-            Trust Your Transition. <span className="text-orange-300">Switch to Success.</span>
+            Trust Your Transition. <span className="text-[#84994F]">Switch to Success.</span>
           </h1>
           <p className="mb-6 sm:mb-8 max-w-md mx-auto md:mx-0 text-sm sm:text-base text-slate-300">
             Acquire in-demand skills, build industry-level portfolios, and land your dream job with 1-on-1 mentorship.
@@ -31,7 +31,7 @@ export const Hero: React.FC = () => {
           {/* CTA Button with Motion */}
           <button
             onClick={() => setIsCallbackModalOpen(true)}
-            className="group relative bg-orange-700 hover:bg-orange-600 text-white font-bold py-2.5 sm:py-3 px-6 sm:px-8 rounded-xl shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-orange-300 w-full sm:w-auto sm:min-w-[220px] flex items-center justify-center overflow-hidden mx-auto md:mx-0"
+            className="group relative bg-[#84994F] hover:bg-[#435663] text-white font-bold py-2.5 sm:py-3 px-6 sm:px-8 rounded-xl shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-orange-300 w-full sm:w-auto sm:min-w-[220px] flex items-center justify-center overflow-hidden mx-auto md:mx-0"
           >
             <span className="text-sm sm:text-base whitespace-nowrap transition-all duration-300 group-hover:opacity-0 group-hover:-translate-x-2">
               Request a Call Back

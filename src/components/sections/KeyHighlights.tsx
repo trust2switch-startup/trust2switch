@@ -9,25 +9,25 @@ export const KeyHighlights: React.FC = () => {
     { 
       icon: Award, 
       title: 'World-Class Industry Instructors',
-      gradient: 'from-orange-500 to-orange-600',
+      gradient: "from-[#435663] to-[#435663]",
       bgGradient: 'from-orange-50 to-orange-100/50',
     },
     { 
       icon: Users, 
       title: '1-on-1 Dedicated Doubt Session',
-      gradient: 'from-indigo-500 to-indigo-600',
+      gradient: "from-[#84994F] to-[#84994F]",
       bgGradient: 'from-indigo-50 to-indigo-100/50',
     },
     { 
       icon: Briefcase, 
       title: 'Guaranteed Job Assistance Program',
-      gradient: 'from-orange-500 to-orange-600',
+      gradient: "from-[#435663] to-[#435663]",
       bgGradient: 'from-orange-50 to-orange-100/50',
     },
     { 
       icon: Code2, 
       title: 'Build 5+ Industry-Level Projects',
-      gradient: 'from-indigo-500 to-indigo-600',
+      gradient: "from-[#84994F] to-[#84994F]",
       bgGradient: 'from-indigo-50 to-indigo-100/50',
     },
   ];
