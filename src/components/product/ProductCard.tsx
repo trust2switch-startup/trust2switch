@@ -28,7 +28,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, compact = tru
         whileHover={{ y: -2 }}
         className="group"
       >
-        <div className="bg-white rounded-lg border border-slate-200 hover:border-orange-300 hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-row h-28 sm:h-32 w-full sm:w-[320px] md:w-[360px] lg:w-[380px] flex-shrink-0">
+        <div className="bg-white rounded-lg border border-slate-200 hover:border-slate-300 hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-row h-28 sm:h-32 w-full sm:w-[320px] md:w-[360px] lg:w-[380px] flex-shrink-0">
           {/* Image - Left Side */}
           <div className="relative w-24 h-28 sm:w-28 sm:h-32 flex-shrink-0 overflow-hidden bg-slate-100">
             <Image
@@ -45,7 +45,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, compact = tru
                 <Badge variant="success" className="text-[10px] px-1.5 py-0.5">New</Badge>
               )}
               {product.isFeatured && (
-                <Badge variant="default" className="bg-orange-500 text-white text-[10px] px-1.5 py-0.5">Featured</Badge>
+                <Badge variant="default" className="bg-green-500 text-white text-[10px] px-1.5 py-0.5">Featured</Badge>
               )}
             </div>
             {!product.inStock && (
@@ -91,7 +91,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, compact = tru
             {/* Bottom Row: Price & Actions */}
             <div className="flex items-center justify-between gap-2 mt-auto">
               <div className="flex items-baseline gap-1.5">
-                <span className="text-base font-bold bg-gradient-to-r from-orange-600 to-orange-500 bg-clip-text text-transparent">
+                <span className="text-base font-bold bg-gradient-to-r from-indigo-600 to-indigo-500 bg-clip-text text-transparent">
                   {formatPrice(product.price, product.currency || 'INR')}
                 </span>
                 {product.originalPrice && (
@@ -104,7 +104,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, compact = tru
                 <Button
                   variant="primary"
                   size="sm"
-                  className="text-xs py-1.5 px-3 bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-600 text-white"
+                  className="text-xs py-1.5 px-3 bg-gradient-to-r from-[#84994fff] to-green-700 hover:from-green-700 hover:to-[#84994fff] text-white"
                   onClick={() => setIsCallbackModalOpen(true)}
                   disabled={!product.inStock}
                 >

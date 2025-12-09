@@ -65,7 +65,7 @@ export const PlatformRatings: React.FC = () => {
 
           {/* Heading Section - Compact & Left Aligned on Desktop */}
           <div className="text-center md:text-left md:w-1/3 w-full md:w-auto">
-            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 leading-tight">
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-900 leading-tight">
               Trusted by 1000+ Learners
             </h3>
             <p className="text-slate-500 text-xs sm:text-sm mt-1">
