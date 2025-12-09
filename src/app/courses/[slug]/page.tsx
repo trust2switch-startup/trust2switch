@@ -54,8 +54,46 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
     });
   };
 
+  const courseSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Course',
+    name: course.title,
+    description: course.description,
+    provider: {
+      '@type': 'Organization',
+      name: content.site.name,
+      url: content.site.url,
+    },
+    image: course.image,
+    courseCode: course.id,
+    educationalLevel: course.level,
+    inLanguage: course.language,
+    offers: {
+      '@type': 'Offer',
+      price: course.price,
+      priceCurrency: 'INR',
+      availability: 'https://schema.org/InStock',
+      url: `${content.site.url}/courses/${course.slug}`,
+    },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: course.rating,
+      reviewCount: course.reviews,
+    },
+    instructor: {
+      '@type': 'Person',
+      name: course.instructor.name,
+      jobTitle: course.instructor.role,
+      image: course.instructor.image,
+    },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(courseSchema) }}
+      />
       <div className="min-h-screen bg-slate-50">
         {/* Header */}
         <section className="bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 py-20 relative overflow-hidden">
