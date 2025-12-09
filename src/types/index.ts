@@ -80,4 +80,16 @@ export interface Product {
   isFeatured?: boolean;
 }
 
+// Microsoft Clarity types
+declare global {
+  interface Window {
+    clarity?: {
+      (command: string, ...args: any[]): void;
+      identify?: (userId: string, sessionId?: string, pageId?: string, userHint?: string) => void;
+      set?: (key: string, value: string) => void;
+      consent?: (consent: boolean) => void;
+    };
+  }
+}
+
 
