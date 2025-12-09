@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import { content } from '@/config/content';
+import { trackButtonClick, trackNavigation } from '@/lib/analytics';
 
 export const CTA: React.FC = () => {
   return (
@@ -22,7 +23,14 @@ export const CTA: React.FC = () => {
           <p className="text-xl text-primary-100 mb-8">
             {content.home.cta.subtitle}
           </p>
-          <Link href="/courses" className="inline-block">
+          <Link 
+            href="/courses" 
+            className="inline-block"
+            onClick={() => {
+              trackButtonClick('cta_button', 'cta_section');
+              trackNavigation('/courses', 'cta_section');
+            }}
+          >
             <Button variant="secondary" size="lg" className="bg-white text-primary-600 hover:bg-neutral-100 shadow-lg hover:shadow-xl hover:scale-105 transition-all">
               {content.home.cta.button}
             </Button>

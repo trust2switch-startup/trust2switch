@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { use } from 'react';
@@ -13,6 +13,7 @@ import { BookOneOnOneModal } from '@/components/booking/BookOneOnOneModal';
 import { courses } from '@/config/courses';
 import { formatPrice } from '@/lib/utils';
 import { content } from '@/config/content';
+import { trackButtonClick, trackModalOpen, trackCourseView } from '@/lib/analytics';
 
 interface CourseDetailPageProps {
   params: Promise<{
@@ -26,6 +27,13 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
   const [isOneOnOneModalOpen, setIsOneOnOneModalOpen] = useState(false);
   const [expandedWeeks, setExpandedWeeks] = useState<Set<number>>(new Set([0]));
+
+  // Track course view
+  React.useEffect(() => {
+    if (course) {
+      trackCourseView(course.slug, course.title);
+    }
+  }, [course]);
 
   if (!course) {
     return (
@@ -189,6 +197,9 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
                       variant="primary" 
                       size="lg" 
                       className="w-full mb-3 hover:scale-105 transition-transform flex items-center justify-center bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-600 text-white shadow-lg"
+                      onClick={() => {
+                        trackButtonClick('enroll_course', 'course_detail_page');
+                      }}
                     >
                       {content.courses.enroll}
                     </Button>
@@ -196,7 +207,11 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
                       variant="outline" 
                       size="lg" 
                       className="w-full mb-3 hover:scale-105 transition-transform flex items-center justify-center border-indigo-600 text-indigo-600 hover:bg-indigo-50"
-                      onClick={() => setIsDemoModalOpen(true)}
+                      onClick={() => {
+                        trackButtonClick('book_demo', 'course_detail_page');
+                        trackModalOpen('book_demo_modal');
+                        setIsDemoModalOpen(true);
+                      }}
                     >
                       <Video className="w-5 h-5 mr-2 flex-shrink-0" />
                       <span>Book Demo Session</span>
@@ -205,7 +220,11 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
                       variant="secondary" 
                       size="lg" 
                       className="w-full mb-4 hover:scale-105 transition-transform flex items-center justify-center bg-slate-700 text-white hover:bg-slate-800"
-                      onClick={() => setIsOneOnOneModalOpen(true)}
+                      onClick={() => {
+                        trackButtonClick('book_one_on_one', 'course_detail_page');
+                        trackModalOpen('book_one_on_one_modal');
+                        setIsOneOnOneModalOpen(true);
+                      }}
                     >
                       <Calendar className="w-5 h-5 mr-2 flex-shrink-0" />
                       <span>Book 1-on-1 Session</span>

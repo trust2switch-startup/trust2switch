@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Phone } from 'lucide-react';
 import { CallbackModal } from '@/components/booking/CallbackModal';
+import { trackButtonClick, trackModalOpen } from '@/lib/analytics';
 
 export const Hero: React.FC = () => {
   const [isCallbackModalOpen, setIsCallbackModalOpen] = useState(false);
@@ -30,7 +31,11 @@ export const Hero: React.FC = () => {
           
           {/* CTA Button with Motion */}
           <button
-            onClick={() => setIsCallbackModalOpen(true)}
+            onClick={() => {
+              trackButtonClick('hero_cta', 'hero_section');
+              trackModalOpen('callback_modal');
+              setIsCallbackModalOpen(true);
+            }}
             className="group relative bg-[#84994F] hover:bg-[#435663] text-white font-bold py-2.5 sm:py-3 px-6 sm:px-8 rounded-xl shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-orange-300 w-full sm:w-auto sm:min-w-[220px] flex items-center justify-center overflow-hidden mx-auto md:mx-0"
           >
             <span className="text-sm sm:text-base whitespace-nowrap transition-all duration-300 group-hover:opacity-0 group-hover:-translate-x-2">

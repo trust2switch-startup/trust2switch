@@ -15,6 +15,7 @@ import {
   ShoppingCart,
 } from "lucide-react";
 import { CallbackModal } from "@/components/booking/CallbackModal";
+import { trackButtonClick, trackNavigation, trackModalOpen, trackSearch } from "@/lib/analytics";
 import trust2SwitchLogo from "@/app/trust2switch_logo.jpg";
 
 export const Header: React.FC = () => {
@@ -159,12 +160,14 @@ export const Header: React.FC = () => {
 
                 <Link
                   href="/#professional-section"
+                  onClick={() => trackNavigation('/#professional-section', 'header')}
                   className="text-white hover:text-white font-medium text-xs xl:text-sm py-1.5 px-2 xl:px-3 rounded-lg hover:bg-slate-600/50 transition-all duration-200 whitespace-nowrap"
                 >
                   Professionals
                 </Link>
                 <Link
                   href="/#school-mentorship"
+                  onClick={() => trackNavigation('/#school-mentorship', 'header')}
                   className="text-white hover:text-white font-medium text-xs xl:text-sm py-1.5 px-2 xl:px-3 rounded-lg hover:bg-slate-600/50 transition-all duration-200 whitespace-nowrap"
                 >
                   <span className="hidden 2xl:inline">School Mentorship</span>
@@ -172,18 +175,21 @@ export const Header: React.FC = () => {
                 </Link>
                 <Link
                   href="/blog"
+                  onClick={() => trackNavigation('/blog', 'header')}
                   className="text-white hover:text-white font-medium text-xs xl:text-sm py-1.5 px-2 xl:px-3 rounded-lg hover:bg-slate-600/50 transition-all duration-200"
                 >
                   Blog
                 </Link>
                 <Link
                   href="/shop"
+                  onClick={() => trackNavigation('/shop', 'header')}
                   className="text-white hover:text-white font-medium text-xs xl:text-sm py-1.5 px-2 xl:px-3 rounded-lg hover:bg-slate-600/50 transition-all duration-200"
                 >
                   Buy
                 </Link>
                 <Link
                   href="/#footer"
+                  onClick={() => trackNavigation('/#footer', 'header')}
                   className="text-white hover:text-white font-medium text-xs xl:text-sm py-1.5 px-2 xl:px-3 rounded-lg hover:bg-slate-600/50 transition-all duration-200"
                 >
                   Contact
@@ -202,13 +208,25 @@ export const Header: React.FC = () => {
                     aria-label="Search Courses"
                     onFocus={() => setSearchFocused(true)}
                     onBlur={() => setSearchFocused(false)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        const query = (e.target as HTMLInputElement).value;
+                        if (query.trim()) {
+                          trackSearch(query);
+                        }
+                      }
+                    }}
                   />
                   <Search className="absolute left-2.5 xl:left-3 top-1/2 transform -translate-y-1/2 w-3 xl:w-3.5 h-3 xl:h-3.5 text-slate-500" />
                 </div>
 
                 {/* CTA Button */}
                 <button
-                  onClick={() => setIsCallbackModalOpen(true)}
+                  onClick={() => {
+                    trackButtonClick('get_started', 'header');
+                    trackModalOpen('callback_modal');
+                    setIsCallbackModalOpen(true);
+                  }}
                   className="ml-2 xl:ml-4 flex items-center gap-1.5 xl:gap-2 bg-gradient-to-r from-[#84994F] to-[#84994F] hover:from-[#435663] hover:to-[#435663] text-white font-semibold text-xs xl:text-sm py-1.5 xl:py-2 px-3 xl:px-5 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-orange-300 whitespace-nowrap"
                 >
                   <Phone className="w-3 xl:w-3.5 h-3 xl:h-3.5" />
@@ -249,7 +267,10 @@ export const Header: React.FC = () => {
                   <Link
                     href="/#professional-section"
                     className="flex items-center gap-3 block px-4 py-3 min-h-[44px] rounded-lg text-sm font-medium text-white hover:bg-slate-700 hover:text-white transition-all"
-                    onClick={() => setMobileMenuOpen(false)}
+                    onClick={() => {
+                      trackNavigation('/#professional-section', 'mobile_menu');
+                      setMobileMenuOpen(false);
+                    }}
                   >
                     <GraduationCap className="w-4 h-4 flex-shrink-0" />
                     Professionals/College Students
@@ -257,7 +278,10 @@ export const Header: React.FC = () => {
                   <Link
                     href="/#school-mentorship"
                     className="flex items-center gap-3 block px-4 py-3 min-h-[44px] rounded-lg text-sm font-medium text-white hover:bg-slate-700 hover:text-white transition-all"
-                    onClick={() => setMobileMenuOpen(false)}
+                    onClick={() => {
+                      trackNavigation('/#school-mentorship', 'mobile_menu');
+                      setMobileMenuOpen(false);
+                    }}
                   >
                     <Users className="w-4 h-4 flex-shrink-0" />
                     School Mentorship
@@ -265,7 +289,10 @@ export const Header: React.FC = () => {
                   <Link
                     href="/blog"
                     className="flex items-center gap-3 block px-4 py-3 min-h-[44px] rounded-lg text-sm font-medium text-white hover:bg-slate-700 hover:text-white transition-all"
-                    onClick={() => setMobileMenuOpen(false)}
+                    onClick={() => {
+                      trackNavigation('/blog', 'mobile_menu');
+                      setMobileMenuOpen(false);
+                    }}
                   >
                     <BookOpen className="w-4 h-4 flex-shrink-0" />
                     Blog
@@ -273,7 +300,10 @@ export const Header: React.FC = () => {
                   <Link
                     href="/shop"
                     className="flex items-center gap-3 block px-4 py-3 min-h-[44px] rounded-lg text-sm font-medium text-white hover:bg-slate-700 hover:text-white transition-all"
-                    onClick={() => setMobileMenuOpen(false)}
+                    onClick={() => {
+                      trackNavigation('/shop', 'mobile_menu');
+                      setMobileMenuOpen(false);
+                    }}
                   >
                     <ShoppingCart className="w-4 h-4 flex-shrink-0" />
                     Buy
@@ -281,12 +311,17 @@ export const Header: React.FC = () => {
                   <Link
                     href="/#footer"
                     className="flex items-center gap-3 block px-4 py-3 min-h-[44px] rounded-lg text-sm font-medium text-white hover:bg-slate-700 hover:text-white transition-all"
-                    onClick={() => setMobileMenuOpen(false)}
+                    onClick={() => {
+                      trackNavigation('/#footer', 'mobile_menu');
+                      setMobileMenuOpen(false);
+                    }}
                   >
                     Contact
                   </Link>
                   <button
                     onClick={() => {
+                      trackButtonClick('get_started', 'mobile_menu');
+                      trackModalOpen('callback_modal');
                       setIsCallbackModalOpen(true);
                       setMobileMenuOpen(false);
                     }}

@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Phone, CheckCircle, Clock } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { Textarea } from '@/components/ui/Textarea';
+import { trackModalOpen, trackFormSubmit } from '@/lib/analytics';
 
 interface CallbackModalProps {
   isOpen: boolean;
@@ -24,6 +25,12 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      trackModalOpen('callback_modal');
+    }
+  }, [isOpen]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -51,6 +58,12 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validate()) {
+      // Track form submission
+      trackFormSubmit('callback_request', {
+        preferred_time: formData.preferredTime,
+        has_message: !!formData.message,
+      });
+      
       setSubmitted(true);
       setTimeout(() => {
         setSubmitted(false);

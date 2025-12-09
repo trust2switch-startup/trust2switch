@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { formatPrice } from '@/lib/utils';
 import { Course } from '@/types';
+import { trackCourseView, trackButtonClick } from '@/lib/analytics';
 
 interface CourseCardProps {
   course: Course;
@@ -82,7 +83,14 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
                 )}
               </div>
             </div>
-            <Link href={`/courses/${course.slug}`} className="block">
+            <Link 
+              href={`/courses/${course.slug}`} 
+              className="block"
+              onClick={() => {
+                trackCourseView(course.slug, course.title);
+                trackButtonClick('view_course_details', 'course_card');
+              }}
+            >
               <Button variant="primary" className="w-full hover:scale-105 transition-transform bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-600 text-white shadow-lg">
                 View Details
               </Button>

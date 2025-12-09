@@ -5,6 +5,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingButton } from '@/components/ui/FloatingButton';
 import { ScrollHandler } from '@/components/ScrollHandler';
+import { AnalyticsProvider } from '@/components/AnalyticsProvider';
 import { theme } from '@/config/theme';
 import { content } from '@/config/content';
 
@@ -174,11 +175,13 @@ export default function RootLayout({
           '--color-secondary-800': theme.colors.secondary[800],
           '--color-secondary-900': theme.colors.secondary[900],
         } as React.CSSProperties}>
-          <Header />
-          <ScrollHandler />
-          <main className="pt-[80px] sm:pt-[96px]">{children}</main>
-          <Footer />
-          <FloatingButton />
+          <AnalyticsProvider>
+            <Header />
+            <ScrollHandler />
+            <main className="pt-[80px] sm:pt-[96px]">{children}</main>
+            <Footer />
+            <FloatingButton />
+          </AnalyticsProvider>
         </div>
       </body>
     </html>

@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Send, CheckCircle, Mail, Phone, User } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
+import { trackModalOpen, trackFormSubmit } from '@/lib/analytics';
 
 interface CareerAdviceModalProps {
     isOpen: boolean;
@@ -23,6 +24,12 @@ export const CareerAdviceModal: React.FC<CareerAdviceModalProps> = ({
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [submitted, setSubmitted] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    useEffect(() => {
+        if (isOpen) {
+            trackModalOpen('career_advice_modal');
+        }
+    }, [isOpen]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -53,6 +60,11 @@ export const CareerAdviceModal: React.FC<CareerAdviceModalProps> = ({
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (validate()) {
+            // Track form submission
+            trackFormSubmit('career_advice_request', {
+                has_email: !!formData.email,
+            });
+            
             setIsSubmitting(true);
             // Simulate API call
             await new Promise(resolve => setTimeout(resolve, 1500));

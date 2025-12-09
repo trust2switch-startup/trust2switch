@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { content } from '@/config/content';
 import { CareerAdviceModal } from '@/components/booking/CareerAdviceModal';
+import { trackButtonClick, trackModalOpen } from '@/lib/analytics';
 
 export const CareerAdviceSection: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -56,14 +57,22 @@ export const CareerAdviceSection: React.FC = () => {
                             <motion.button
                                 whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(132,153,79,0.5)" }}
                                 whileTap={{ scale: 0.95 }}
-                                onClick={() => setIsModalOpen(true)}
+                                onClick={() => {
+                                    trackButtonClick('career_advice_cta', 'career_advice_section');
+                                    trackModalOpen('career_advice_modal');
+                                    setIsModalOpen(true);
+                                }}
                                 className="group relative bg-gradient-to-r from-[rgba(132,153,79,1)] to-[rgba(132,153,79,1)] hover:from-[rgba(132,153,79,1)] hover:to-[rgba(132,153,79,0.8)] text-white font-semibold px-6 sm:px-8 py-3 sm:py-3.5 rounded-lg shadow-lg shadow-[rgba(132,153,79,0.4)] flex items-center gap-2 transition-all duration-200 whitespace-nowrap text-sm sm:text-base w-full sm:w-auto justify-center"
                             >
                                 <span>{ctaPrimary} Career Advice</span>
                                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                             </motion.button>
                             <button
-                                onClick={() => setIsModalOpen(true)}
+                                onClick={() => {
+                                    trackButtonClick('career_advice_secondary', 'career_advice_section');
+                                    trackModalOpen('career_advice_modal');
+                                    setIsModalOpen(true);
+                                }}
                                 className="mt-2 text-xs text-slate-400 hover:text-[rgba(132,153,79,1.0)] transition-colors block w-full text-center"
                             >
                                 {ctaSecondary}
