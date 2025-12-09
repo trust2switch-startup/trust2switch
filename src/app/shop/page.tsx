@@ -112,7 +112,7 @@ export default function ShopPage() {
       </section>
 
       {/* Compact Search & Filters Bar */}
-      <section className="sticky top-[88px] sm:top-[72px] z-40 bg-white border-b border-slate-200 shadow-sm">
+      <section className="sticky top-[108px] sm:top-[92px] z-40 bg-white border-b border-slate-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-2 sm:py-3">
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
             {/* Search */}
@@ -143,17 +143,17 @@ export default function ShopPage() {
       </section>
 
       {/* Category Tabs */}
-      <section className="bg-white border-b border-slate-200 sticky top-[156px] sm:top-[140px] z-30">
+      <section className="bg-white border-b border-slate-200 sticky top-[171px] sm:top-[155px] z-30">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
           <div className="flex items-center gap-0.5 sm:gap-1 overflow-x-auto scrollbar-hide">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-medium whitespace-nowrap border-b-2 transition-colors ${
+                className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap border-b-2 transition-colors ${
                   activeTab === tab.id
-                    ? 'border-orange-500 text-orange-600 bg-orange-50/50'
-                    : 'border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300'
+                    ? 'border-green-800 text-green-800 bg-[rgba(132,153,79,0)] font-bold'
+                    : 'border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 font-medium'
                 }`}
               >
                 {getCategoryIcon(tab.id)}

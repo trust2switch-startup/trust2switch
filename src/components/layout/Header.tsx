@@ -86,16 +86,16 @@ export const Header: React.FC = () => {
                           Professional Tracks
                         </h4>
                         <div className="space-y-1">
-                          <Link href="/#professional-section" className="block px-2.5 py-1.5 text-xs text-slate-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors font-medium">
+                          <Link href="/#professional-section" className="block px-2.5 py-1.5 text-xs text-slate-700 hover:bg-green-50 hover:text-slate-600 rounded-lg transition-colors font-medium">
                             Full Stack Development
                           </Link>
-                          <Link href="/#professional-section" className="block px-2.5 py-1.5 text-xs text-slate-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors font-medium">
+                          <Link href="/#professional-section" className="block px-2.5 py-1.5 text-xs text-slate-700 hover:bg-green-50 hover:text-slate-600 rounded-lg transition-colors font-medium">
                             Data Science & ML
                           </Link>
-                          <Link href="/#professional-section" className="block px-2.5 py-1.5 text-xs text-slate-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors font-medium">
+                          <Link href="/#professional-section" className="block px-2.5 py-1.5 text-xs text-slate-700 hover:bg-green-50 hover:text-slate-600 rounded-lg transition-colors font-medium">
                             Generative AI
                           </Link>
-                          <Link href="/#professional-section" className="block px-2.5 py-1.5 text-xs text-slate-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors font-medium">
+                          <Link href="/#professional-section" className="block px-2.5 py-1.5 text-xs text-slate-700 hover:bg-green-50 hover:text-slate-600 rounded-lg transition-colors font-medium">
                             Cloud (AWS/Azure)
                           </Link>
                         </div>
@@ -106,10 +106,10 @@ export const Header: React.FC = () => {
                           School & Mentorship
                         </h4>
                         <div className="space-y-1">
-                          <Link href="/#school-mentorship" className="block px-2.5 py-1.5 text-xs text-slate-700 hover:bg-orange-50 hover:text-orange-600 rounded-lg transition-colors font-medium">
+                          <Link href="/#school-mentorship" className="block px-2.5 py-1.5 text-xs text-slate-700 hover:bg-green-50 hover:text-slate-600 rounded-lg transition-colors font-medium">
                             K-12 Subjects
                           </Link>
-                          <Link href="/#school-mentorship" className="block px-2.5 py-1.5 text-xs text-slate-700 hover:bg-orange-50 hover:text-orange-600 rounded-lg transition-colors font-medium">
+                          <Link href="/#school-mentorship" className="block px-2.5 py-1.5 text-xs text-slate-700 hover:bg-green-50 hover:text-slate-600 rounded-lg transition-colors font-medium">
                             Advanced Coding
                           </Link>
                         </div>
