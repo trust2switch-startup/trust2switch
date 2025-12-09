@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { User, Calendar, Clock, CheckCircle, Video } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { Textarea } from '@/components/ui/Textarea';
 import { Badge } from '@/components/ui/Badge';
+import { trackModalOpen, trackFormSubmit } from '@/lib/analytics';
 
 interface BookOneOnOneModalProps {
   isOpen: boolean;
@@ -38,6 +39,12 @@ export const BookOneOnOneModal: React.FC<BookOneOnOneModalProps> = ({
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
 
+  useEffect(() => {
+    if (isOpen) {
+      trackModalOpen('book_one_on_one_modal');
+    }
+  }, [isOpen]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -67,6 +74,18 @@ export const BookOneOnOneModal: React.FC<BookOneOnOneModalProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validate()) {
+      // Track form submission
+      const selectedSession = sessionTypes.find(s => s.id === formData.sessionType);
+      trackFormSubmit('one_on_one_session_booking', {
+        course_title: courseTitle,
+        session_type: formData.sessionType,
+        session_label: selectedSession?.label,
+        session_price: selectedSession?.price,
+        preferred_date: formData.preferredDate,
+        preferred_time: formData.preferredTime,
+        has_topics: !!formData.topics,
+      });
+      
       setSubmitted(true);
       setTimeout(() => {
         setSubmitted(false);

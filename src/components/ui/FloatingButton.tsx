@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Phone, MessageCircle, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CallbackModal } from '@/components/booking/CallbackModal';
+import { trackButtonClick, trackModalOpen, trackExternalLink } from '@/lib/analytics';
 
 export const FloatingButton: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,6 +25,8 @@ export const FloatingButton: React.FC = () => {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => {
+                  trackButtonClick('floating_callback', 'floating_button');
+                  trackModalOpen('callback_modal');
                   setIsModalOpen(true);
                   setIsOpen(false);
                 }}
@@ -35,7 +38,11 @@ export const FloatingButton: React.FC = () => {
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                onClick={() => window.open('https://wa.me/1234567890', '_blank')}
+                onClick={() => {
+                  trackButtonClick('whatsapp', 'floating_button');
+                  trackExternalLink('https://wa.me/1234567890', 'WhatsApp');
+                  window.open('https://wa.me/1234567890', '_blank');
+                }}
                 className="w-12 h-12 sm:w-14 sm:h-14 bg-green-500 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-green-600 transition-colors"
                 aria-label="WhatsApp"
               >

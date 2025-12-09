@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, CheckCircle } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { Textarea } from '@/components/ui/Textarea';
+import { trackModalOpen, trackFormSubmit } from '@/lib/analytics';
 
 interface BookDemoModalProps {
   isOpen: boolean;
@@ -28,6 +29,12 @@ export const BookDemoModal: React.FC<BookDemoModalProps> = ({
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      trackModalOpen('book_demo_modal');
+    }
+  }, [isOpen]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -57,7 +64,14 @@ export const BookDemoModal: React.FC<BookDemoModalProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validate()) {
-      // Handle booking submission
+      // Track form submission
+      trackFormSubmit('demo_session_booking', {
+        course_title: courseTitle,
+        preferred_date: formData.preferredDate,
+        preferred_time: formData.preferredTime,
+        has_message: !!formData.message,
+      });
+      
       setSubmitted(true);
       setTimeout(() => {
         setSubmitted(false);
