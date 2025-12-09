@@ -153,7 +153,10 @@ export default function RootLayout({
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'G-LKBH0N8ZYX');
+              gtag('config', 'G-LKBH0N8ZYX', {
+                'allow_ad_personalization_signals': true,
+                'anonymize_ip': false
+              });
             `,
           }}
         />
