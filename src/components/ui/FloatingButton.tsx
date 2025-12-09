@@ -51,7 +51,7 @@ export const FloatingButton: React.FC = () => {
           className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full shadow-2xl flex items-center justify-center transition-all ${
             isOpen
               ? 'bg-red-500 hover:bg-red-600 text-white'
-              : 'bg-gradient-to-r from-[#4f46e5] to-[#581c87] hover:from-primary-700 hover:to-secondary-700 text-white'
+              : 'bg-gradient-to-r from-[#6d7f42] to-[#2b343a] hover:from-primary-700 hover:to-secondary-700 text-white'
           }`}
           aria-label="Contact Options"
         >
