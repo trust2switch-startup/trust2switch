@@ -96,6 +96,16 @@ export const metadata: Metadata = {
     canonical: content.site.url,
   },
   category: 'education',
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/trust2switch_logo.jpg', sizes: 'any', type: 'image/jpeg' },
+    ],
+    apple: [
+      { url: '/trust2switch_logo.jpg', sizes: '180x180', type: 'image/jpeg' },
+    ],
+    shortcut: '/favicon.ico',
+  },
 };
 
 export const viewport: Viewport = {
