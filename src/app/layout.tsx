@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter, Poppins } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
@@ -22,6 +22,12 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: content.site.name,
   description: content.site.description,
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 export default function RootLayout({
@@ -56,7 +62,7 @@ export default function RootLayout({
         } as React.CSSProperties}>
           <Header />
           <ScrollHandler />
-          <main className="pt-[88px] sm:pt-24">{children}</main>
+          <main className="pt-[80px] sm:pt-[96px]">{children}</main>
           <Footer />
           <FloatingButton />
         </div>

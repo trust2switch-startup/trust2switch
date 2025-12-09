@@ -9,8 +9,8 @@ export const Hero: React.FC = () => {
   const [isCallbackModalOpen, setIsCallbackModalOpen] = useState(false);
 
   return (
-    <section id="hero" className="pt-4 sm:pt-8 relative bg-slate-900 overflow-hidden min-h-[500px] sm:min-h-[600px] flex items-center" style={{ scrollMarginTop: '120px' }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-8 sm:py-12 grid md:grid-cols-2 gap-8 sm:gap-12 items-center">
+    <section id="hero" className="relative bg-slate-900 overflow-hidden min-h-[500px] sm:min-h-[600px] flex items-center" style={{ scrollMarginTop: '120px' }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-12 sm:py-16 lg:py-20 grid md:grid-cols-2 gap-8 sm:gap-12 items-center">
         {/* Left Side: Slogan & CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -24,7 +24,7 @@ export const Hero: React.FC = () => {
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-4 sm:mb-6">
             Trust Your Transition. <span className="text-[#84994F]">Switch to Success.</span>
           </h1>
-          <p className="mb-6 sm:mb-8 max-w-md mx-auto md:mx-0 text-sm sm:text-base text-slate-300">
+          <p className="mb-6 sm:mb-8 max-w-md mx-auto md:mx-0 text-xs sm:text-sm md:text-base text-slate-300">
             Acquire in-demand skills, build industry-level portfolios, and land your dream job with 1-on-1 mentorship.
           </p>
           

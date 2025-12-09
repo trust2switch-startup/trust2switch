@@ -21,7 +21,7 @@ export const IndustryProjects: React.FC = () => {
   ];
 
   return (
-    <section className="relative py-20 sm:py-24 overflow-hidden bg-[#0B0F17]">
+    <section className="relative py-12 sm:py-16 lg:py-20 overflow-hidden bg-[#0B0F17]">
       {/* Dynamic Background */}
       <div className="absolute inset-0 w-full h-full">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-red-600/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 animate-pulse" />
@@ -43,7 +43,7 @@ export const IndustryProjects: React.FC = () => {
               Level Up Your Career
             </div> */}
 
-            <h2 className="text-xl sm:text-2xl lg:text-4xl font-bold text-white leading-tight mb-6">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight mb-4 sm:mb-6">
               Already Skilled but <span className="text-red-600">Missing</span> <br />
               <span className="text-red-600">
                 Industry-Grade Projects
@@ -62,7 +62,7 @@ export const IndustryProjects: React.FC = () => {
               portfolio, and boost job placement opportunities.
             </p> */}
 
-            <div className="space-y-4 mb-10">
+            <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8 lg:mb-10">
               {benefits.map((benefit, index) => (
                 <motion.div
                   key={index}
@@ -75,7 +75,7 @@ export const IndustryProjects: React.FC = () => {
                   <div className="flex-shrink-0 w-6 h-6 rounded-full bg-emerald-500/10 flex items-center justify-center">
                     <CheckCircle2 className="w-4 h-4 text-red-600" />
                   </div>
-                  <span className="text-slate-300 font-medium">
+                  <span className="text-sm sm:text-base text-slate-300 font-medium">
                     {benefit.text}
                   </span>
                 </motion.div>
