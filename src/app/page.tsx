@@ -18,9 +18,9 @@ export default function Home() {
     <>
       <Hero />
       <KeyHighlights />
+      <CareerAdviceSection />
       <PlatformRatings />
       <IndustryProjects />
-      <CareerAdviceSection />
       <CourseSections />
       <Testimonials />
     </>

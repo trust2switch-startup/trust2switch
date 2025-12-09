@@ -46,7 +46,7 @@ export const KeyHighlights: React.FC = () => {
           transition={{ duration: 0.4 }}
           className="text-center mb-5"
         >
-          <h2 className="text-xl md:text-2xl font-heading font-bold text-slate-900">
+          <h2 className="text-2xl md:text-3xl font-heading font-bold text-slate-900">
             Our Pillars of Success
           </h2>
         </motion.div>

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, ArrowRight } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import { content } from '@/config/content';
 import { CareerAdviceModal } from '@/components/booking/CareerAdviceModal';
 
@@ -11,51 +11,64 @@ export const CareerAdviceSection: React.FC = () => {
     const { headline, content: description, ctaPrimary, ctaSecondary } = content.home.careerAdvice;
 
     return (
-        <section className="py-24 bg-slate-900 relative overflow-hidden">
-            {/* Background Gradients */}
+        <section className="py-10 md:py-12 bg-gradient-to-br from-[#435663] via-indigo-950/30 to-[#435663] relative overflow-hidden">
+            {/* Animated background glow */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-indigo-500/20 rounded-full blur-[120px]" />
-                <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-purple-500/20 rounded-full blur-[120px]" />
+                <motion.div
+                    animate={{
+                        scale: [1, 1.2, 1],
+                        opacity: [0.3, 0.5, 0.3],
+                    }}
+                    transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                    }}
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl"
+                />
             </div>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="max-w-4xl mx-auto"
+                    transition={{ duration: 0.6 }}
+                    className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-sm border border-indigo-500/20 rounded-xl p-6 md:p-8 shadow-2xl shadow-indigo-500/10"
                 >
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 mb-8">
-                        <Sparkles className="w-4 h-4 text-indigo-400" />
-                        <span className="text-sm font-semibold tracking-wide uppercase">Free Career Consultation</span>
-                    </div>
+                    <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
+                        {/* Content */}
+                        <div className="flex-1 text-center md:text-left space-y-3">
+                            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 text-xs font-semibold mb-2">
+                                <Sparkles className="w-3 h-3" />
+                                <span>FREE</span>
+                            </div>
+                            <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-white leading-tight">
+                                {headline}
+                            </h2>
+                            <p className="text-sm md:text-base text-slate-300 leading-relaxed">
+                                {description}
+                            </p>
+                        </div>
 
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-8 text-white tracking-tight leading-tight">
-                        {headline}
-                    </h2>
-                    <p className="text-lg md:text-xl text-slate-300 mb-12 leading-relaxed max-w-3xl mx-auto">
-                        {description}
-                    </p>
-
-                    <div className="flex flex-col items-center gap-6">
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => setIsModalOpen(true)}
-                            className="group relative bg-white text-slate-900 text-xl font-bold px-12 py-5 rounded-full shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_-15px_rgba(255,255,255,0.4)] flex items-center gap-3 transform transition-all"
-                        >
-                            <span className="relative z-10">{ctaPrimary}</span>
-                            <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform relative z-10" />
-                            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-50 to-white opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </motion.button>
-
-                        <button
-                            onClick={() => setIsModalOpen(true)}
-                            className="text-slate-400 hover:text-white text-sm font-medium border-b border-dashed border-slate-600 hover:border-white pb-0.5 transition-all"
-                        >
-                            {ctaSecondary}
-                        </button>
+                        {/* CTA */}
+                        <div className="flex-shrink-0">
+                            <motion.button
+                                whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(132,153,79,0.5)" }}
+                                whileTap={{ scale: 0.95 }}
+                                onClick={() => setIsModalOpen(true)}
+                                className="group relative bg-gradient-to-r from-[rgba(132,153,79,1)] to-[rgba(132,153,79,1)] hover:from-[rgba(132,153,79,1)] hover:to-[rgba(132,153,79,0.8)] text-white font-semibold px-8 py-3.5 rounded-lg shadow-lg shadow-[rgba(132,153,79,0.4)] flex items-center gap-2 transition-all duration-200 whitespace-nowrap"
+                            >
+                                <span>{ctaPrimary} Career Advice</span>
+                                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                            </motion.button>
+                            <button
+                                onClick={() => setIsModalOpen(true)}
+                                className="mt-2 text-xs text-slate-400 hover:text-[rgba(132,153,79,1.0)] transition-colors block w-full text-center"
+                            >
+                                {ctaSecondary}
+                            </button>
+                        </div>
                     </div>
                 </motion.div>
             </div>

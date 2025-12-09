@@ -147,7 +147,7 @@ export const CourseSections: React.FC = () => {
                     }, 100);
                   }
                 }}
-                className="group relative inline-flex items-center gap-2 text-indigo-600 border-2 border-indigo-600 hover:bg-gradient-to-r hover:from-indigo-600 hover:to-indigo-700 hover:text-white hover:border-transparent font-semibold py-3 px-8 rounded-full transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-indigo-300 shadow-md hover:shadow-lg transform hover:scale-105"
+                className="group relative inline-flex items-center gap-2 text-[#435663] border-2 border-[#435663] hover:bg-gradient-to-r hover:bg-[#435663] hover:text-white hover:border-transparent font-semibold py-3 px-8 rounded-full transition-all duration-300 focus:outline-none shadow-md hover:shadow-lg transform hover:scale-105"
               >
                 <span>{showMore ? 'View Less' : 'View More Courses'}</span>
                 <span className={`transition-transform duration-300 ${showMore ? 'rotate-180' : ''}`}>
