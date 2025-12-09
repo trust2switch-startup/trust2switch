@@ -25,9 +25,39 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
     };
   }
 
+  const url = `${content.site.url}/blog/${post.slug}`;
+
   return {
     title: `${post.title} | ${content.site.name}`,
     description: post.excerpt,
+    keywords: post.tags,
+    authors: [{ name: post.author.name }],
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      url,
+      type: 'article',
+      publishedTime: post.publishedAt,
+      authors: [post.author.name],
+      tags: post.tags,
+      images: [
+        {
+          url: post.image,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt,
+      images: [post.image],
+    },
+    alternates: {
+      canonical: url,
+    },
   };
 }
 
@@ -48,8 +78,42 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
     .filter((p) => p.id !== post.id && p.category === post.category)
     .slice(0, 3);
 
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.excerpt,
+    image: post.image,
+    datePublished: post.publishedAt,
+    author: {
+      '@type': 'Person',
+      name: post.author.name,
+      jobTitle: post.author.role,
+      image: post.author.image,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: content.site.name,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${content.site.url}/trust2switch_logo.jpg`,
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${content.site.url}/blog/${post.slug}`,
+    },
+    keywords: post.tags.join(', '),
+    articleSection: post.category,
+  };
+
   return (
-    <div className="min-h-screen bg-slate-50">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <div className="min-h-screen bg-slate-50">
       {/* Header */}
       <section className="bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
@@ -204,6 +268,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         </div>
       </section>
     </div>
+    </>
   );
 }
 

@@ -20,8 +20,81 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: content.site.name,
+  metadataBase: new URL(content.site.url),
+  title: {
+    default: content.site.name,
+    template: `%s | ${content.site.name}`,
+  },
   description: content.site.description,
+  keywords: [
+    'career switch',
+    'online courses',
+    'edtech',
+    'professional development',
+    'career transition',
+    'skill development',
+    'web development courses',
+    'data science courses',
+    'coding bootcamp',
+    'online learning',
+    'career coaching',
+    'job placement',
+    'mentorship',
+    'portfolio building',
+    'tech careers',
+  ],
+  authors: [{ name: content.site.name }],
+  creator: content.site.name,
+  publisher: content.site.name,
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: content.site.url,
+    siteName: content.site.name,
+    title: content.site.name,
+    description: content.site.description,
+    images: [
+      {
+        url: `${content.site.url}/trust2switch_logo.jpg`,
+        width: 1200,
+        height: 630,
+        alt: content.site.name,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: content.site.name,
+    description: content.site.description,
+    images: [`${content.site.url}/trust2switch_logo.jpg`],
+    creator: '@trust2switch',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    // Add your verification codes here when available
+    // google: 'your-google-verification-code',
+    // yandex: 'your-yandex-verification-code',
+    // yahoo: 'your-yahoo-verification-code',
+  },
+  alternates: {
+    canonical: content.site.url,
+  },
+  category: 'education',
 };
 
 export const viewport: Viewport = {
@@ -35,8 +108,34 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const organizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'EducationalOrganization',
+    name: content.site.name,
+    description: content.site.description,
+    url: content.site.url,
+    logo: `${content.site.url}/trust2switch_logo.jpg`,
+    contactPoint: {
+      '@type': 'ContactPoint',
+      email: 'hello@trust2switch.com',
+      contactType: 'Customer Service',
+    },
+    sameAs: [
+      // Add your social media URLs here
+      // 'https://twitter.com/trust2switch',
+      // 'https://linkedin.com/company/trust2switch',
+      // 'https://facebook.com/trust2switch',
+    ],
+  };
+
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+      </head>
       <body className={`${inter.variable} ${poppins.variable} font-sans antialiased`}>
         <div style={{
           '--color-primary-50': theme.colors.primary[50],
