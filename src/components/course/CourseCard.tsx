@@ -46,8 +46,8 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
         </div>
         <CardContent className="flex-1 flex flex-col">
           <div className="mb-4">
-            <Badge variant="default" className="mb-2 bg-indigo-100 text-indigo-700">{course.category}</Badge>
-            <h3 className="text-xl font-semibold text-slate-900 mb-2 line-clamp-2">
+            <Badge variant="default" className="mb-2 bg-[#84994F]/10 text-[#84994F] border border-[#84994F]/20">{course.category}</Badge>
+            <h3 className="text-xl font-semibold text-slate-900 mb-2 line-clamp-2 group-hover:text-[#84994F] transition-colors">
               {course.title}
             </h3>
             <p className="text-slate-600 text-sm mb-4 line-clamp-2">
@@ -73,7 +73,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
           <div className="mt-auto pt-4 border-t border-slate-200">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-baseline gap-2">
-                <span className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-orange-500 bg-clip-text text-transparent">
+                <span className="text-2xl font-bold text-[#84994F]">
                   {formatPrice(course.price)}
                 </span>
                 {course.originalPrice && (
@@ -91,7 +91,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
                 trackButtonClick('view_course_details', 'course_card');
               }}
             >
-              <Button variant="primary" className="w-full hover:scale-105 transition-transform bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-600 text-white shadow-lg">
+              <Button variant="primary" className="w-full hover:scale-105 transition-transform bg-[#84994F] hover:bg-[#6d7f42] text-white shadow-lg">
                 View Details
               </Button>
             </Link>

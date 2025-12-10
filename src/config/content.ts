@@ -119,13 +119,37 @@ export const content = {
   courses: {
     title: 'All Courses',
     subtitle: 'Browse our comprehensive catalog of courses',
-    filter: {
-      all: 'All Courses',
-      category: 'Category',
-      level: 'Level',
-      sort: 'Sort By',
+    header: {
+      badge: 'Explore Our Courses',
     },
-    empty: 'No courses found',
+    search: {
+      placeholder: 'Search courses by title, description, or tags...',
+    },
+    filter: {
+      label: 'Filters:',
+      level: 'Level:',
+      sort: 'Sort:',
+      clearAll: 'Clear All',
+      activeFilters: 'Active filters:',
+      searchPrefix: 'Search:',
+      sortOptions: {
+        popular: 'Most Popular',
+        rating: 'Highest Rated',
+        priceLow: 'Price: Low to High',
+        priceHigh: 'Price: High to Low',
+      },
+    },
+    results: {
+      found: 'Found',
+      course: 'Course',
+      courses: 'Courses',
+      showingResults: 'Showing results for your selected filters',
+    },
+    empty: {
+      title: 'No courses found',
+      message: "We couldn't find any courses matching your criteria. Try adjusting your filters.",
+      clearFilters: 'Clear All Filters',
+    },
     viewDetails: 'View Details',
     enroll: 'Enroll Now',
     free: 'Free',
