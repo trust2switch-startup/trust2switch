@@ -1,0 +1,39 @@
+[
+  {
+    "title": "Mathematics",
+    "description": "Algebra, Calculus, Geometry",
+    "icon": "Calculator",
+    "slug": "mathematics"
+  },
+  {
+    "title": "Physics",
+    "description": "Mechanics, Optics, Modern Physics",
+    "icon": "Atom",
+    "slug": "physics"
+  },
+  {
+    "title": "Chemistry",
+    "description": "Organic, Inorganic, Physical",
+    "icon": "FlaskConical",
+    "slug": "chemistry"
+  },
+  {
+    "title": "Programming",
+    "description": "Python, C++, Java for Beginners",
+    "icon": "Laptop",
+    "slug": "programming-for-beginners"
+  },
+  {
+    "title": "English",
+    "description": "Grammar, Literature, Essay Writing",
+    "icon": "BookMarked",
+    "slug": "english"
+  },
+  {
+    "title": "Regular Subjects",
+    "description": "History, Geography, Biology",
+    "icon": "BookOpen",
+    "slug": "regular-subjects"
+  }
+]
+

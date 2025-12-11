@@ -1,0 +1,75 @@
+[
+  {
+    "title": "Full Stack Development",
+    "description": "Master front-end & back-end technologies (MERN/MEAN) with real-time projects.",
+    "icon": "Code",
+    "slug": "full-stack-web-development"
+  },
+  {
+    "title": "Data Science & ML",
+    "description": "Become an expert in Python, statistics, and advanced modeling algorithms.",
+    "icon": "BarChart3",
+    "slug": "data-science-mastery"
+  },
+  {
+    "title": "Generative AI",
+    "description": "Build applications using LLMs, prompt engineering, and Gen AI frameworks.",
+    "icon": "Sparkles",
+    "slug": "generative-ai"
+  },
+  {
+    "title": "Cloud Computing",
+    "description": "Achieve certification in leading cloud infrastructure platforms like AWS & Azure.",
+    "icon": "Cloud",
+    "slug": "cloud-computing-aws"
+  },
+  {
+    "title": "DevOps & CI/CD",
+    "description": "Jenkins, Docker, Kubernetes, and continuous deployment practices.",
+    "icon": "Settings",
+    "slug": "devops-cicd"
+  },
+  {
+    "title": "UI/UX Design",
+    "description": "Figma mastery, design thinking, and user research methodologies.",
+    "icon": "Palette",
+    "slug": "ux-ui-design-bootcamp"
+  },
+  {
+    "title": "Web Fundamentals",
+    "description": "HTML, CSS, & JavaScript. Foundation building blocks for web careers.",
+    "icon": "Globe",
+    "slug": "web-fundamentals"
+  },
+  {
+    "title": "SQL & Databases",
+    "description": "Essential skills for data analysis, query optimization and backend development.",
+    "icon": "Database",
+    "slug": "sql-databases"
+  },
+  {
+    "title": "Python Fundamentals",
+    "description": "Core programming and scripting for automation and data handling.",
+    "icon": "Code",
+    "slug": "python-fundamentals"
+  },
+  {
+    "title": "Java & Spring Boot",
+    "description": "Enterprise application development and object-oriented design.",
+    "icon": "Briefcase",
+    "slug": "java-spring-boot"
+  },
+  {
+    "title": "Excel Mastery",
+    "description": "Advanced analysis, pivots, and automation with VBA for business.",
+    "icon": "FileText",
+    "slug": "excel-mastery"
+  },
+  {
+    "title": "Artificial Intelligence",
+    "description": "Deep learning and computer vision specialization.",
+    "icon": "Brain",
+    "slug": "artificial-intelligence"
+  }
+]
+
