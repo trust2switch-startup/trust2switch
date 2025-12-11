@@ -102,15 +102,15 @@ export const footerConfig: FooterConfig = {
     links: [
       {
         label: 'Privacy Policy',
-        href: '#',
+        href: '/privacy',
       },
       {
         label: 'Terms & Conditions',
-        href: '#',
+        href: '/terms',
       },
       {
         label: 'Refund Policy',
-        href: '#',
+        href: '/refund',
       },
       {
         label: 'Career Assistance T&C',
