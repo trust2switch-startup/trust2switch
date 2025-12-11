@@ -50,6 +50,72 @@ import {
   GitBranch,
   Package,
 } from "lucide-react";
+import {
+  SiPython,
+  SiTensorflow,
+  SiPytorch,
+  SiMysql,
+  SiPostgresql,
+  SiMongodb,
+  SiGithub,
+  SiReact,
+  SiNodedotjs,
+  SiExpress,
+  SiTypescript,
+  SiDocker,
+  SiKubernetes,
+  SiJenkins,
+  SiTerraform,
+  SiLinux,
+  SiFigma,
+  SiAdobexd,
+  SiSketch,
+  SiGoogleads,
+  SiFacebook,
+  SiGoogleanalytics,
+  SiOpenjdk,
+  SiSpring,
+  SiCplusplus,
+  SiJavascript,
+  SiHtml5,
+  SiCss3,
+  SiRedux,
+  SiFirebase,
+  SiGraphql,
+  SiGit,
+  SiPandas,
+  SiNumpy,
+  SiJupyter,
+  SiScikitlearn,
+  SiApachespark,
+  SiTableau,
+  SiGo,
+  SiRust,
+  SiSwift,
+  SiKotlin,
+  SiPhp,
+  SiRuby,
+  SiScala,
+  SiElixir,
+  SiVuedotjs,
+  SiAngular,
+  SiSvelte,
+  SiNextdotjs,
+  SiNuxtdotjs,
+  SiTailwindcss,
+  SiBootstrap,
+  SiSass,
+  SiLess,
+  SiWebpack,
+  SiVite,
+  SiNpm,
+  SiYarn,
+  SiPostman,
+  SiJira,
+  SiConfluence,
+  SiSlack,
+  SiNotion,
+} from "react-icons/si";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { Card, CardContent } from "@/components/ui/Card";
@@ -154,6 +220,183 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
       Package,
     };
     return iconMap[iconName] || Code2; // Default to Code2 if icon not found
+  };
+
+  // Brand icon mapping function for skills - maps skill names to real brand icons with colors
+  const getBrandIcon = (skillName: string) => {
+    const brandIconMap: Record<string, React.ComponentType<any>> = {
+      // Programming Languages
+      Python: SiPython,
+      'Python Programming': SiPython,
+      Java: SiOpenjdk,
+      'Java Programming': SiOpenjdk,
+      JavaScript: SiJavascript,
+      TypeScript: SiTypescript,
+      'C++': SiCplusplus,
+      Cpp: SiCplusplus,
+      Go: SiGo,
+      Rust: SiRust,
+      Swift: SiSwift,
+      Kotlin: SiKotlin,
+      PHP: SiPhp,
+      Ruby: SiRuby,
+      Scala: SiScala,
+      Elixir: SiElixir,
+      
+      // Web Technologies
+      React: SiReact,
+      'React.js': SiReact,
+      'React Native': SiReact,
+      'Node.js': SiNodedotjs,
+      Nodejs: SiNodedotjs,
+      Express: SiExpress,
+      'Express.js': SiExpress,
+      HTML: SiHtml5,
+      HTML5: SiHtml5,
+      CSS: SiCss3,
+      CSS3: SiCss3,
+      Vue: SiVuedotjs,
+      Angular: SiAngular,
+      Svelte: SiSvelte,
+      'Next.js': SiNextdotjs,
+      Nextjs: SiNextdotjs,
+      Nuxt: SiNuxtdotjs,
+      Tailwind: SiTailwindcss,
+      'Tailwind CSS': SiTailwindcss,
+      Bootstrap: SiBootstrap,
+      Sass: SiSass,
+      Less: SiLess,
+      Webpack: SiWebpack,
+      Vite: SiVite,
+      NPM: SiNpm,
+      Yarn: SiYarn,
+      
+      // Databases
+      SQL: SiMysql,
+      MySQL: SiMysql,
+      PostgreSQL: SiPostgresql,
+      MongoDB: SiMongodb,
+      
+      // Cloud & DevOps
+      AWS: Cloud,
+      'Amazon AWS': Cloud,
+      Docker: SiDocker,
+      Kubernetes: SiKubernetes,
+      Terraform: SiTerraform,
+      Jenkins: SiJenkins,
+      Linux: SiLinux,
+      
+      // Data Science & ML
+      TensorFlow: SiTensorflow,
+      PyTorch: SiPytorch,
+      Pandas: SiPandas,
+      NumPy: SiNumpy,
+      Jupyter: SiJupyter,
+      'Jupyter Notebook': SiJupyter,
+      'Scikit-learn': SiScikitlearn,
+      ScikitLearn: SiScikitlearn,
+      'Apache Spark': SiApachespark,
+      Spark: SiApachespark,
+      'Power BI': SiTableau,
+      PowerBI: SiTableau,
+      Tableau: SiTableau,
+      Excel: BarChart3,
+      'Machine Learning': SiTensorflow,
+      'Deep Learning': SiPytorch,
+      'Data Analytics': SiTableau,
+      Statistics: SiNumpy,
+      
+      // Design Tools
+      Figma: SiFigma,
+      'Adobe XD': SiAdobexd,
+      Sketch: SiSketch,
+      
+      // Version Control
+      GitHub: SiGithub,
+      Git: SiGit,
+      
+      // Other Tools
+      Redux: SiRedux,
+      Firebase: SiFirebase,
+      GraphQL: SiGraphql,
+      Postman: SiPostman,
+      Jira: SiJira,
+      Confluence: SiConfluence,
+      Slack: SiSlack,
+      Notion: SiNotion,
+      
+      // Marketing
+      'Google Ads': SiGoogleads,
+      'Facebook Ads': SiFacebook,
+      Analytics: SiGoogleanalytics,
+      'Google Analytics': SiGoogleanalytics,
+      
+      // Cloud Computing
+      'Cloud Computing': Cloud,
+    };
+    
+    // Try exact match first
+    if (brandIconMap[skillName]) {
+      return brandIconMap[skillName];
+    }
+    
+    // Try case-insensitive match
+    const lowerSkillName = skillName.toLowerCase();
+    for (const [key, Icon] of Object.entries(brandIconMap)) {
+      if (key.toLowerCase() === lowerSkillName) {
+        return Icon;
+      }
+    }
+    
+    // Try partial match for common patterns
+    if (lowerSkillName.includes('python')) return SiPython;
+    if (lowerSkillName.includes('react')) return SiReact;
+    if (lowerSkillName.includes('node')) return SiNodedotjs;
+    if (lowerSkillName.includes('aws') || lowerSkillName.includes('amazon')) return Cloud;
+    if (lowerSkillName.includes('docker')) return SiDocker;
+    if (lowerSkillName.includes('kubernetes') || lowerSkillName.includes('k8s')) return SiKubernetes;
+    if (lowerSkillName.includes('tensorflow')) return SiTensorflow;
+    if (lowerSkillName.includes('pytorch')) return SiPytorch;
+    if (lowerSkillName.includes('power bi') || lowerSkillName.includes('powerbi')) return SiTableau;
+    if (lowerSkillName.includes('github')) return SiGithub;
+    if (lowerSkillName.includes('git') && !lowerSkillName.includes('github')) return SiGit;
+    if (lowerSkillName.includes('mysql') || (lowerSkillName.includes('sql') && !lowerSkillName.includes('postgres'))) return SiMysql;
+    if (lowerSkillName.includes('postgres')) return SiPostgresql;
+    if (lowerSkillName.includes('mongodb') || lowerSkillName.includes('mongo')) return SiMongodb;
+    if (lowerSkillName.includes('figma')) return SiFigma;
+    if (lowerSkillName.includes('java') && !lowerSkillName.includes('javascript') && !lowerSkillName.includes('script')) return SiOpenjdk;
+    if (lowerSkillName.includes('typescript') || lowerSkillName.includes('ts ')) return SiTypescript;
+    if (lowerSkillName.includes('express')) return SiExpress;
+    if (lowerSkillName.includes('redux')) return SiRedux;
+    if (lowerSkillName.includes('firebase')) return SiFirebase;
+    if (lowerSkillName.includes('graphql')) return SiGraphql;
+    if (lowerSkillName.includes('terraform')) return SiTerraform;
+    if (lowerSkillName.includes('jenkins')) return SiJenkins;
+    if (lowerSkillName.includes('linux')) return SiLinux;
+    if (lowerSkillName.includes('pandas')) return SiPandas;
+    if (lowerSkillName.includes('numpy') || lowerSkillName.includes('num py')) return SiNumpy;
+    if (lowerSkillName.includes('jupyter')) return SiJupyter;
+    if (lowerSkillName.includes('scikit') || lowerSkillName.includes('sklearn')) return SiScikitlearn;
+    if (lowerSkillName.includes('spark') && lowerSkillName.includes('apache')) return SiApachespark;
+    if (lowerSkillName.includes('tableau')) return SiTableau;
+    if (lowerSkillName.includes('excel')) return BarChart3;
+    if (lowerSkillName.includes('machine learning') || lowerSkillName.includes('ml ')) return SiTensorflow;
+    if (lowerSkillName.includes('deep learning') || lowerSkillName.includes('dl ')) return SiPytorch;
+    if (lowerSkillName.includes('data analytics') || lowerSkillName.includes('analytics')) return SiTableau;
+    if (lowerSkillName.includes('statistics') || lowerSkillName.includes('stats')) return SiNumpy;
+    if (lowerSkillName.includes('cloud')) return Cloud;
+    if (lowerSkillName.includes('vue')) return SiVuedotjs;
+    if (lowerSkillName.includes('angular')) return SiAngular;
+    if (lowerSkillName.includes('next.js') || lowerSkillName.includes('nextjs')) return SiNextdotjs;
+    if (lowerSkillName.includes('tailwind')) return SiTailwindcss;
+    if (lowerSkillName.includes('bootstrap')) return SiBootstrap;
+    if (lowerSkillName.includes('sass') && !lowerSkillName.includes('pass')) return SiSass;
+    if (lowerSkillName.includes('webpack')) return SiWebpack;
+    if (lowerSkillName.includes('vite')) return SiVite;
+    if (lowerSkillName.includes('postman')) return SiPostman;
+    
+    // Default fallback to a generic icon
+    return Code2;
   };
 
   const courseSchema = {
@@ -661,15 +904,15 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
                       </h2>
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
                 {skills.map((skill, index) => {
-                  const SkillIcon = getIcon(skill.icon);
+                  const BrandIcon = getBrandIcon(skill.name);
                   return (
                     <Card
                       key={index}
                       className="border-2 border-slate-200 hover:border-[#84994F] transition-all bg-white hover:shadow-md"
                     >
                       <CardContent className="p-4 sm:p-5 text-center flex flex-col items-center gap-2 sm:gap-3">
-                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-[#84994F]/10 to-[#435663]/10 rounded-lg flex items-center justify-center">
-                          <SkillIcon className="w-5 h-5 sm:w-6 sm:h-6 text-[#84994F]" />
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full">
+                          <BrandIcon className="w-8 h-8 sm:w-10 sm:h-10" />
                         </div>
                         <div className="text-xs sm:text-sm font-semibold text-slate-900">
                           {skill.name}

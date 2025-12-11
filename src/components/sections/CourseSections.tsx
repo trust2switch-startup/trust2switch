@@ -4,35 +4,44 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Code, Database, Brain, Cloud, Settings, Palette, Globe, FileText, Briefcase, BarChart3, Sparkles } from 'lucide-react';
 import { BookOpen, Calculator, Atom, FlaskConical, Laptop, BookMarked } from 'lucide-react';
+import professionalCoursesData from '@/config/professionalCourses.json';
+import schoolSubjectsData from '@/config/schoolSubjects.json';
 
-const professionalCourses = [
-  { title: 'Full Stack Development', description: 'Master front-end & back-end technologies (MERN/MEAN) with real-time projects.', icon: Code },
-  { title: 'Data Science & ML', description: 'Become an expert in Python, statistics, and advanced modeling algorithms.', icon: BarChart3 },
-  { title: 'Generative AI', description: 'Build applications using LLMs, prompt engineering, and Gen AI frameworks.', icon: Sparkles },
-  { title: 'Cloud Computing', description: 'Achieve certification in leading cloud infrastructure platforms like AWS & Azure.', icon: Cloud },
-  { title: 'DevOps & CI/CD', description: 'Jenkins, Docker, Kubernetes, and continuous deployment practices.', icon: Settings },
-  { title: 'UI/UX Design', description: 'Figma mastery, design thinking, and user research methodologies.', icon: Palette },
-  { title: 'Web Fundamentals', description: 'HTML, CSS, & JavaScript. Foundation building blocks for web careers.', icon: Globe },
-  { title: 'SQL & Databases', description: 'Essential skills for data analysis, query optimization and backend development.', icon: Database },
-  { title: 'Python Fundamentals', description: 'Core programming and scripting for automation and data handling.', icon: Code },
-  { title: 'Java & Spring Boot', description: 'Enterprise application development and object-oriented design.', icon: Briefcase },
-  { title: 'Excel Mastery', description: 'Advanced analysis, pivots, and automation with VBA for business.', icon: FileText },
-  { title: 'Artificial Intelligence', description: 'Deep learning and computer vision specialization.', icon: Brain },
-];
+// Icon mapping
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  Code,
+  Database,
+  Brain,
+  Cloud,
+  Settings,
+  Palette,
+  Globe,
+  FileText,
+  Briefcase,
+  BarChart3,
+  Sparkles,
+  Calculator,
+  Atom,
+  FlaskConical,
+  Laptop,
+  BookMarked,
+  BookOpen,
+};
 
-const schoolSubjects = [
-  { title: 'Mathematics', description: 'Algebra, Calculus, Geometry', icon: Calculator },
-  { title: 'Physics', description: 'Mechanics, Optics, Modern Physics', icon: Atom },
-  { title: 'Chemistry', description: 'Organic, Inorganic, Physical', icon: FlaskConical },
-  { title: 'Programming', description: 'Python, C++, Java for Beginners', icon: Laptop },
-  { title: 'English', description: 'Grammar, Literature, Essay Writing', icon: BookMarked },
-  { title: 'Regular Subjects', description: 'History, Geography, Biology', icon: BookOpen },
-];
+// Map JSON data to include icon components
+const professionalCourses = professionalCoursesData.map((course) => ({
+  ...course,
+  icon: iconMap[course.icon],
+}));
+
+const schoolSubjects = schoolSubjectsData.map((subject) => ({
+  ...subject,
+  icon: iconMap[subject.icon],
+}));
 
 export const CourseSections: React.FC = () => {
   const [showMore, setShowMore] = useState(false);
   const visibleCourses = showMore ? professionalCourses : professionalCourses.slice(0, 8);
-  const hiddenCourses = professionalCourses.slice(8);
 
   return (
     <section id="program-categories" className="py-12 sm:py-16 lg:py-24 bg-slate-50">
@@ -62,45 +71,7 @@ export const CourseSections: React.FC = () => {
               return (
                 <Link
                   key={index}
-                  href="/courses"
-                  className="group"
-                >
-                  <div className="bg-white p-6 rounded-2xl shadow-lg border-2 border-slate-100 transition-all duration-300 transform hover:scale-[1.03] hover:shadow-2xl flex flex-col justify-between h-full min-h-[300px] hover:border-indigo-200 relative overflow-hidden">
-                    {/* Gradient Background on Hover */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 to-indigo-100/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-0"></div>
-                    
-                    {/* Top Icon */}
-                    <div className="relative z-10 mb-4">
-                      <div className="w-14 h-14 bg-[#435663] rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                        <Icon className="w-7 h-7 text-white" />
-                      </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="relative z-10 flex-1">
-                      <h4 className="text-lg font-bold text-slate-900 mb-3 group-hover:text-indigo-900 transition-colors">{course.title}</h4>
-                      <p className="text-sm text-slate-600 leading-relaxed group-hover:text-slate-700 transition-colors">{course.description}</p>
-                    </div>
-
-                    {/* Button */}
-                    <div className="relative z-10 mt-6">
-                      <div className="w-full text-sm font-semibold text-white bg-[#84994F] hover:from-green-500 hover:to-green-600 hover:shadow-lg py-2.5 px-4 rounded-xl transition-all duration-200 text-center group-hover:scale-105">
-                        View Details
-                      </div>
-                    </div>
-
-                    {/* Decorative Corner */}
-                    <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-indigo-500 to-indigo-600 opacity-5 rounded-bl-full"></div>
-                  </div>
-                </Link>
-              );
-            })}
-            {showMore && hiddenCourses.map((course, index) => {
-              const Icon = course.icon;
-              return (
-                <Link
-                  key={`hidden-${index}`}
-                  href="/courses"
+                  href={`/courses/${course.slug}`}
                   className="group"
                 >
                   <div className="bg-white p-4 sm:p-5 lg:p-6 rounded-xl sm:rounded-2xl shadow-lg border-2 border-slate-100 transition-all duration-300 transform hover:scale-[1.03] hover:shadow-2xl flex flex-col justify-between h-full min-h-[260px] sm:min-h-[280px] lg:min-h-[300px] hover:border-indigo-200 relative overflow-hidden">
@@ -122,7 +93,7 @@ export const CourseSections: React.FC = () => {
 
                     {/* Button */}
                     <div className="relative z-10 mt-4 sm:mt-6">
-                      <div className="w-full text-xs sm:text-sm font-semibold text-white bg-#84994F hover:from-green-500 hover:to-green-600 hover:shadow-lg py-2 sm:py-2.5 px-3 sm:px-4 rounded-lg sm:rounded-xl transition-all duration-200 text-center group-hover:scale-105">
+                      <div className="w-full text-xs sm:text-sm font-semibold text-white bg-[#84994F] hover:from-green-500 hover:to-green-600 hover:shadow-lg py-2 sm:py-2.5 px-3 sm:px-4 rounded-lg sm:rounded-xl transition-all duration-200 text-center group-hover:scale-105">
                         View Details
                       </div>
                     </div>
@@ -174,7 +145,7 @@ export const CourseSections: React.FC = () => {
               return (
                 <Link
                   key={index}
-                  href="/courses"
+                  href={`/courses/${subject.slug}`}
                   className="group"
                 >
                   <div className="bg-white p-3 sm:p-4 lg:p-6 text-center rounded-xl sm:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-2 border-slate-100 hover:border-orange-200 flex flex-col justify-between h-full min-h-[180px] sm:min-h-[200px] lg:min-h-[220px] relative overflow-hidden">

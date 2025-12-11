@@ -13,10 +13,48 @@ import {
   Users,
   ChevronDown,
   ShoppingCart,
+  Code,
+  BarChart3,
+  Sparkles,
+  Cloud,
+  Settings,
+  Palette,
+  Globe,
+  Database,
+  Briefcase,
+  FileText,
+  Brain,
+  Laptop,
+  Calculator,
+  Atom,
+  FlaskConical,
+  BookMarked,
+  ArrowRight,
 } from "lucide-react";
 import { CallbackModal } from "@/components/booking/CallbackModal";
 import { trackButtonClick, trackNavigation, trackModalOpen, trackSearch } from "@/lib/analytics";
 import trust2SwitchLogo from "@/app/trust2switch_logo.jpg";
+import professionalCourses from "@/config/professionalCourses.json";
+
+// Icon mapping for courses
+const iconMap: { [key: string]: React.ComponentType<{ className?: string }> } = {
+  Code,
+  BarChart3,
+  Sparkles,
+  Cloud,
+  Settings,
+  Palette,
+  Globe,
+  Database,
+  Briefcase,
+  FileText,
+  Brain,
+  Laptop,
+  Calculator,
+  Atom,
+  FlaskConical,
+  BookMarked,
+};
 
 export const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -24,6 +62,7 @@ export const Header: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
+  const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,6 +71,31 @@ export const Header: React.FC = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (dropdownTimeout) {
+        clearTimeout(dropdownTimeout);
+      }
+    };
+  }, [dropdownTimeout]);
+
+  // Handle dropdown hover with delay to prevent sudden closing
+  const handleMouseEnter = () => {
+    if (dropdownTimeout) {
+      clearTimeout(dropdownTimeout);
+      setDropdownTimeout(null);
+    }
+    setDropdownOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    const timeout = setTimeout(() => {
+      setDropdownOpen(false);
+    }, 200); // 200ms delay before closing
+    setDropdownTimeout(timeout);
+  };
 
   return (
     <>
@@ -85,10 +149,14 @@ export const Header: React.FC = () => {
                 {/* All Courses Dropdown */}
                 <div
                   className="relative group"
-                  onMouseEnter={() => setDropdownOpen(true)}
-                  onMouseLeave={() => setDropdownOpen(false)}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
                 >
-                  <button className="flex items-center gap-1 text-white hover:text-white font-medium text-xs xl:text-sm py-1.5 px-2 xl:px-3 rounded-lg hover:bg-slate-600/50 transition-all duration-200 focus:outline-none">
+                  <Link
+                    href="/courses"
+                    onClick={() => trackNavigation('/courses', 'header')}
+                    className="flex items-center gap-1 text-white hover:text-white font-medium text-xs xl:text-sm py-1.5 px-2 xl:px-3 rounded-lg hover:bg-slate-600/50 transition-all duration-200 focus:outline-none"
+                  >
                     <BookOpen className="w-3 xl:w-3.5 h-3 xl:h-3.5" />
                     <span className="hidden xl:inline">All Courses</span>
                     <span className="xl:hidden">Courses</span>
@@ -97,61 +165,129 @@ export const Header: React.FC = () => {
                         dropdownOpen ? "rotate-180" : ""
                       }`}
                     />
-                  </button>
+                  </Link>
                   {dropdownOpen && (
-                    <div className="absolute z-10 w-72 xl:w-80 mt-2 rounded-xl shadow-2xl bg-white ring-1 ring-black ring-opacity-5 p-3 animate-in fade-in slide-in-from-top-2 duration-200">
-                      <div className="grid grid-cols-2 gap-2">
-                        <div>
-                          <h4 className="text-xs font-bold uppercase text-[#84994F] mb-2 flex items-center gap-1.5">
-                            <GraduationCap className="w-3 h-3" />
-                            Professional Tracks
-                          </h4>
-                          <div className="space-y-1">
-                            <Link
-                              href="/#professional-section"
-                              className="block px-2.5 py-1.5 text-xs text-slate-700 hover:bg-green-50 hover:text-slate-600 rounded-lg transition-colors font-medium"
-                            >
-                              Full Stack Development
-                            </Link>
-                            <Link
-                              href="/#professional-section"
-                              className="block px-2.5 py-1.5 text-xs text-slate-700 hover:bg-green-50 hover:text-slate-600 rounded-lg transition-colors font-medium"
-                            >
-                              Data Science & ML
-                            </Link>
-                            <Link
-                              href="/#professional-section"
-                              className="block px-2.5 py-1.5 text-xs text-slate-700 hover:bg-green-50 hover:text-slate-600 rounded-lg transition-colors font-medium"
-                            >
-                              Generative AI
-                            </Link>
-                            <Link
-                              href="/#professional-section"
-                              className="block px-2.5 py-1.5 text-xs text-slate-700 hover:bg-green-50 hover:text-slate-600 rounded-lg transition-colors font-medium"
-                            >
-                              Cloud (AWS/Azure)
-                            </Link>
-                          </div>
+                    <div 
+                      className="absolute z-10 w-[520px] lg:w-[600px] xl:w-[700px] mt-2 left-0 rounded-2xl shadow-2xl bg-white ring-1 ring-slate-200/50 p-5 lg:p-6 animate-in fade-in slide-in-from-top-2 duration-200"
+                      onMouseEnter={handleMouseEnter}
+                      onMouseLeave={handleMouseLeave}
+                    >
+                      {/* Header */}
+                      <div className="mb-5 pb-4 border-b border-slate-200">
+                        <div className="flex items-center justify-between">
+                          <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                            <BookOpen className="w-5 h-5 text-[#84994F]" />
+                            Browse All Courses
+                          </h3>
+                          <Link
+                            href="/courses"
+                            onClick={() => {
+                              trackNavigation('/courses', 'dropdown');
+                              setDropdownOpen(false);
+                            }}
+                            className="text-sm font-semibold text-[#84994F] hover:text-[#6d7f42] flex items-center gap-1 transition-colors"
+                          >
+                            View All
+                            <ArrowRight className="w-4 h-4" />
+                          </Link>
                         </div>
-                        <div>
-                          <h4 className="text-xs font-bold uppercase text-[#435663] mb-2 flex items-center gap-1.5">
-                            <Users className="w-3 h-3" />
-                            School & Mentorship
-                          </h4>
-                          <div className="space-y-1">
-                            <Link
-                              href="/#school-mentorship"
-                              className="block px-2.5 py-1.5 text-xs text-slate-700 hover:bg-green-50 hover:text-slate-600 rounded-lg transition-colors font-medium"
-                            >
-                              K-12 Subjects
-                            </Link>
-                            <Link
-                              href="/#school-mentorship"
-                              className="block px-2.5 py-1.5 text-xs text-slate-700 hover:bg-green-50 hover:text-slate-600 rounded-lg transition-colors font-medium"
-                            >
-                              Advanced Coding
-                            </Link>
-                          </div>
+                      </div>
+
+                      {/* Professional Courses Section */}
+                      <div className="mb-5">
+                        <h4 className="text-xs font-bold uppercase text-[#84994F] mb-3 flex items-center gap-2 tracking-wider">
+                          <GraduationCap className="w-4 h-4" />
+                          Professional Tracks
+                        </h4>
+                        <div className="grid grid-cols-2 gap-2">
+                          {professionalCourses.slice(0, 8).map((course, index) => {
+                            const IconComponent = iconMap[course.icon] || Code;
+                            return (
+                              <Link
+                                key={index}
+                                href={`/courses/${course.slug}`}
+                                onClick={() => {
+                                  trackNavigation(`/courses/${course.slug}`, 'dropdown');
+                                  setDropdownOpen(false);
+                                }}
+                                className="group flex items-start gap-3 px-3 py-2.5 rounded-lg hover:bg-gradient-to-r hover:from-green-50 hover:to-emerald-50 transition-all duration-200 border border-transparent hover:border-green-100"
+                              >
+                                <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-[#84994F]/10 to-[#84994F]/5 flex items-center justify-center group-hover:from-[#84994F]/20 group-hover:to-[#84994F]/10 transition-colors">
+                                  <IconComponent className="w-4 h-4 text-[#84994F]" />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-sm font-semibold text-slate-900 group-hover:text-[#84994F] transition-colors line-clamp-1">
+                                    {course.title}
+                                  </p>
+                                  <p className="text-xs text-slate-500 line-clamp-1 mt-0.5">
+                                    {course.description}
+                                  </p>
+                                </div>
+                              </Link>
+                            );
+                          })}
+                        </div>
+                        {professionalCourses.length > 8 && (
+                          <Link
+                            href="/#professional-section"
+                            onClick={() => {
+                              trackNavigation('/#professional-section', 'dropdown');
+                              setDropdownOpen(false);
+                            }}
+                            className="mt-3 block text-center text-sm font-medium text-[#84994F] hover:text-[#6d7f42] transition-colors"
+                          >
+                            View All Professional Courses →
+                          </Link>
+                        )}
+                      </div>
+
+                      {/* School & Mentorship Section */}
+                      <div className="pt-4 border-t border-slate-200">
+                        <h4 className="text-xs font-bold uppercase text-[#435663] mb-3 flex items-center gap-2 tracking-wider">
+                          <Users className="w-4 h-4" />
+                          School & Mentorship
+                        </h4>
+                        <div className="grid grid-cols-2 gap-2">
+                          <Link
+                            href="/#school-mentorship"
+                            onClick={() => {
+                              trackNavigation('/#school-mentorship', 'dropdown');
+                              setDropdownOpen(false);
+                            }}
+                            className="group flex items-start gap-3 px-3 py-2.5 rounded-lg hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all duration-200 border border-transparent hover:border-blue-100"
+                          >
+                            <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-[#435663]/10 to-[#435663]/5 flex items-center justify-center group-hover:from-[#435663]/20 group-hover:to-[#435663]/10 transition-colors">
+                              <Laptop className="w-4 h-4 text-[#435663]" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-semibold text-slate-900 group-hover:text-[#435663] transition-colors">
+                                K-12 Subjects
+                              </p>
+                              <p className="text-xs text-slate-500 mt-0.5">
+                                Mathematics, Science, Programming
+                              </p>
+                            </div>
+                          </Link>
+                          <Link
+                            href="/#school-mentorship"
+                            onClick={() => {
+                              trackNavigation('/#school-mentorship', 'dropdown');
+                              setDropdownOpen(false);
+                            }}
+                            className="group flex items-start gap-3 px-3 py-2.5 rounded-lg hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all duration-200 border border-transparent hover:border-blue-100"
+                          >
+                            <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-[#435663]/10 to-[#435663]/5 flex items-center justify-center group-hover:from-[#435663]/20 group-hover:to-[#435663]/10 transition-colors">
+                              <Code className="w-4 h-4 text-[#435663]" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-semibold text-slate-900 group-hover:text-[#435663] transition-colors">
+                                Advanced Coding
+                              </p>
+                              <p className="text-xs text-slate-500 mt-0.5">
+                                Python, C++, Java for Beginners
+                              </p>
+                            </div>
+                          </Link>
                         </div>
                       </div>
                     </div>
@@ -265,8 +401,19 @@ export const Header: React.FC = () => {
                   </div>
 
                   <Link
+                    href="/courses"
+                    className="flex items-center gap-3 px-4 py-3 min-h-[44px] rounded-lg text-sm font-medium text-white hover:bg-slate-700 hover:text-white transition-all"
+                    onClick={() => {
+                      trackNavigation('/courses', 'mobile_menu');
+                      setMobileMenuOpen(false);
+                    }}
+                  >
+                    <BookOpen className="w-4 h-4 flex-shrink-0" />
+                    All Courses
+                  </Link>
+                  <Link
                     href="/#professional-section"
-                    className="flex items-center gap-3 block px-4 py-3 min-h-[44px] rounded-lg text-sm font-medium text-white hover:bg-slate-700 hover:text-white transition-all"
+                    className="flex items-center gap-3 px-4 py-3 min-h-[44px] rounded-lg text-sm font-medium text-white hover:bg-slate-700 hover:text-white transition-all"
                     onClick={() => {
                       trackNavigation('/#professional-section', 'mobile_menu');
                       setMobileMenuOpen(false);
@@ -277,7 +424,7 @@ export const Header: React.FC = () => {
                   </Link>
                   <Link
                     href="/#school-mentorship"
-                    className="flex items-center gap-3 block px-4 py-3 min-h-[44px] rounded-lg text-sm font-medium text-white hover:bg-slate-700 hover:text-white transition-all"
+                    className="flex items-center gap-3 px-4 py-3 min-h-[44px] rounded-lg text-sm font-medium text-white hover:bg-slate-700 hover:text-white transition-all"
                     onClick={() => {
                       trackNavigation('/#school-mentorship', 'mobile_menu');
                       setMobileMenuOpen(false);
@@ -288,7 +435,7 @@ export const Header: React.FC = () => {
                   </Link>
                   <Link
                     href="/blog"
-                    className="flex items-center gap-3 block px-4 py-3 min-h-[44px] rounded-lg text-sm font-medium text-white hover:bg-slate-700 hover:text-white transition-all"
+                    className="flex items-center gap-3 px-4 py-3 min-h-[44px] rounded-lg text-sm font-medium text-white hover:bg-slate-700 hover:text-white transition-all"
                     onClick={() => {
                       trackNavigation('/blog', 'mobile_menu');
                       setMobileMenuOpen(false);
@@ -299,7 +446,7 @@ export const Header: React.FC = () => {
                   </Link>
                   <Link
                     href="/shop"
-                    className="flex items-center gap-3 block px-4 py-3 min-h-[44px] rounded-lg text-sm font-medium text-white hover:bg-slate-700 hover:text-white transition-all"
+                    className="flex items-center gap-3 px-4 py-3 min-h-[44px] rounded-lg text-sm font-medium text-white hover:bg-slate-700 hover:text-white transition-all"
                     onClick={() => {
                       trackNavigation('/shop', 'mobile_menu');
                       setMobileMenuOpen(false);
@@ -310,7 +457,7 @@ export const Header: React.FC = () => {
                   </Link>
                   <Link
                     href="/#footer"
-                    className="flex items-center gap-3 block px-4 py-3 min-h-[44px] rounded-lg text-sm font-medium text-white hover:bg-slate-700 hover:text-white transition-all"
+                    className="flex items-center gap-3 px-4 py-3 min-h-[44px] rounded-lg text-sm font-medium text-white hover:bg-slate-700 hover:text-white transition-all"
                     onClick={() => {
                       trackNavigation('/#footer', 'mobile_menu');
                       setMobileMenuOpen(false);
