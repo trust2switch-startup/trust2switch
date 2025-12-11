@@ -49,6 +49,9 @@ import {
   Lock,
   GitBranch,
   Package,
+  Maximize2,
+  Award,
+  Sparkles,
 } from "lucide-react";
 import {
   SiPython,
@@ -119,6 +122,7 @@ import {
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { Card, CardContent } from "@/components/ui/Card";
+import { Modal } from "@/components/ui/Modal";
 import { BookDemoModal } from "@/components/booking/BookDemoModal";
 import { BookOneOnOneModal } from "@/components/booking/BookOneOnOneModal";
 import { CareerAdviceModal } from "@/components/booking/CareerAdviceModal";
@@ -145,6 +149,7 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
   const [isOneOnOneModalOpen, setIsOneOnOneModalOpen] = useState(false);
   const [isCareerAdviceModalOpen, setIsCareerAdviceModalOpen] = useState(false);
+  const [isCertificateModalOpen, setIsCertificateModalOpen] = useState(false);
   const [expandedWeeks, setExpandedWeeks] = useState<Set<number>>(new Set([0]));
   const [expandedFAQs, setExpandedFAQs] = useState<Set<number>>(new Set());
   const projectsScrollRef = useRef<HTMLDivElement>(null);
@@ -833,65 +838,136 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
 
         {/* Earn Valuable Credentials */}
         {certificate && (
-          <section className="py-8 sm:py-10 lg:py-12 xl:py-16 bg-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-slate-900 mb-6 sm:mb-8">
-                {sections.credentials.title}
-              </h2>
-              <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 items-center">
-                <div>
-                  <p className="text-base sm:text-lg text-slate-700 leading-relaxed">
-                    {sections.credentials.description}
-                  </p>
+          <section className="py-6 sm:py-8 lg:py-10 bg-gradient-to-br from-slate-50 via-white to-slate-50 relative overflow-hidden">
+            {/* Decorative Background Elements */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#84994F]/5 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-[#435663]/5 to-transparent rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+            
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+              {/* Header Section */}
+              <div className="text-center mb-6 sm:mb-8">
+                <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-[#84994F] to-[#6d7f42] rounded-xl mb-3 sm:mb-4 shadow-md">
+                  <Award className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                 </div>
-                <div className="relative">
-                  <Card className="border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-white shadow-xl">
-                  <CardContent className="p-6">
-                      <div className="text-center space-y-4">
-                        <div className="text-xs text-slate-500 text-right">
-                          {certificate.serialNumber}
-                        </div>
-                        <div className="space-y-2">
-                          <div className="text-sm text-slate-600">
-                            {certificate.instituteName}
-                          </div>
-                          <div className="text-xs text-slate-500">
-                            {certificate.instituteSubtitle}
-                          </div>
-                          <div className="text-lg font-bold text-[#435663] mt-4">
-                            {certificate.diplomaTitle}
-                          </div>
-                          <div className="text-sm text-slate-700 mt-4">
-                            {certificate.certificateText}
-                          </div>
-                          <div className="flex justify-between mt-8 pt-4 border-t border-slate-200">
-                            <div className="text-xs text-slate-600">
-                              <div className="font-semibold">
-                                {certificate.directorName}
-                              </div>
-                              <div>{certificate.directorTitle}</div>
-                            </div>
-                            <div className="text-xs text-slate-600">
-                              <div className="font-semibold">
-                                {certificate.deanName}
-                              </div>
-                              <div>{certificate.deanTitle}</div>
-                            </div>
-                          </div>
-                          <div className="text-xs text-slate-500 mt-4 pt-4 border-t border-slate-200">
-                            {certificate.address}
-                          </div>
-                        </div>
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-slate-900 mb-2 sm:mb-3">
+                  {sections.credentials.title}
+                </h2>
+                <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                  {sections.credentials.description}
+                </p>
+              </div>
+
+              {/* Certificate Display Section */}
+              <div className="max-w-4xl mx-auto">
+                {/* Certificate Container */}
+                <div className="flex flex-col items-center">
+                  <div className="relative group w-full max-w-md">
+                    {/* Certificate Container with Enhanced Styling */}
+                    <div className="relative bg-gradient-to-br from-white to-slate-50 rounded-xl sm:rounded-2xl p-3 sm:p-4 lg:p-5 shadow-xl border-2 border-slate-200 hover:border-[#84994F]/50 transition-all duration-300 hover:shadow-2xl">
+                      {/* Decorative Corner Accents */}
+                      <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-[#84994F]/20 rounded-tl-xl"></div>
+                      <div className="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-[#84994F]/20 rounded-tr-xl"></div>
+                      <div className="absolute bottom-0 left-0 w-12 h-12 border-b-2 border-l-2 border-[#84994F]/20 rounded-bl-xl"></div>
+                      <div className="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-[#84994F]/20 rounded-br-xl"></div>
+                      
+                      {/* Certificate Image */}
+                      <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-white shadow-inner border border-slate-100 max-h-[280px] sm:max-h-[320px]">
+                        <Image
+                          src="/Certificate.jpg"
+                          alt="Certificate of Excellence"
+                          fill
+                          className="object-contain p-2 sm:p-3"
+                          priority
+                        />
                       </div>
+
+                      {/* Zoom Button Overlay */}
+                      <button
+                        onClick={() => {
+                          setIsCertificateModalOpen(true);
+                          trackButtonClick("certificate_zoom", "course_detail_page");
+                        }}
+                        className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 bg-white/90 backdrop-blur-sm hover:bg-[#84994F] text-slate-700 hover:text-white rounded-full p-2.5 sm:p-3 shadow-lg hover:shadow-xl transition-all duration-300 group/zoom border-2 border-slate-200 hover:border-[#84994F] z-10"
+                        aria-label="Zoom certificate"
+                      >
+                        <Maximize2 className="w-4 h-4 sm:w-5 sm:h-5 group-hover/zoom:scale-110 transition-transform" />
+                      </button>
+
+                      {/* Hover Indicator */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#84994F]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl pointer-events-none"></div>
+                    </div>
+
+                    {/* Info Badge */}
+                    <div className="mt-3 sm:mt-4 flex items-center justify-center gap-2 text-xs sm:text-sm text-slate-600">
+                      <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-[#84994F]" />
+                      <span>Click the zoom icon to view full size</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Additional Features Grid */}
+                <div className="grid sm:grid-cols-3 gap-3 sm:gap-4 mt-6 sm:mt-8">
+                  <Card className="border-2 border-slate-200 hover:border-[#84994F] transition-all bg-white/80 backdrop-blur-sm">
+                    <CardContent className="p-3 sm:p-4 text-center">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mx-auto mb-2 sm:mb-3 shadow-md">
+                        <FileCheck className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                      </div>
+                      <h3 className="font-heading font-semibold text-slate-900 mb-1 text-xs sm:text-sm">
+                        Industry Recognized
+                      </h3>
+                      <p className="text-xs text-slate-600">
+                        Validated by leading professionals
+                      </p>
                     </CardContent>
                   </Card>
-                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs text-slate-600 flex items-center gap-2 shadow-md">
-                    <span>Q</span>
-                    <span>Click to zoom</span>
-                  </div>
+
+                  <Card className="border-2 border-slate-200 hover:border-[#84994F] transition-all bg-white/80 backdrop-blur-sm">
+                    <CardContent className="p-3 sm:p-4 text-center">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center mx-auto mb-2 sm:mb-3 shadow-md">
+                        <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                      </div>
+                      <h3 className="font-heading font-semibold text-slate-900 mb-1 text-xs sm:text-sm">
+                        Verified Credential
+                      </h3>
+                      <p className="text-xs text-slate-600">
+                        Authenticated and secure
+                      </p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="border-2 border-slate-200 hover:border-[#84994F] transition-all bg-white/80 backdrop-blur-sm">
+                    <CardContent className="p-3 sm:p-4 text-center">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center mx-auto mb-2 sm:mb-3 shadow-md">
+                        <Download className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                      </div>
+                      <h3 className="font-heading font-semibold text-slate-900 mb-1 text-xs sm:text-sm">
+                        Downloadable
+                      </h3>
+                      <p className="text-xs text-slate-600">
+                        Get your digital copy anytime
+                      </p>
+                    </CardContent>
+                  </Card>
                 </div>
               </div>
             </div>
+
+            {/* Certificate Zoom Modal */}
+            <Modal
+              isOpen={isCertificateModalOpen}
+              onClose={() => setIsCertificateModalOpen(false)}
+              size="xl"
+            >
+              <div className="relative w-full aspect-[4/3] bg-gradient-to-br from-slate-50 to-white rounded-lg overflow-hidden border-2 border-slate-200">
+                <Image
+                  src="/Certificate.jpg"
+                  alt="Certificate of Excellence - Full Size"
+                  fill
+                  className="object-contain p-4 sm:p-8"
+                  priority
+                />
+              </div>
+            </Modal>
           </section>
         )}
 
