@@ -278,11 +278,11 @@ export const courses: Course[] = [
     noCostEMIAmount: 'from INR 6,148*',
     admissionDeadlineDate: '15-Dec-2025',
     whoCanApply: [
-      'Graduates eager to launch a career in data-driven roles',
-      'Working professionals seeking growth in analytics or AI fields',
-      'Tech and IT employees wanting to shift into Data Science roles',
-      'Managers aiming to make smarter, data-backed decisions',
-      'Learners who want to build real Data Science projects and a job-ready portfolio',
+      'Graduates eager to launch a career in Data Science & Analytics',
+      'Working professionals seeking growth in data-driven roles',
+      'Software / IT professionals aiming to transition into Data Scientist positions',
+      'Career switchers looking to enter the data, AI, and analytics industry',
+      'Learners who want to build real-world data science projects and a job-ready portfolio',
     ],
     programHighlights: [
       {
@@ -1227,7 +1227,7 @@ export const courses: Course[] = [
   {
     id: '11',
     slug: 'python-fundamentals',
-    title: 'Python Fundamentals',
+    title: 'Advanced Professional Python Course',
     description: 'Core programming and scripting for automation and data handling.',
     longDescription: 'Learn Python programming from scratch. Master core concepts, data structures, and scripting for automation and data handling. Perfect foundation for data science and web development.',
     instructor: {
@@ -1239,7 +1239,7 @@ export const courses: Course[] = [
     image: 'https://images.unsplash.com/photo-1526379095098-d400fd0bf95e?w=800',
     category: 'Programming',
     level: 'Beginner',
-    duration: '10 weeks',
+    duration: '16 weeks',
     price: 18999,
     originalPrice: 32999,
     rating: 4.7,
@@ -1254,11 +1254,11 @@ export const courses: Course[] = [
       'Certificate of completion',
     ],
     bulletPoints: [
-      'Learn Python from scratch',
-      'Master data structures and algorithms',
-      'Build automation scripts',
-      'Foundation for data science',
-      'Hands-on coding exercises',
+      'Become an Industry-Ready Python Professional in 4 Months,
+      'Live Online sessions + mentorship from industry-experts',
+      'Resume building, mock interviews, assignment reviews, and 1:1 placement coaching',
+      'Hands-on with Python logic, data structures, OOP, FastAPI/Flask, and real projects,
+      'Case studies/Projects based on e-commerce, fintech, social media, and SaaS companies',
     ],
     curriculum: [
       {
