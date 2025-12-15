@@ -1254,7 +1254,7 @@ export const courses: Course[] = [
       'Certificate of completion',
     ],
     bulletPoints: [
-      'Become an Industry-Ready Python Professional in 4 Months,
+      'Become an Industry-Ready Python Professional in 4 Months',
       'Live Online sessions + mentorship from industry-experts',
       'Resume building, mock interviews, assignment reviews, and 1:1 placement coaching',
       'Hands-on with Python logic, data structures, OOP, FastAPI/Flask, and real projects,
