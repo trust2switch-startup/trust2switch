@@ -106,7 +106,7 @@ export const courses: Course[] = [
   {
     id: '1',
     slug: 'full-stack-web-development',
-    title: 'Full Stack Web Development',
+    title: 'Full Stack Development',
     description: 'Master modern web development with React, Node.js, and MongoDB. Build real-world applications from scratch.',
     longDescription: 'This comprehensive course takes you from zero to hero in full-stack web development. You\'ll learn React for frontend, Node.js for backend, and MongoDB for database management. By the end, you\'ll have built multiple real-world projects and be ready for a career as a full-stack developer.',
     instructor: {
