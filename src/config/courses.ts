@@ -1272,6 +1272,13 @@ export const courses: Course[] = [
       },
     ],
     tags: ['Python', 'Programming', 'Automation', 'Scripting'],
+    whoCanApply: [
+      'Graduates eager to launch a career in web development',
+      'Working professionals seeking growth in full-stack development',
+      'Frontend/Backend developers wanting to become full-stack engineers',
+      'Career switchers aiming to enter the tech industry',
+      'Learners who want to build real web applications and a job-ready portfolio',
+    ],
   },
   {
     id: '12',
