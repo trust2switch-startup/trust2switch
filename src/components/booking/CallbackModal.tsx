@@ -25,6 +25,7 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -55,15 +56,42 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (validate()) {
+    if (!validate()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    
+    try {
       // Track form submission
       trackFormSubmit('callback_request', {
         preferred_time: formData.preferredTime,
         has_message: !!formData.message,
       });
-      
+
+      // Submit to API
+      const response = await fetch('/api/callback-requests', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          phone: formData.phone.trim(),
+          preferredTime: formData.preferredTime,
+          message: formData.message.trim() || '',
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Failed to submit callback request');
+      }
+
+      // Success - show success message
       setSubmitted(true);
       setTimeout(() => {
         setSubmitted(false);
@@ -75,6 +103,13 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({
         });
         onClose();
       }, 2000);
+    } catch (error: any) {
+      console.error('Error submitting callback request:', error);
+      setErrors({
+        submit: error.message || 'Failed to submit request. Please try again.',
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -166,18 +201,42 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({
           placeholder="Tell us about your career goals or questions..."
         />
 
+        {errors.submit && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+            <p className="text-sm text-red-600">{errors.submit}</p>
+          </div>
+        )}
+
         <div className="flex gap-4 pt-4">
           <Button
             type="button"
             variant="outline"
             onClick={onClose}
             className="flex-1"
+            disabled={isSubmitting}
           >
             Cancel
           </Button>
-          <Button type="submit" variant="primary" className="flex-1 flex items-center justify-center">
-            <Phone className="w-4 h-4 mr-2" />
-            Request Callback
+          <Button 
+            type="submit" 
+            variant="primary" 
+            className="flex-1 flex items-center justify-center"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (
+              <>
+                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Submitting...
+              </>
+            ) : (
+              <>
+                <Phone className="w-4 h-4 mr-2" />
+                Request Callback
+              </>
+            )}
           </Button>
         </div>
       </form>

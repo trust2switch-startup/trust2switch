@@ -1,5 +1,58 @@
 // TypeScript type definitions
 
+export interface ProgramHighlight {
+  icon: string;
+  title: string;
+  description: string;
+  gradient: string;
+}
+
+export interface Project {
+  title: string;
+  description: string;
+}
+
+export interface ComparisonRow {
+  category: string;
+  trust2switch: string;
+  otherCourses: string;
+}
+
+export interface CareerTransition {
+  hike: string;
+  name: string;
+  field: string;
+  previousRole: string;
+  previousCompany: string;
+  newRole: string;
+  newCompany: string;
+  companyLogo: string | null;
+  image: string;
+}
+
+export interface FAQ {
+  question: string;
+  answer: string;
+}
+
+export interface Skill {
+  name: string;
+  icon: string;
+}
+
+export interface Certificate {
+  serialNumber: string;
+  instituteName: string;
+  instituteSubtitle: string;
+  diplomaTitle: string;
+  certificateText: string;
+  directorName: string;
+  directorTitle: string;
+  deanName: string;
+  deanTitle: string;
+  address: string;
+}
+
 export interface Course {
   id: string;
   slug: string;
@@ -23,6 +76,19 @@ export interface Course {
   students: number;
   language: string;
   features: string[];
+  bulletPoints?: string[];
+  brochureDownloadLink?: string;
+  noCostEMIAmount?: string;
+  admissionDeadlineDate?: string;
+  whoCanApply?: string[];
+  programHighlights?: ProgramHighlight[];
+  projects?: Project[];
+  skills?: Skill[];
+  comparisonData?: ComparisonRow[];
+  careerTransitions?: CareerTransition[];
+  faqs?: FAQ[];
+  jobDescriptionsLink?: string;
+  certificate?: Certificate;
   curriculum: {
     week: number;
     title: string;

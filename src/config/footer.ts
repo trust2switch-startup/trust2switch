@@ -113,10 +113,6 @@ export const footerConfig: FooterConfig = {
         href: '/refund',
       },
       {
-        label: 'Career Assistance T&C',
-        href: '#',
-      },
-      {
         label: 'Contact Us',
         href: '/contact',
       },
