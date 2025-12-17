@@ -1,7 +1,7 @@
 // Product model with Mongoose
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
-export interface IProduct extends Document {
+export interface IProduct extends Omit<Document, 'isNew'> {
   sku: string;
   title: string;
   description: string;
@@ -21,7 +21,7 @@ export interface IProduct extends Document {
   fileSize?: string;
   deliveryMethod?: string;
   isPopular?: boolean;
-  isNew?: boolean;
+  isNew: boolean;
   isFeatured?: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -47,6 +47,7 @@ const ProductSchema = new Schema<IProduct>({
   fileSize: { type: String },
   deliveryMethod: { type: String },
   isPopular: { type: Boolean, index: true },
+  // @ts-ignore - isNew conflicts with Document.isNew but we need it as a schema field
   isNew: { type: Boolean, index: true },
   isFeatured: { type: Boolean, index: true },
 }, {

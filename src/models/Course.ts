@@ -73,7 +73,7 @@ export interface IInstructor {
   bio: string;
 }
 
-export interface ICourse extends Document {
+export interface ICourse extends Omit<Document, 'isNew'> {
   slug: string;
   title: string;
   description: string;
@@ -106,7 +106,7 @@ export interface ICourse extends Document {
   curriculum: ICurriculumWeek[];
   tags: string[];
   isPopular?: boolean;
-  isNew?: boolean;
+  isNew: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -216,6 +216,7 @@ const CourseSchema = new Schema<ICourse>({
   curriculum: { type: [CurriculumWeekSchema], required: true },
   tags: { type: [String], default: [], index: true },
   isPopular: { type: Boolean, default: false, index: true },
+  // @ts-ignore - isNew conflicts with Document.isNew but we need it as a schema field
   isNew: { type: Boolean, default: false, index: true },
 }, {
   timestamps: true,

@@ -1,5 +1,5 @@
 // Authentication utilities
-import jwt from 'jsonwebtoken';
+import jwt, { type SignOptions } from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import type { JWTPayload } from './types';
 import { env, requireJwtSecret } from '../env';
@@ -10,7 +10,7 @@ const JWT_EXPIRES_IN = env.JWT_EXPIRES_IN;
 export function generateToken(payload: JWTPayload): string {
   return jwt.sign(payload, JWT_SECRET, {
     expiresIn: JWT_EXPIRES_IN,
-  });
+  } as SignOptions);
 }
 
 export function verifyToken(token: string): JWTPayload | null {

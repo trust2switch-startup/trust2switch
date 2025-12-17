@@ -83,7 +83,13 @@ export const POST = withAuth(async (req) => {
       );
     }
 
-    const course = await courseRepository.create(courseData);
+    // Convert null values to undefined for repository compatibility
+    const cleanCourseData: Record<string, any> = {};
+    for (const [key, value] of Object.entries(courseData)) {
+      cleanCourseData[key] = value === null ? undefined : value;
+    }
+
+    const course = await courseRepository.create(cleanCourseData as any);
 
     return NextResponse.json({
       success: true,

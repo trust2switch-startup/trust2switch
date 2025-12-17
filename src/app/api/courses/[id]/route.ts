@@ -53,8 +53,14 @@ export const PUT = withAuth(async (
     }
 
     const updateData = parsed.data;
+    
+    // Convert null values to undefined for repository compatibility
+    const cleanUpdateData: Record<string, any> = {};
+    for (const [key, value] of Object.entries(updateData)) {
+      cleanUpdateData[key] = value === null ? undefined : value;
+    }
 
-    const course = await courseRepository.updateById(id, updateData);
+    const course = await courseRepository.updateById(id, cleanUpdateData as any);
 
     if (!course) {
       return NextResponse.json(

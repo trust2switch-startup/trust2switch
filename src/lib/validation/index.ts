@@ -229,14 +229,14 @@ export const contentSchema = z
       about: z.string().min(1),
       blog: z.string().min(1),
       contact: z.string().min(1),
-      cta: z.string().min(1),
+      cta: z.string().min(1, { message: 'Required' }),
     }),
-    home: z.record(z.any()),
-    courses: z.record(z.any()),
-    about: z.record(z.any()),
-    contact: z.record(z.any()),
-    blog: z.record(z.any()),
-    shop: z.record(z.any()),
+    home: z.record(z.string(), z.any()),
+    courses: z.record(z.string(), z.any()),
+    about: z.record(z.string(), z.any()),
+    contact: z.record(z.string(), z.any()),
+    blog: z.record(z.string(), z.any()),
+    shop: z.record(z.string(), z.any()),
   })
   .strict();
 
@@ -252,7 +252,7 @@ export const callbackRequestSchema = z
     name: z.string().min(1, 'Name is required'),
     phone: z.string().min(1, 'Phone number is required').regex(/^[\d\s\-\+\(\)]+$/, 'Invalid phone number format'),
     preferredTime: z.enum(['morning', 'afternoon', 'evening'], {
-      errorMap: () => ({ message: 'Preferred time is required' }),
+      error: 'Preferred time is required',
     }),
     message: z.string().optional().default(''),
     status: z.enum(['pending', 'contacted', 'completed']).optional().default('pending'),
