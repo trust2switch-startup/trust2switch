@@ -1,18 +1,90 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { CourseCard } from '@/components/course/CourseCard';
 import { Input } from '@/components/ui/Input';
 import { Badge } from '@/components/ui/Badge';
-import { courses, categories, levels } from '@/config/courses';
 import { content } from '@/config/content';
-import { Search, Filter, X } from 'lucide-react';
+import { Course } from '@/types';
+import { Search, Filter, X, Loader2 } from 'lucide-react';
 
 export default function CoursesPage() {
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedLevel, setSelectedLevel] = useState('All');
   const [sortBy, setSortBy] = useState('popular');
+
+  // Fetch courses from API
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        // Request a high limit to get all courses (max is 500)
+        const response = await fetch('/api/courses?limit=500');
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          // Ensure data.data is an array
+          const coursesData = Array.isArray(data.data) ? data.data : [];
+          
+          if (coursesData.length === 0) {
+            console.warn('No courses found in API response. Total:', data.total);
+            setCourses([]);
+            return;
+          }
+          
+          // Map API response to Course type (convert _id to id)
+          const mappedCourses: Course[] = coursesData.map((course: any) => ({
+            ...course,
+            id: course._id || course.id || course.slug, // Fallback to slug if no id
+          }));
+          
+          console.log(`Successfully loaded ${mappedCourses.length} courses (Total in DB: ${data.total || 'unknown'})`);
+          setCourses(mappedCourses);
+        } else {
+          console.error('API returned unsuccessful response:', data);
+          setError(data.message || 'Failed to fetch courses');
+        }
+      } catch (err) {
+        console.error('Error fetching courses:', err);
+        setError('An error occurred while fetching courses');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
+  // Extract unique categories and levels from courses
+  const categories = useMemo(() => {
+    const uniqueCategories = new Set<string>();
+    courses.forEach(course => {
+      if (course.category) {
+        uniqueCategories.add(course.category);
+      }
+    });
+    return ['All', ...Array.from(uniqueCategories).sort()];
+  }, [courses]);
+
+  const levels = useMemo(() => {
+    const uniqueLevels = new Set<string>();
+    courses.forEach(course => {
+      if (course.level) {
+        uniqueLevels.add(course.level);
+      }
+    });
+    return ['All', ...Array.from(uniqueLevels).sort()];
+  }, [courses]);
 
   const filteredCourses = useMemo(() => {
     let filtered = [...courses];
@@ -49,7 +121,7 @@ export default function CoursesPage() {
     }
 
     return filtered;
-  }, [searchQuery, selectedCategory, selectedLevel, sortBy]);
+  }, [courses, searchQuery, selectedCategory, selectedLevel, sortBy]);
 
   const hasActiveFilters = selectedCategory !== 'All' || selectedLevel !== 'All' || searchQuery;
 
@@ -217,47 +289,83 @@ export default function CoursesPage() {
       {/* Courses Grid */}
       <section className="py-6 sm:py-8 md:py-10 lg:py-16 bg-slate-50">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-          {/* Results Count */}
-          <div className="mb-4 sm:mb-6 md:mb-8">
-            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900">
-              {filteredCourses.length} {filteredCourses.length === 1 ? content.courses.results.course : content.courses.results.courses} {content.courses.results.found}
-            </h2>
-            {hasActiveFilters && (
-              <p className="text-xs sm:text-sm text-slate-600 mt-1">
-                {content.courses.results.showingResults}
-              </p>
-            )}
-          </div>
-
-          {filteredCourses.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 lg:gap-8">
-              {filteredCourses.map((course) => (
-                <CourseCard key={course.id} course={course} />
-              ))}
-            </div>
-          ) : (
+          {loading ? (
             <div className="text-center py-12 sm:py-16 md:py-20 lg:py-24">
               <div className="max-w-md mx-auto px-4">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 bg-slate-100 rounded-full flex items-center justify-center">
-                  <Search className="w-8 h-8 sm:w-10 sm:h-10 text-slate-400" />
-                </div>
+                <Loader2 className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 sm:mb-6 text-[#84994F] animate-spin" />
                 <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 mb-2 sm:mb-3">
-                  {content.courses.empty.title}
+                  Loading courses...
                 </h3>
-                <p className="text-sm sm:text-base text-slate-600 mb-4 sm:mb-6">
-                  {content.courses.empty.message}
+                <p className="text-sm sm:text-base text-slate-600">
+                  Please wait while we fetch the latest courses
                 </p>
-                {hasActiveFilters && (
-                  <button
-                    onClick={clearFilters}
-                    className="inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 bg-[#84994F] hover:bg-[#6d7f42] text-white text-sm sm:text-base font-medium rounded-lg transition-colors shadow-md hover:shadow-lg active:scale-95"
-                  >
-                    <X className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                    {content.courses.empty.clearFilters}
-                  </button>
-                )}
               </div>
             </div>
+          ) : error ? (
+            <div className="text-center py-12 sm:py-16 md:py-20 lg:py-24">
+              <div className="max-w-md mx-auto px-4">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 bg-red-100 rounded-full flex items-center justify-center">
+                  <X className="w-8 h-8 sm:w-10 sm:h-10 text-red-500" />
+                </div>
+                <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 mb-2 sm:mb-3">
+                  Error loading courses
+                </h3>
+                <p className="text-sm sm:text-base text-slate-600 mb-4 sm:mb-6">
+                  {error}
+                </p>
+                <button
+                  onClick={() => window.location.reload()}
+                  className="inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 bg-[#84994F] hover:bg-[#6d7f42] text-white text-sm sm:text-base font-medium rounded-lg transition-colors shadow-md hover:shadow-lg active:scale-95"
+                >
+                  Try Again
+                </button>
+              </div>
+            </div>
+          ) : (
+            <>
+              {/* Results Count */}
+              <div className="mb-4 sm:mb-6 md:mb-8">
+                <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900">
+                  {filteredCourses.length} {filteredCourses.length === 1 ? content.courses.results.course : content.courses.results.courses} {content.courses.results.found}
+                </h2>
+                {hasActiveFilters && (
+                  <p className="text-xs sm:text-sm text-slate-600 mt-1">
+                    {content.courses.results.showingResults}
+                  </p>
+                )}
+              </div>
+
+              {filteredCourses.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 lg:gap-8">
+                  {filteredCourses.map((course) => (
+                    <CourseCard key={course.id} course={course} />
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12 sm:py-16 md:py-20 lg:py-24">
+                  <div className="max-w-md mx-auto px-4">
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 bg-slate-100 rounded-full flex items-center justify-center">
+                      <Search className="w-8 h-8 sm:w-10 sm:h-10 text-slate-400" />
+                    </div>
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 mb-2 sm:mb-3">
+                      {content.courses.empty.title}
+                    </h3>
+                    <p className="text-sm sm:text-base text-slate-600 mb-4 sm:mb-6">
+                      {content.courses.empty.message}
+                    </p>
+                    {hasActiveFilters && (
+                      <button
+                        onClick={clearFilters}
+                        className="inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 bg-[#84994F] hover:bg-[#6d7f42] text-white text-sm sm:text-base font-medium rounded-lg transition-colors shadow-md hover:shadow-lg active:scale-95"
+                      >
+                        <X className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                        {content.courses.empty.clearFilters}
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>

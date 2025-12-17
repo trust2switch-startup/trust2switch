@@ -1,11 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Code, Database, Brain, Cloud, Settings, Palette, Globe, FileText, Briefcase, BarChart3, Sparkles } from 'lucide-react';
-import { BookOpen, Calculator, Atom, FlaskConical, Laptop, BookMarked } from 'lucide-react';
-import professionalCoursesData from '@/config/professionalCourses.json';
-import schoolSubjectsData from '@/config/schoolSubjects.json';
+import { BookOpen, Calculator, Atom, FlaskConical, Laptop, BookMarked, Loader2 } from 'lucide-react';
 
 // Icon mapping
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -28,20 +26,73 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   BookOpen,
 };
 
-// Map JSON data to include icon components
-const professionalCourses = professionalCoursesData.map((course) => ({
-  ...course,
-  icon: iconMap[course.icon],
-}));
-
-const schoolSubjects = schoolSubjectsData.map((subject) => ({
-  ...subject,
-  icon: iconMap[subject.icon],
-}));
+interface CourseItem {
+  title: string;
+  description: string;
+  slug: string;
+  icon: string | React.ComponentType<{ className?: string }>;
+}
 
 export const CourseSections: React.FC = () => {
   const [showMore, setShowMore] = useState(false);
+  const [professionalCourses, setProfessionalCourses] = useState<CourseItem[]>([]);
+  const [schoolSubjects, setSchoolSubjects] = useState<CourseItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch professional courses and school subjects from API
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        
+        // Fetch professional courses
+        const coursesResponse = await fetch('/api/professional-courses');
+        if (coursesResponse.ok) {
+          const coursesData = await coursesResponse.json();
+          if (coursesData.success && Array.isArray(coursesData.data)) {
+            const mappedCourses = coursesData.data.map((course: any) => ({
+              ...course,
+              icon: iconMap[course.icon] || Code,
+            }));
+            setProfessionalCourses(mappedCourses);
+          }
+        }
+
+        // Fetch school subjects
+        const subjectsResponse = await fetch('/api/school-subjects');
+        if (subjectsResponse.ok) {
+          const subjectsData = await subjectsResponse.json();
+          if (subjectsData.success && Array.isArray(subjectsData.data)) {
+            const mappedSubjects = subjectsData.data.map((subject: any) => ({
+              ...subject,
+              icon: iconMap[subject.icon] || BookOpen,
+            }));
+            setSchoolSubjects(mappedSubjects);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching courses data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const visibleCourses = showMore ? professionalCourses : professionalCourses.slice(0, 8);
+
+  if (loading) {
+    return (
+      <section id="program-categories" className="py-12 sm:py-16 lg:py-24 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-center py-20">
+            <Loader2 className="w-8 h-8 text-[#84994F] animate-spin" />
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="program-categories" className="py-12 sm:py-16 lg:py-24 bg-slate-50">
@@ -67,7 +118,7 @@ export const CourseSections: React.FC = () => {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
             {visibleCourses.map((course, index) => {
-              const Icon = course.icon;
+              const Icon = course.icon as React.ComponentType<{ className?: string }>;
               return (
                 <Link
                   key={index}
@@ -141,7 +192,7 @@ export const CourseSections: React.FC = () => {
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-6">
             {schoolSubjects.map((subject, index) => {
-              const Icon = subject.icon;
+              const Icon = subject.icon as React.ComponentType<{ className?: string }>;
               return (
                 <Link
                   key={index}

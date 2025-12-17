@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { use } from "react";
@@ -52,6 +52,7 @@ import {
   Maximize2,
   Award,
   Sparkles,
+  Loader2,
 } from "lucide-react";
 import {
   SiPython,
@@ -126,7 +127,7 @@ import { Modal } from "@/components/ui/Modal";
 import { BookDemoModal } from "@/components/booking/BookDemoModal";
 import { BookOneOnOneModal } from "@/components/booking/BookOneOnOneModal";
 import { CareerAdviceModal } from "@/components/booking/CareerAdviceModal";
-import { courses } from "@/config/courses";
+import { Course, ProgramHighlight, Project, ComparisonRow, CareerTransition, FAQ, Skill } from "@/types";
 import { formatPrice } from "@/lib/utils";
 import { content } from "@/config/content";
 import { courseDetailConfig } from "@/config/courseDetail";
@@ -145,7 +146,9 @@ interface CourseDetailPageProps {
 
 export default function CourseDetailPage({ params }: CourseDetailPageProps) {
   const { slug } = use(params);
-  const course = courses.find((c) => c.slug === slug);
+  const [course, setCourse] = useState<Course | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
   const [isOneOnOneModalOpen, setIsOneOnOneModalOpen] = useState(false);
   const [isCareerAdviceModalOpen, setIsCareerAdviceModalOpen] = useState(false);
@@ -155,20 +158,83 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
   const projectsScrollRef = useRef<HTMLDivElement>(null);
   const careerTransitionScrollRef = useRef<HTMLDivElement>(null);
 
+  // Fetch course from API
+  useEffect(() => {
+    const fetchCourse = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await fetch(`/api/courses/slug/${slug}`);
+        
+        if (!response.ok) {
+          if (response.status === 404) {
+            setError('Course not found');
+            setCourse(null);
+            return;
+          }
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (data.success && data.data) {
+          // Map API response to Course type (convert _id to id)
+          const mappedCourse: Course = {
+            ...data.data,
+            id: data.data._id || data.data.id || data.data.slug,
+          };
+          setCourse(mappedCourse);
+        } else {
+          setError(data.message || 'Failed to fetch course');
+          setCourse(null);
+        }
+      } catch (err) {
+        console.error('Error fetching course:', err);
+        setError('An error occurred while fetching the course');
+        setCourse(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourse();
+  }, [slug]);
+
   // Track course view
-  React.useEffect(() => {
+  useEffect(() => {
     if (course) {
       trackCourseView(course.slug, course.title);
     }
   }, [course]);
 
-  if (!course) {
+  // Loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 mx-auto mb-4 text-[#84994F] animate-spin" />
+          <h2 className="text-xl font-semibold text-slate-900 mb-2">
+            Loading course...
+          </h2>
+          <p className="text-slate-600">
+            Please wait while we fetch the course details
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state or course not found
+  if (error || !course) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-slate-900 mb-4">
-            Course Not Found
+            {error || 'Course Not Found'}
           </h1>
+          <p className="text-slate-600 mb-6">
+            The course you're looking for doesn't exist or couldn't be loaded.
+          </p>
           <Link href="/courses">
             <Button
               variant="primary"
@@ -565,7 +631,7 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
 
                 {/* Bullet Points */}
                 <ul className="space-y-2 sm:space-y-3 text-slate-700 text-sm sm:text-base">
-                  {course.bulletPoints.map((point, index) => (
+                  {course.bulletPoints?.map((point: string, index: number) => (
                     <li key={index} className="flex items-start gap-2 sm:gap-3">
                       <Check className="w-4 h-4 sm:w-5 sm:h-5 text-[#84994F] flex-shrink-0 mt-0.5" />
                       <span>{point}</span>
@@ -724,7 +790,7 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
                   {sections.whoCanApply.title}
                 </h2>
                 <ul className="space-y-2 sm:space-y-3">
-                  {whoCanApply.map((item, index) => (
+                  {whoCanApply.map((item: string, index: number) => (
                     <li key={index} className="flex items-start gap-2 sm:gap-3">
                       <Check className="w-4 h-4 sm:w-5 sm:h-5 text-[#84994F] flex-shrink-0 mt-0.5" />
                       <span className="text-slate-700 text-sm sm:text-base">
@@ -785,7 +851,7 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
               </div>
 
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                {programHighlights.map((highlight, index) => {
+                {programHighlights.map((highlight: ProgramHighlight, index: number) => {
                 const Icon = getIcon(highlight.icon);
                 return (
                   <Card
@@ -979,7 +1045,7 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
                 {sections.skills.title}
                       </h2>
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-                {skills.map((skill, index) => {
+                {skills.map((skill: Skill, index: number) => {
                   const BrandIcon = getBrandIcon(skill.name);
                   return (
                     <Card
@@ -1015,7 +1081,7 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
                 className="flex gap-3 sm:gap-4 lg:gap-6 overflow-x-auto scrollbar-hide pb-4 scroll-smooth"
                 style={{ scrollSnapType: "x mandatory" }}
               >
-                {projects.map((project, index) => (
+                {projects.map((project: Project, index: number) => (
                           <div
                             key={index}
                     className="flex-shrink-0"
@@ -1091,7 +1157,7 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
                     </tr>
                   </thead>
                   <tbody>
-                    {comparisonData.map((row, index) => (
+                    {comparisonData.map((row: ComparisonRow, index: number) => (
                       <tr
                         key={index}
                         className="border-b border-slate-200 hover:bg-slate-50 transition-colors"
@@ -1128,7 +1194,7 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
                 className="flex gap-3 sm:gap-4 lg:gap-6 overflow-x-auto scrollbar-hide pb-4 scroll-smooth"
                 style={{ scrollSnapType: "x mandatory" }}
               >
-                {careerTransitions.map((transition, index) => (
+                {careerTransitions.map((transition: CareerTransition, index: number) => (
                   <div
                     key={index}
                     className="flex-shrink-0"
@@ -1294,7 +1360,7 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
               </div>
 
               <div className="space-y-3 sm:space-y-4">
-                {faqs.map((faq, index) => {
+                {faqs.map((faq: FAQ, index: number) => {
                 const isExpanded = expandedFAQs.has(index);
                 return (
                   <Card
