@@ -107,12 +107,16 @@ export const Header: React.FC = () => {
             <span className="text-center px-1">
               New Batch Starting Soon! Limited Seats Available
             </span>
-            <Link
-              href="/#professional-section"
-              className="underline font-extrabold hover:text-orange-200 ml-1 sm:ml-2 whitespace-nowrap"
+            <button
+              onClick={() => {
+                trackButtonClick('enroll_now', 'announcement_bar');
+                trackModalOpen('callback_modal');
+                setIsCallbackModalOpen(true);
+              }}
+              className="underline font-extrabold hover:text-orange-200 ml-1 sm:ml-2 whitespace-nowrap cursor-pointer"
             >
               Enroll Now →
-            </Link>
+            </button>
           </div>
         </div>
         <nav

@@ -1,19 +1,79 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { ProductCard } from '@/components/product/ProductCard';
 import { Input } from '@/components/ui/Input';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
-import { products, productSortOptions } from '@/config/products';
-import { content } from '@/config/content';
 import { Product } from '@/types';
-import { Search, Code, FileText, Layout } from 'lucide-react';
+import { Search, Code, FileText, Layout, Loader2 } from 'lucide-react';
+
+const productSortOptions = [
+  { value: 'popular', label: 'Most Popular' },
+  { value: 'newest', label: 'Newest First' },
+  { value: 'price-low', label: 'Price: Low to High' },
+  { value: 'price-high', label: 'Price: High to Low' },
+  { value: 'rating', label: 'Highest Rated' }
+];
 
 export default function ShopPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState<string>('All');
   const [sortBy, setSortBy] = useState('popular');
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [shopContent, setShopContent] = useState<{ title?: string; subtitle?: string }>({
+    title: 'Shop',
+    subtitle: 'Browse and purchase projects, research papers, and templates'
+  });
+
+  // Fetch products and content from API
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Fetch products
+        const productsResponse = await fetch('/api/products?limit=1000');
+        if (!productsResponse.ok) {
+          throw new Error('Failed to fetch products');
+        }
+        const productsData = await productsResponse.json();
+        if (productsData.success && Array.isArray(productsData.data)) {
+          // Map API response to Product type (convert _id to id)
+          const mappedProducts: Product[] = productsData.data.map((product: any) => ({
+            ...product,
+            id: String(product._id || product.id || product.sku), // Use _id from MongoDB, fallback to id or sku
+          }));
+          setProducts(mappedProducts);
+        } else {
+          setProducts([]);
+        }
+
+        // Fetch content for shop title/subtitle
+        const contentResponse = await fetch('/api/content');
+        if (contentResponse.ok) {
+          const contentData = await contentResponse.json();
+          if (contentData.success && contentData.data?.shop) {
+            setShopContent({
+              title: contentData.data.shop.title || 'Shop',
+              subtitle: contentData.data.shop.subtitle || 'Browse and purchase projects, research papers, and templates'
+            });
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching shop data:', err);
+        setError('Failed to load products. Please try again later.');
+        setProducts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   // Group products by category
   const productsByCategory = useMemo(() => {
@@ -30,7 +90,7 @@ export default function ShopPage() {
     });
 
     return grouped;
-  }, []);
+  }, [products]);
 
   const getFilteredProducts = (categoryProducts: Product[]) => {
     let filtered = [...categoryProducts];
@@ -91,6 +151,33 @@ export default function ShopPage() {
     { id: 'Templates', label: 'Templates', count: productsByCategory['Templates'].length },
   ];
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-indigo-600" />
+          <p className="text-slate-600">Loading products...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto px-4">
+          <p className="text-red-600 mb-4">{error}</p>
+          <Button
+            onClick={() => window.location.reload()}
+            variant="outline"
+          >
+            Retry
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Compact Header */}
@@ -101,10 +188,10 @@ export default function ShopPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-white mb-1 sm:mb-2">
-                {content.shop?.title || 'Shop'}
+                {shopContent.title}
               </h1>
               <p className="text-xs sm:text-sm md:text-base text-slate-300">
-                {content.shop?.subtitle || 'Browse and purchase projects, research papers, and templates'}
+                {shopContent.subtitle}
               </p>
             </div>
           </div>
@@ -173,35 +260,39 @@ export default function ShopPage() {
           {/* All Products View */}
           {activeTab === 'All' ? (
             <>
-              {Object.entries(productsByCategory).map(([category, categoryProducts]) => {
-                const filtered = getFilteredProducts(categoryProducts);
-                if (filtered.length === 0) return null;
+              {Object.entries(productsByCategory)
+                .filter(([category, categoryProducts]) => {
+                  const filtered = getFilteredProducts(categoryProducts);
+                  return filtered.length > 0;
+                })
+                .map(([category, categoryProducts]) => {
+                  const filtered = getFilteredProducts(categoryProducts);
 
-                return (
-                  <div key={category} className="mb-8 sm:mb-10 lg:mb-12">
-                    <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-                      <div className="flex items-center gap-2">
-                        {getCategoryIcon(category)}
-                        <h2 className="text-xl sm:text-2xl font-bold text-slate-900">{category}</h2>
+                  return (
+                    <div key={category} className="mb-8 sm:mb-10 lg:mb-12">
+                      <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                        <div className="flex items-center gap-2">
+                          {getCategoryIcon(category)}
+                          <h2 className="text-xl sm:text-2xl font-bold text-slate-900">{category}</h2>
+                        </div>
+                        <Badge variant="default" className="bg-slate-200 text-slate-700">
+                          {filtered.length} {filtered.length === 1 ? 'item' : 'items'}
+                        </Badge>
                       </div>
-                      <Badge variant="default" className="bg-slate-200 text-slate-700">
-                        {filtered.length} {filtered.length === 1 ? 'item' : 'items'}
-                      </Badge>
-                    </div>
-                    <div className="overflow-x-auto scrollbar-hide scroll-smooth pb-2 -mx-3 sm:-mx-4 px-3 sm:px-4">
-                      <div className="flex gap-2 sm:gap-3">
-                        {filtered.map((product) => (
-                          <ProductCard
-                            key={product.id}
-                            product={product}
-                            compact={true}
-                          />
-                        ))}
+                      <div className="overflow-x-auto scrollbar-hide scroll-smooth pb-2 -mx-3 sm:-mx-4 px-3 sm:px-4">
+                        <div className="flex gap-2 sm:gap-3">
+                          {filtered.map((product) => (
+                            <ProductCard
+                              key={String(product.id || product.sku || `product-${product.title}`)}
+                              product={product}
+                              compact={true}
+                            />
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
             </>
           ) : (
             // Single Category View
@@ -243,7 +334,7 @@ export default function ShopPage() {
                       <div className="flex gap-2 sm:gap-3">
                         {filtered.map((product) => (
                           <ProductCard
-                            key={product.id}
+                            key={String(product.id || product.sku || `product-${product.title}`)}
                             product={product}
                             compact={true}
                           />

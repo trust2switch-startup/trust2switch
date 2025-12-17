@@ -1,15 +1,42 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
-import { content } from '@/config/content';
+import { content as fallbackContent } from '@/config/content';
 import { CareerAdviceModal } from '@/components/booking/CareerAdviceModal';
 import { trackButtonClick, trackModalOpen } from '@/lib/analytics';
 
-export const CareerAdviceSection: React.FC = () => {
+interface CareerAdviceSectionProps {
+    content?: any;
+}
+
+export const CareerAdviceSection: React.FC<CareerAdviceSectionProps> = ({ content: propContent }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { headline, content: description, ctaPrimary, ctaSecondary } = content.home.careerAdvice;
+    const [content, setContent] = useState(propContent || fallbackContent);
+
+    // Fetch content from API if not provided as prop
+    useEffect(() => {
+        if (!propContent) {
+            const fetchContent = async () => {
+                try {
+                    const response = await fetch('/api/content');
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.success && data.data) {
+                            setContent(data.data);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error fetching content:', error);
+                }
+            };
+            fetchContent();
+        }
+    }, [propContent]);
+
+    const careerAdvice = content?.home?.careerAdvice || fallbackContent.home.careerAdvice;
+    const { headline, content: description, ctaPrimary, ctaSecondary } = careerAdvice;
 
     return (
         <section className="py-8 sm:py-10 md:py-12 bg-gradient-to-br from-[#435663] via-indigo-950/30 to-[#435663] relative overflow-hidden">
