@@ -1,8 +1,11 @@
 // Authentication types
+import type { Permission } from './permissions';
+
 export interface JWTPayload {
   userId: string;
   username: string;
-  role: 'admin' | 'editor';
+  role: 'admin' | 'editor' | 'custom';
+  permissions?: Permission[];
 }
 
 export interface AuthResponse {
@@ -13,6 +16,7 @@ export interface AuthResponse {
     username: string;
     email: string;
     role: string;
+    permissions?: Permission[];
   };
   message?: string;
 }
