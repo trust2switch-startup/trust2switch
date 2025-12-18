@@ -4,10 +4,13 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { usePermissions } from '@/hooks/usePermissions';
+import type { Resource } from '@/lib/auth/permissions';
 
 export function AdminNav() {
   const pathname = usePathname();
   const [isLoginPage, setIsLoginPage] = useState(false);
+  const { can, loading } = usePermissions();
 
   useEffect(() => {
     const currentPath = pathname || window.location.pathname;
@@ -20,12 +23,16 @@ export function AdminNav() {
   }
 
   const navItems = [
-    { href: '/admin/courses', label: 'Courses' },
-    { href: '/admin/blog', label: 'Blog' },
-    { href: '/admin/products', label: 'Products' },
-    { href: '/admin/callback-requests', label: 'Callback Requests' },
-    { href: '/admin/settings', label: 'Settings' },
+    { href: '/admin/courses', label: 'Courses', resource: 'courses' as Resource },
+    { href: '/admin/blog', label: 'Blog', resource: 'blog' as Resource },
+    { href: '/admin/products', label: 'Products', resource: 'products' as Resource },
+    { href: '/admin/callback-requests', label: 'Callback Requests', resource: 'callbackRequests' as Resource },
+    { href: '/admin/users', label: 'Users', resource: 'users' as Resource },
+    { href: '/admin/settings', label: 'Settings', resource: 'settings' as Resource },
   ];
+
+  // Filter nav items based on permissions
+  const visibleNavItems = loading ? [] : navItems.filter(item => can(item.resource, 'view'));
 
   const handleLogout = () => {
     localStorage.removeItem('admin_token');
@@ -43,7 +50,7 @@ export function AdminNav() {
               </Link>
             </div>
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-              {navItems.map((item) => (
+              {visibleNavItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
