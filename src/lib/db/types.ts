@@ -1,6 +1,6 @@
 // Database abstraction types
 
-export type DatabaseType = 'mongodb' | 'postgresql' | 'mysql';
+export type DatabaseType = "mongodb" | "postgresql" | "mysql";
 
 export interface DatabaseAdapter {
   connect(): Promise<void>;
@@ -8,7 +8,7 @@ export interface DatabaseAdapter {
   isConnected(): boolean;
 }
 
-export type SortDirection = 1 | -1 | { $meta: 'textScore' };
+export type SortDirection = 1 | -1 | { $meta: "textScore" };
 
 export interface QueryOptions {
   limit?: number;
@@ -33,4 +33,3 @@ export interface Repository<T> {
   deleteById(id: string): Promise<boolean>;
   count(filter?: QueryFilter): Promise<number>;
 }
-

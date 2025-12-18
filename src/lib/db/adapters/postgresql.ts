@@ -2,7 +2,7 @@
 // This file is a placeholder for future PostgreSQL support
 // To implement, use Prisma or TypeORM
 
-import type { DatabaseAdapter } from '../types';
+import type { DatabaseAdapter } from "../types";
 
 export class PostgreSQLAdapter implements DatabaseAdapter {
   private connectionString: string;
@@ -13,12 +13,12 @@ export class PostgreSQLAdapter implements DatabaseAdapter {
 
   async connect(): Promise<void> {
     // TODO: Implement PostgreSQL connection using Prisma or TypeORM
-    throw new Error('PostgreSQL adapter not yet implemented');
+    throw new Error("PostgreSQL adapter not yet implemented");
   }
 
   async disconnect(): Promise<void> {
     // TODO: Implement PostgreSQL disconnection
-    throw new Error('PostgreSQL adapter not yet implemented');
+    throw new Error("PostgreSQL adapter not yet implemented");
   }
 
   isConnected(): boolean {
@@ -26,4 +26,3 @@ export class PostgreSQLAdapter implements DatabaseAdapter {
     return false;
   }
 }
-

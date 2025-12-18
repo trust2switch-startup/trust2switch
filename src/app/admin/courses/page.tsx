@@ -1,8 +1,12 @@
-'use client';
+"use client";
 
 // Admin courses management page
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { useEffect, useState, useMemo, useRef } from "react";
+import Link from "next/link";
+import { SearchBar } from "@/components/admin/SearchBar";
+import { ConfirmDeleteModal } from "@/components/admin/ConfirmDeleteModal";
+import { useToast } from "@/components/admin/Toast";
+import { Edit2, Trash2, Plus, RefreshCw } from "lucide-react";
 
 interface Course {
   _id: string;
@@ -12,131 +16,328 @@ interface Course {
   level: string;
   price: number;
   rating: number;
+  description?: string;
+  students?: number;
+  reviews?: number;
 }
 
 export default function AdminCoursesPage() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    fetchCourses();
-  }, []);
+  const [deleting, setDeleting] = useState(false);
+  const [deleteModal, setDeleteModal] = useState<{
+    isOpen: boolean;
+    course: Course | null;
+  }>({
+    isOpen: false,
+    course: null,
+  });
+  const [searchQuery, setSearchQuery] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("All");
+  const [levelFilter, setLevelFilter] = useState("All");
+  const { showToast, ToastContainer } = useToast();
+  const hasFetchedRef = useRef(false);
 
   const fetchCourses = async () => {
     try {
-      const token = localStorage.getItem('admin_token');
-      const response = await fetch('/api/courses', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-      if (data.success) {
-        setCourses(data.data);
-      } else {
-        setError('Failed to fetch courses');
+      setLoading(true);
+      const token = localStorage.getItem("admin_token");
+      const allCourses: Course[] = [];
+      let skip = 0;
+      const limit = 500;
+      let hasMore = true;
+
+      // Fetch all items in batches
+      while (hasMore) {
+        const response = await fetch(`/api/courses?limit=${limit}&skip=${skip}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = await response.json();
+        
+        if (data.success) {
+          const courses = data.data || [];
+          allCourses.push(...courses);
+          
+          // Check if we got all items
+          if (courses.length < limit || allCourses.length >= (data.total || 0)) {
+            hasMore = false;
+          } else {
+            skip += limit;
+          }
+        } else {
+          showToast("Failed to fetch courses", "error");
+          hasMore = false;
+        }
       }
+
+      setCourses(allCourses);
     } catch (error) {
-      setError('An error occurred');
+      showToast("An error occurred while fetching courses", "error");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this course?')) return;
+  // Fetch courses only once on mount
+  useEffect(() => {
+    if (!hasFetchedRef.current) {
+      hasFetchedRef.current = true;
+      fetchCourses();
+    }
+  }, []);
 
+  // Filter courses using useMemo for performance
+  const filteredCourses = useMemo(() => {
+    let filtered = courses;
+
+    // Apply search filter
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(
+        (course) =>
+          course.title.toLowerCase().includes(query) ||
+          course.slug.toLowerCase().includes(query) ||
+          course.category.toLowerCase().includes(query) ||
+          (course.description &&
+            course.description.toLowerCase().includes(query))
+      );
+    }
+
+    // Apply category filter
+    if (categoryFilter !== "All") {
+      filtered = filtered.filter(
+        (course) => course.category === categoryFilter
+      );
+    }
+
+    // Apply level filter
+    if (levelFilter !== "All") {
+      filtered = filtered.filter((course) => course.level === levelFilter);
+    }
+
+    return filtered;
+  }, [courses, searchQuery, categoryFilter, levelFilter]);
+
+  // Memoize categories and levels to prevent recalculation
+  const categories = useMemo(() => {
+    return ["All", ...Array.from(new Set(courses.map((c) => c.category)))];
+  }, [courses]);
+
+  const levels = useMemo(() => {
+    return ["All", ...Array.from(new Set(courses.map((c) => c.level)))];
+  }, [courses]);
+
+  const handleDelete = async () => {
+    if (!deleteModal.course) return;
+
+    setDeleting(true);
     try {
-      const token = localStorage.getItem('admin_token');
-      const response = await fetch(`/api/courses/${id}`, {
-        method: 'DELETE',
+      const token = localStorage.getItem("admin_token");
+      const response = await fetch(`/api/courses/${deleteModal.course._id}`, {
+        method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       const data = await response.json();
       if (data.success) {
-        fetchCourses();
+        showToast("Course deleted successfully", "success");
+        // Remove the deleted course from state instead of refetching
+        setCourses((prev) =>
+          prev.filter((c) => c._id !== deleteModal.course!._id)
+        );
+        setDeleteModal({ isOpen: false, course: null });
       } else {
-        alert('Failed to delete course');
+        showToast(data.message || "Failed to delete course", "error");
       }
     } catch (error) {
-      alert('An error occurred');
+      showToast("An error occurred while deleting the course", "error");
+    } finally {
+      setDeleting(false);
     }
   };
 
-  if (loading) {
-    return <div className="text-center py-8">Loading...</div>;
+  if (loading && courses.length === 0) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-lg text-gray-500">Loading...</div>
+      </div>
+    );
   }
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Courses</h1>
-        <Link
-          href="/admin/courses/new"
-          className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
-        >
-          Add New Course
-        </Link>
+      <ToastContainer />
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Courses</h1>
+          <p className="mt-1 text-sm text-gray-500">
+            Manage your courses ({filteredCourses.length}{" "}
+            {filteredCourses.length === 1 ? "course" : "courses"})
+          </p>
+        </div>
+        <div className="flex gap-3">
+          <button
+            onClick={fetchCourses}
+            disabled={loading}
+            className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+          >
+            <RefreshCw
+              className={`w-4 h-4 mr-2 ${loading ? "animate-spin" : ""}`}
+            />
+            Refresh
+          </button>
+          <Link
+            href="/admin/courses/new"
+            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            Add New Course
+          </Link>
+        </div>
       </div>
 
-      {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
-          {error}
+      <div className="bg-white shadow rounded-lg p-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <SearchBar
+            value={searchQuery}
+            onChange={setSearchQuery}
+            placeholder="Search courses by title, slug, or category..."
+          />
+          <select
+            value={categoryFilter}
+            onChange={(e) => setCategoryFilter(e.target.value)}
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          >
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
+          <select
+            value={levelFilter}
+            onChange={(e) => setLevelFilter(e.target.value)}
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          >
+            {levels.map((level) => (
+              <option key={level} value={level}>
+                {level}
+              </option>
+            ))}
+          </select>
         </div>
-      )}
+      </div>
 
       <div className="bg-white shadow overflow-hidden sm:rounded-md">
-        <ul className="divide-y divide-gray-200">
-          {courses.map((course) => (
-            <li key={course._id}>
-              <div className="px-4 py-4 sm:px-6 flex items-center justify-between">
-                <div className="flex-1">
-                  <div className="flex items-center">
-                    <p className="text-sm font-medium text-indigo-600 truncate">
-                      {course.title}
-                    </p>
-                    <span className="ml-2 text-xs text-gray-500">({course.slug})</span>
-                  </div>
-                  <div className="mt-2 sm:flex sm:justify-between">
-                    <div className="sm:flex">
-                      <p className="flex items-center text-sm text-gray-500">
-                        {course.category} • {course.level}
-                      </p>
-                    </div>
-                    <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                      <p>₹{course.price} • Rating: {course.rating}</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="ml-4 flex space-x-2">
-                  <Link
-                    href={`/admin/courses/${course._id}`}
-                    className="text-indigo-600 hover:text-indigo-900 text-sm"
-                  >
-                    Edit
-                  </Link>
-                  <button
-                    onClick={() => handleDelete(course._id)}
-                    className="text-red-600 hover:text-red-900 text-sm"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
+        {filteredCourses.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-500">
+              {searchQuery || categoryFilter !== "All" || levelFilter !== "All"
+                ? "No courses match your filters."
+                : "No courses found. Create your first course!"}
+            </p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Title
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Category / Level
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Price
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Rating / Students
+                  </th>
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {filteredCourses.map((course) => (
+                  <tr key={course._id} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div>
+                        <div className="text-sm font-medium text-gray-900">
+                          {course.title}
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          {course.slug}
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex flex-col gap-1">
+                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800 w-fit">
+                          {course.category}
+                        </span>
+                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 w-fit">
+                          {course.level}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm font-medium text-gray-900">
+                        ₹{course.price.toLocaleString()}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900">
+                        ⭐ {course.rating}{" "}
+                        {course.reviews ? `(${course.reviews} reviews)` : ""}
+                      </div>
+                      {course.students !== undefined && (
+                        <div className="text-sm text-gray-500">
+                          {course.students} students
+                        </div>
+                      )}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <div className="flex justify-end gap-3">
+                        <Link
+                          href={`/admin/courses/${course._id}`}
+                          className="text-indigo-600 hover:text-indigo-900 inline-flex items-center"
+                        >
+                          <Edit2 className="w-4 h-4 mr-1" />
+                          Edit
+                        </Link>
+                        <button
+                          onClick={() =>
+                            setDeleteModal({ isOpen: true, course })
+                          }
+                          className="text-red-600 hover:text-red-900 inline-flex items-center"
+                        >
+                          <Trash2 className="w-4 h-4 mr-1" />
+                          Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
-      {courses.length === 0 && (
-        <div className="text-center py-8 text-gray-500">
-          No courses found. Create your first course!
-        </div>
-      )}
+      <ConfirmDeleteModal
+        isOpen={deleteModal.isOpen}
+        onClose={() => setDeleteModal({ isOpen: false, course: null })}
+        onConfirm={handleDelete}
+        title="Delete Course"
+        message="Are you sure you want to delete this course? This action cannot be undone."
+        itemName={deleteModal.course?.title}
+        loading={deleting}
+      />
     </div>
   );
 }
-
