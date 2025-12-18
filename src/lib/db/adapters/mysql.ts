@@ -2,7 +2,7 @@
 // This file is a placeholder for future MySQL support
 // To implement, use Prisma or TypeORM
 
-import type { DatabaseAdapter } from '../types';
+import type { DatabaseAdapter } from "../types";
 
 export class MySQLAdapter implements DatabaseAdapter {
   private connectionString: string;
@@ -13,12 +13,12 @@ export class MySQLAdapter implements DatabaseAdapter {
 
   async connect(): Promise<void> {
     // TODO: Implement MySQL connection using Prisma or TypeORM
-    throw new Error('MySQL adapter not yet implemented');
+    throw new Error("MySQL adapter not yet implemented");
   }
 
   async disconnect(): Promise<void> {
     // TODO: Implement MySQL disconnection
-    throw new Error('MySQL adapter not yet implemented');
+    throw new Error("MySQL adapter not yet implemented");
   }
 
   isConnected(): boolean {
@@ -26,4 +26,3 @@ export class MySQLAdapter implements DatabaseAdapter {
     return false;
   }
 }
-

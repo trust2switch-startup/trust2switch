@@ -41,3 +41,4 @@ export function extractTokenFromHeader(authHeader: string | null): string | null
   return parts[1];
 }
 
+
