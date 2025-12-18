@@ -49,10 +49,34 @@ export async function GET(req: NextRequest) {
       limit: pagination.limit,
       skip: pagination.skip,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Get courses error:', error);
+    
+    // Provide more detailed error information in development
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    const errorMessage = isDevelopment 
+      ? `Failed to fetch courses: ${error?.message || 'Unknown error'}`
+      : 'Failed to fetch courses';
+    
+    // Log additional context for debugging
+    console.error('Error details:', {
+      message: error?.message,
+      stack: error?.stack,
+      name: error?.name,
+      env: {
+        hasMongoUri: !!process.env.MONGODB_URI,
+        hasDatabaseUrl: !!process.env.DATABASE_URL,
+        databaseType: process.env.DATABASE_TYPE,
+        nodeEnv: process.env.NODE_ENV,
+      }
+    });
+    
     return NextResponse.json(
-      { success: false, message: 'Failed to fetch courses' },
+      { 
+        success: false, 
+        message: errorMessage,
+        ...(isDevelopment && { error: error?.message, stack: error?.stack })
+      },
       { status: 500 }
     );
   }

@@ -50,7 +50,17 @@ export const env = {
 
 export function requireDatabaseUrl(): string {
   if (!connectionString) {
-    throw new Error('Database connection string is required. Set MONGODB_URI or DATABASE_URL.');
+    const errorMessage = 
+      'Database connection string is required. ' +
+      'Please set MONGODB_URI or DATABASE_URL environment variable. ' +
+      `Current NODE_ENV: ${process.env.NODE_ENV || 'not set'}`;
+    console.error('Database configuration error:', {
+      MONGODB_URI: process.env.MONGODB_URI ? 'set (hidden)' : 'not set',
+      DATABASE_URL: process.env.DATABASE_URL ? 'set (hidden)' : 'not set',
+      DATABASE_TYPE: process.env.DATABASE_TYPE || 'not set',
+      NODE_ENV: process.env.NODE_ENV || 'not set',
+    });
+    throw new Error(errorMessage);
   }
   return connectionString;
 }

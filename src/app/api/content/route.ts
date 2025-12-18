@@ -25,10 +25,26 @@ export async function GET() {
       success: true,
       data: content,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Get content error:', error);
+    
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    const errorMessage = isDevelopment 
+      ? `Failed to fetch content: ${error?.message || 'Unknown error'}`
+      : 'Failed to fetch content';
+    
+    console.error('Error details:', {
+      message: error?.message,
+      stack: error?.stack,
+      name: error?.name,
+    });
+    
     return NextResponse.json(
-      { success: false, message: 'Failed to fetch content' },
+      { 
+        success: false, 
+        message: errorMessage,
+        ...(isDevelopment && { error: error?.message })
+      },
       { status: 500 }
     );
   }
