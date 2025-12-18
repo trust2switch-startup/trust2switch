@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FormInput, FormTextarea, FormSelect } from '@/components/admin/FormField';
 import { useToast } from '@/components/admin/Toast';
+import { CurriculumEditor } from "@/components/admin/CurriculumEditor";
 
 export default function NewCoursePage() {
   const router = useRouter();
@@ -37,7 +38,7 @@ export default function NewCoursePage() {
     tags: '',
     isPopular: false,
     isNew: false,
-    curriculum: JSON.stringify([{ week: 1, title: 'Week 1', lessons: [] }], null, 2),
+    curriculum: [] as any[],
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -74,37 +75,29 @@ export default function NewCoursePage() {
 
     try {
       const token = localStorage.getItem('admin_token');
-      
+
       // Parse arrays from comma-separated strings
       const featuresArray = formData.features
         .split('\n')
         .map((f) => f.trim())
         .filter((f) => f.length > 0);
-      
+
       const bulletPointsArray = formData.bulletPoints
         .split('\n')
         .map((b) => b.trim())
         .filter((b) => b.length > 0);
-      
+
       const tagsArray = formData.tags
         .split(',')
         .map((tag) => tag.trim())
         .filter((tag) => tag.length > 0);
-
-      // Parse curriculum JSON
-      let curriculumArray;
-      try {
-        curriculumArray = JSON.parse(formData.curriculum);
-      } catch {
-        throw new Error('Invalid curriculum JSON format');
-      }
 
       const payload = {
         ...formData,
         features: featuresArray,
         bulletPoints: bulletPointsArray,
         tags: tagsArray,
-        curriculum: curriculumArray,
+        curriculum: formData.curriculum,
         originalPrice: formData.originalPrice || null,
       };
 
@@ -381,15 +374,12 @@ export default function NewCoursePage() {
           </label>
         </div>
 
-        <FormTextarea
-          label="Curriculum (JSON)"
-          name="curriculum"
+        <CurriculumEditor
           value={formData.curriculum}
-          onChange={handleChange}
-          required
+          onChange={(newCurriculum) =>
+            setFormData((prev) => ({ ...prev, curriculum: newCurriculum }))
+          }
           error={errors.curriculum}
-          rows={10}
-          description="JSON array of curriculum weeks. Each week should have: week (number), title (string), lessons (array of {title, duration, type})"
         />
 
         <div className="flex justify-end gap-3 pt-6 border-t">

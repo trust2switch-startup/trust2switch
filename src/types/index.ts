@@ -90,13 +90,11 @@ export interface Course {
   jobDescriptionsLink?: string;
   certificate?: Certificate;
   curriculum: {
-    week: number;
-    title: string;
-    lessons: {
-      title: string;
-      duration: string;
-      type: 'video' | 'reading' | 'assignment';
-    }[];
+    week: string;
+    moduleName: string;
+    topics: string[];
+    learningOutcomes: string[];
+    project?: string;
   }[];
   tags: string[];
   isPopular?: boolean;
