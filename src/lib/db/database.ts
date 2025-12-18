@@ -8,32 +8,45 @@ import { env, requireDatabaseUrl } from '../env';
 let dbConnection: DatabaseConnection | null = null;
 
 export async function connectDatabase(): Promise<void> {
-  const dbType = env.DATABASE_TYPE as DatabaseType;
-  const connectionString = requireDatabaseUrl();
+  try {
+    const dbType = env.DATABASE_TYPE as DatabaseType;
+    const connectionString = requireDatabaseUrl();
 
-  let adapter: DatabaseAdapter;
+    let adapter: DatabaseAdapter;
 
-  switch (dbType) {
-    case 'mongodb':
-      adapter = new MongoDBAdapter(connectionString);
-      break;
-    case 'postgresql':
-      adapter = new PostgreSQLAdapter(connectionString);
-      console.warn('PostgreSQL adapter is a placeholder. Implement connect() before use.');
-      break;
-    case 'mysql':
-      adapter = new MySQLAdapter(connectionString);
-      console.warn('MySQL adapter is a placeholder. Implement connect() before use.');
-      break;
-    default:
-      throw new Error(`Unsupported database type: ${dbType}`);
+    switch (dbType) {
+      case 'mongodb':
+        adapter = new MongoDBAdapter(connectionString);
+        break;
+      case 'postgresql':
+        adapter = new PostgreSQLAdapter(connectionString);
+        console.warn('PostgreSQL adapter is a placeholder. Implement connect() before use.');
+        break;
+      case 'mysql':
+        adapter = new MySQLAdapter(connectionString);
+        console.warn('MySQL adapter is a placeholder. Implement connect() before use.');
+        break;
+      default:
+        throw new Error(`Unsupported database type: ${dbType}`);
+    }
+
+    await adapter.connect();
+    dbConnection = {
+      adapter,
+      type: dbType,
+    };
+  } catch (error: any) {
+    console.error('Database connection failed:', error?.message);
+    console.error('Environment check:', {
+      DATABASE_TYPE: env.DATABASE_TYPE,
+      hasConnectionString: !!env.CONNECTION_STRING,
+      NODE_ENV: process.env.NODE_ENV,
+    });
+    throw new Error(
+      `Database connection failed: ${error?.message || 'Unknown error'}. ` +
+      `Please check your MONGODB_URI or DATABASE_URL environment variable.`
+    );
   }
-
-  await adapter.connect();
-  dbConnection = {
-    adapter,
-    type: dbType,
-  };
 }
 
 export async function disconnectDatabase(): Promise<void> {

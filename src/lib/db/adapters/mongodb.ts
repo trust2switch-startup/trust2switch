@@ -16,11 +16,27 @@ export class MongoDBAdapter implements DatabaseAdapter {
     }
 
     try {
-      await mongoose.connect(this.connectionString);
+      // Add connection options for better reliability in production
+      const connectionOptions = {
+        serverSelectionTimeoutMS: 10000, // 10 seconds
+        socketTimeoutMS: 45000, // 45 seconds
+        connectTimeoutMS: 10000, // 10 seconds
+        maxPoolSize: 10,
+        retryWrites: true,
+        retryReads: true,
+      };
+
+      await mongoose.connect(this.connectionString, connectionOptions);
       this.connection = mongoose.connection;
       console.log('MongoDB connected successfully');
-    } catch (error) {
+    } catch (error: any) {
       console.error('MongoDB connection error:', error);
+      console.error('Connection string provided:', this.connectionString ? 'Yes (hidden)' : 'No');
+      console.error('Error details:', {
+        name: error?.name,
+        message: error?.message,
+        code: error?.code,
+      });
       throw error;
     }
   }

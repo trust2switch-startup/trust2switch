@@ -7,9 +7,10 @@ export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
+  let slug: string = '';
   try {
     await ensureDatabaseConnection();
-    const { slug } = await params;
+    slug = (await params).slug;
 
     const course = await courseRepository.findOne({ slug });
     if (!course) {
@@ -23,10 +24,27 @@ export async function GET(
       success: true,
       data: course,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Get course by slug error:', error);
+    
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    const errorMessage = isDevelopment 
+      ? `Failed to fetch course: ${error?.message || 'Unknown error'}`
+      : 'Failed to fetch course';
+    
+    console.error('Error details:', {
+      message: error?.message,
+      stack: error?.stack,
+      name: error?.name,
+      slug,
+    });
+    
     return NextResponse.json(
-      { success: false, message: 'Failed to fetch course' },
+      { 
+        success: false, 
+        message: errorMessage,
+        ...(isDevelopment && { error: error?.message })
+      },
       { status: 500 }
     );
   }
