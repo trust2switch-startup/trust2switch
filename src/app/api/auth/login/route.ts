@@ -36,10 +36,19 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Get user permissions
+    let permissions = user.permissions || [];
+    if (permissions.length === 0 && user.role !== 'admin') {
+      // Use default permissions for role
+      const { DEFAULT_PERMISSIONS } = await import('@/lib/auth/permissions');
+      permissions = DEFAULT_PERMISSIONS[user.role] || [];
+    }
+
     const token = generateToken({
       userId: user._id.toString(),
       username: user.username,
       role: user.role,
+      permissions: permissions.length > 0 ? permissions : undefined,
     });
 
     return NextResponse.json({
@@ -50,6 +59,7 @@ export async function POST(req: NextRequest) {
         username: user.username,
         email: user.email,
         role: user.role,
+        permissions: permissions.length > 0 ? permissions : undefined,
       },
     });
   } catch (error) {
