@@ -5,3 +5,4 @@ export const databaseConfig = {
   defaultType: (process.env.DATABASE_TYPE || 'mongodb') as 'mongodb' | 'postgresql' | 'mysql',
 };
 
+

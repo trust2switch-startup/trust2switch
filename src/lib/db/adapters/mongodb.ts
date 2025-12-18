@@ -1,6 +1,6 @@
 // MongoDB adapter using Mongoose
-import mongoose, { Connection } from 'mongoose';
-import type { DatabaseAdapter } from '../types';
+import mongoose, { Connection } from "mongoose";
+import type { DatabaseAdapter } from "../types";
 
 export class MongoDBAdapter implements DatabaseAdapter {
   private connection: Connection | null = null;
@@ -28,11 +28,14 @@ export class MongoDBAdapter implements DatabaseAdapter {
 
       await mongoose.connect(this.connectionString, connectionOptions);
       this.connection = mongoose.connection;
-      console.log('MongoDB connected successfully');
+      console.log("MongoDB connected successfully");
     } catch (error: any) {
-      console.error('MongoDB connection error:', error);
-      console.error('Connection string provided:', this.connectionString ? 'Yes (hidden)' : 'No');
-      console.error('Error details:', {
+      console.error("MongoDB connection error:", error);
+      console.error(
+        "Connection string provided:",
+        this.connectionString ? "Yes (hidden)" : "No"
+      );
+      console.error("Error details:", {
         name: error?.name,
         message: error?.message,
         code: error?.code,
@@ -45,7 +48,7 @@ export class MongoDBAdapter implements DatabaseAdapter {
     if (this.connection) {
       await mongoose.disconnect();
       this.connection = null;
-      console.log('MongoDB disconnected');
+      console.log("MongoDB disconnected");
     }
   }
 
@@ -55,9 +58,8 @@ export class MongoDBAdapter implements DatabaseAdapter {
 
   getConnection(): Connection {
     if (!this.connection) {
-      throw new Error('MongoDB not connected');
+      throw new Error("MongoDB not connected");
     }
     return this.connection;
   }
 }
-

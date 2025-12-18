@@ -1,28 +1,35 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export type ValidationResult<T> = { data: T } | { error: string };
 
 export const paginationSchema = z.object({
   limit: z.number().min(1).max(500).default(100),
   skip: z.number().min(0).default(0),
-  sort: z.string().default('createdAt'),
-  order: z.enum(['asc', 'desc']).default('desc'),
+  sort: z.string().default("createdAt"),
+  order: z.enum(["asc", "desc"]).default("desc"),
 });
 
 export function parsePagination(searchParams: URLSearchParams) {
-  const limit = clamp(Number(searchParams.get('limit')) || 0, 1, 500) || 100;
-  const skip = clamp(Number(searchParams.get('skip')) || 0, 0, Number.MAX_SAFE_INTEGER);
-  const sort = searchParams.get('sort') || 'createdAt';
-  const order = searchParams.get('order') === 'asc' ? 'asc' : 'desc';
+  const limit = clamp(Number(searchParams.get("limit")) || 0, 1, 500) || 100;
+  const skip = clamp(
+    Number(searchParams.get("skip")) || 0,
+    0,
+    Number.MAX_SAFE_INTEGER
+  );
+  const sort = searchParams.get("sort") || "createdAt";
+  const order = searchParams.get("order") === "asc" ? "asc" : "desc";
 
   return paginationSchema.parse({ limit, skip, sort, order });
 }
 
-export function validateSchema<T>(schema: z.ZodSchema<T>, data: unknown): ValidationResult<T> {
+export function validateSchema<T>(
+  schema: z.ZodSchema<T>,
+  data: unknown
+): ValidationResult<T> {
   const parsed = schema.safeParse(data);
   if (!parsed.success) {
     const firstError = parsed.error.issues[0];
-    const path = firstError.path.join('.') || 'payload';
+    const path = firstError.path.join(".") || "payload";
     return { error: `${path}: ${firstError.message}` };
   }
   return { data: parsed.data };
@@ -78,7 +85,7 @@ const faqSchema = z.object({
 const lessonSchema = z.object({
   title: z.string().min(1),
   duration: z.string().min(1),
-  type: z.enum(['video', 'reading', 'assignment']),
+  type: z.enum(["video", "reading", "assignment"]),
 });
 
 const curriculumWeekSchema = z.object({
@@ -109,7 +116,7 @@ export const courseSchema = z
     instructor: instructorSchema,
     image: z.string().min(1),
     category: z.string().min(1),
-    level: z.enum(['Beginner', 'Intermediate', 'Advanced']),
+    level: z.enum(["Beginner", "Intermediate", "Advanced"]),
     duration: z.string().min(1),
     price: z.number(),
     originalPrice: z.number().nullable().default(null),
@@ -173,7 +180,7 @@ export const productSchema = z
     category: z.string().min(1),
     price: z.number(),
     originalPrice: z.number().optional(),
-    currency: z.string().default('INR'),
+    currency: z.string().default("INR"),
     inStock: z.boolean().default(true),
     stockQuantity: z.number().optional(),
     rating: z.number().optional(),
@@ -201,7 +208,8 @@ export const professionalCourseSchema = z
   })
   .strict();
 
-export const professionalCourseUpdateSchema = professionalCourseSchema.partial();
+export const professionalCourseUpdateSchema =
+  professionalCourseSchema.partial();
 
 export const schoolSubjectSchema = z
   .object({
@@ -229,7 +237,7 @@ export const contentSchema = z
       about: z.string().min(1),
       blog: z.string().min(1),
       contact: z.string().min(1),
-      cta: z.string().min(1, { message: 'Required' }),
+      cta: z.string().min(1, { message: "Required" }),
     }),
     home: z.record(z.string(), z.any()),
     courses: z.record(z.string(), z.any()),
@@ -249,13 +257,19 @@ export const loginSchema = z.object({
 
 export const callbackRequestSchema = z
   .object({
-    name: z.string().min(1, 'Name is required'),
-    phone: z.string().min(1, 'Phone number is required').regex(/^[\d\s\-\+\(\)]+$/, 'Invalid phone number format'),
-    preferredTime: z.enum(['morning', 'afternoon', 'evening'], {
-      error: 'Preferred time is required',
+    name: z.string().min(1, "Name is required"),
+    phone: z
+      .string()
+      .min(1, "Phone number is required")
+      .regex(/^[\d\s\-\+\(\)]+$/, "Invalid phone number format"),
+    preferredTime: z.enum(["morning", "afternoon", "evening"], {
+      error: "Preferred time is required",
     }),
-    message: z.string().optional().default(''),
-    status: z.enum(['pending', 'contacted', 'completed']).optional().default('pending'),
+    message: z.string().optional().default(""),
+    status: z
+      .enum(["pending", "contacted", "completed"])
+      .optional()
+      .default("pending"),
   })
   .strict();
 

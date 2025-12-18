@@ -1,5 +1,5 @@
 // Database connection utility for API routes
-import { connectDatabase, getDatabaseConnection } from './database';
+import { connectDatabase, getDatabaseConnection } from "./database";
 
 let isConnected = false;
 
@@ -15,4 +15,3 @@ export async function ensureDatabaseConnection(): Promise<void> {
     }
   }
 }
-
