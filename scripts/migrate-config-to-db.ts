@@ -44,7 +44,7 @@ async function migrate() {
   try {
     requireDatabaseUrl();
     console.log('Starting migration...');
-    
+
     // Connect to database
     await connectDatabase();
     console.log('Connected to database');
@@ -59,7 +59,10 @@ async function migrate() {
         await Course.create(courseData);
         console.log(`  - Created course: ${course.title}`);
       } else {
-        console.log(`  - Skipped existing course: ${course.title}`);
+        // Update existing course
+        const { id, ...courseData } = course;
+        await Course.findOneAndUpdate({ slug: course.slug }, courseData);
+        console.log(`  - Updated existing course: ${course.title}`);
       }
     }
 
