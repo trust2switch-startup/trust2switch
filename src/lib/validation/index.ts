@@ -82,16 +82,12 @@ const faqSchema = z.object({
   answer: z.string().min(1),
 });
 
-const lessonSchema = z.object({
-  title: z.string().min(1),
-  duration: z.string().min(1),
-  type: z.enum(["video", "reading", "assignment"]),
-});
-
-const curriculumWeekSchema = z.object({
-  week: z.number(),
-  title: z.string().min(1),
-  lessons: z.array(lessonSchema).min(1),
+const curriculumModuleSchema = z.object({
+  week: z.string().min(1),
+  moduleName: z.string().min(1),
+  topics: z.array(z.string()).min(1),
+  learningOutcomes: z.array(z.string()).min(1),
+  project: z.string().optional(),
 });
 
 const certificateSchema = z.object({
@@ -138,7 +134,7 @@ export const courseSchema = z
     faqs: z.array(faqSchema).default([]),
     jobDescriptionsLink: z.string().nullable().default(null),
     certificate: certificateSchema.nullable().default(null),
-    curriculum: z.array(curriculumWeekSchema),
+    curriculum: z.array(curriculumModuleSchema),
     tags: z.array(z.string()).default([]),
     isPopular: z.boolean().default(false),
     isNew: z.boolean().default(false),

@@ -41,16 +41,12 @@ export interface ISkill {
   icon: string;
 }
 
-export interface ILesson {
-  title: string;
-  duration: string;
-  type: "video" | "reading" | "assignment";
-}
-
-export interface ICurriculumWeek {
-  week: number;
-  title: string;
-  lessons: ILesson[];
+export interface ICurriculumModule {
+  week: string;
+  moduleName: string;
+  topics: string[];
+  learningOutcomes: string[];
+  project?: string;
 }
 
 export interface ICertificate {
@@ -103,7 +99,7 @@ export interface ICourse extends Omit<Document, "isNew"> {
   faqs?: IFAQ[];
   jobDescriptionsLink?: string;
   certificate?: ICertificate;
-  curriculum: ICurriculumWeek[];
+  curriculum: ICurriculumModule[];
   tags: string[];
   isPopular?: boolean;
   isNew: boolean;
@@ -179,24 +175,13 @@ const FAQSchema = new Schema<IFAQ>(
   { _id: false }
 );
 
-const LessonSchema = new Schema<ILesson>(
+const CurriculumModuleSchema = new Schema<ICurriculumModule>(
   {
-    title: { type: String, required: true },
-    duration: { type: String, required: true },
-    type: {
-      type: String,
-      enum: ["video", "reading", "assignment"],
-      required: true,
-    },
-  },
-  { _id: false }
-);
-
-const CurriculumWeekSchema = new Schema<ICurriculumWeek>(
-  {
-    week: { type: Number, required: true },
-    title: { type: String, required: true },
-    lessons: [LessonSchema],
+    week: { type: String, required: true },
+    moduleName: { type: String, required: true },
+    topics: { type: [String], required: true },
+    learningOutcomes: { type: [String], required: true },
+    project: { type: String },
   },
   { _id: false }
 );
@@ -253,7 +238,7 @@ const CourseSchema = new Schema<ICourse>(
     faqs: { type: [FAQSchema], default: [] },
     jobDescriptionsLink: { type: String, default: null },
     certificate: { type: CertificateSchema, default: null },
-    curriculum: { type: [CurriculumWeekSchema], required: true },
+    curriculum: { type: [CurriculumModuleSchema], required: true },
     tags: { type: [String], default: [], index: true },
     isPopular: { type: Boolean, default: false, index: true },
     // @ts-ignore - isNew conflicts with Document.isNew but we need it as a schema field

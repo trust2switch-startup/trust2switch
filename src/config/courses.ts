@@ -89,13 +89,11 @@ export interface Course {
     address: string;
   };
   curriculum: {
-    week: number;
-    title: string;
-    lessons: {
-      title: string;
-      duration: string;
-      type: 'video' | 'reading' | 'assignment';
-    }[];
+    week: string;
+    moduleName: string;
+    topics: string[];
+    learningOutcomes: string[];
+    project?: string;
   }[];
   tags: string[];
   isPopular?: boolean;
@@ -217,22 +215,16 @@ export const courses: Course[] = [
     ],
     curriculum: [
       {
-        week: 1,
-        title: 'Introduction to Web Development',
-        lessons: [
-          { title: 'Course Overview', duration: '15 min', type: 'video' },
-          { title: 'Setting Up Your Environment', duration: '20 min', type: 'video' },
-          { title: 'HTML & CSS Basics', duration: '45 min', type: 'video' },
-        ],
+        week: 'Week 1',
+        moduleName: 'Introduction to Web Development',
+        topics: ['Course Overview', 'Setting Up Your Environment', 'HTML & CSS Basics'],
+        learningOutcomes: ['Setup dev environment', 'Build basic HTML pages'],
       },
       {
-        week: 2,
-        title: 'JavaScript Fundamentals',
-        lessons: [
-          { title: 'Variables and Data Types', duration: '30 min', type: 'video' },
-          { title: 'Functions and Scope', duration: '35 min', type: 'video' },
-          { title: 'Arrays and Objects', duration: '40 min', type: 'video' },
-        ],
+        week: 'Week 2',
+        moduleName: 'JavaScript Fundamentals',
+        topics: ['Variables and Data Types', 'Functions and Scope', 'Arrays and Objects'],
+        learningOutcomes: ['Write basic JS functions', 'Understand scope'],
       },
     ],
     tags: ['React', 'Node.js', 'MongoDB', 'JavaScript'],
@@ -515,13 +507,10 @@ export const courses: Course[] = [
     },
     curriculum: [
       {
-        week: 1,
-        title: 'Python for Data Science',
-        lessons: [
-          { title: 'Python Basics', duration: '30 min', type: 'video' },
-          { title: 'NumPy and Pandas', duration: '45 min', type: 'video' },
-          { title: 'Data Cleaning', duration: '40 min', type: 'video' },
-        ],
+        week: 'Week 1',
+        moduleName: 'Python for Data Science',
+        topics: ['Python Basics', 'NumPy and Pandas', 'Data Cleaning'],
+        learningOutcomes: ['Write Python scripts', 'Clean data using Pandas'],
       },
     ],
     tags: ['Python', 'Machine Learning', 'Pandas', 'Data Visualization'],
@@ -641,13 +630,10 @@ export const courses: Course[] = [
     ],
     curriculum: [
       {
-        week: 1,
-        title: 'Introduction to UX/UI Design',
-        lessons: [
-          { title: 'Design Principles', duration: '25 min', type: 'video' },
-          { title: 'User Research Basics', duration: '30 min', type: 'video' },
-          { title: 'Getting Started with Figma', duration: '35 min', type: 'video' },
-        ],
+        week: 'Week 1',
+        moduleName: 'Introduction to UX/UI Design',
+        topics: ['Design Principles', 'User Research Basics', 'Getting Started with Figma'],
+        learningOutcomes: ['Understand design principles', 'Use Figma fundamentals'],
       },
     ],
     tags: ['Figma', 'UX Design', 'UI Design', 'Prototyping'],
@@ -767,13 +753,10 @@ export const courses: Course[] = [
     ],
     curriculum: [
       {
-        week: 1,
-        title: 'AWS Fundamentals',
-        lessons: [
-          { title: 'Introduction to Cloud Computing', duration: '20 min', type: 'video' },
-          { title: 'AWS Console Overview', duration: '25 min', type: 'video' },
-          { title: 'EC2 Basics', duration: '40 min', type: 'video' },
-        ],
+        week: 'Week 1',
+        moduleName: 'AWS Fundamentals',
+        topics: ['Introduction to Cloud Computing', 'AWS Console Overview', 'EC2 Basics'],
+        learningOutcomes: ['Navigate AWS Console', 'Launch EC2 instances'],
       },
     ],
     tags: ['AWS', 'Cloud Computing', 'DevOps', 'Infrastructure'],
@@ -892,13 +875,10 @@ export const courses: Course[] = [
     ],
     curriculum: [
       {
-        week: 1,
-        title: 'React Native Basics',
-        lessons: [
-          { title: 'Setting Up React Native', duration: '30 min', type: 'video' },
-          { title: 'Components and Props', duration: '35 min', type: 'video' },
-          { title: 'Navigation', duration: '40 min', type: 'video' },
-        ],
+        week: 'Week 1',
+        moduleName: 'React Native Basics',
+        topics: ['Setting Up React Native', 'Components and Props', 'Navigation'],
+        learningOutcomes: ['Build basic React Native app', 'Understand components'],
       },
     ],
     tags: ['React Native', 'iOS', 'Android', 'Mobile Development'],
@@ -1017,13 +997,10 @@ export const courses: Course[] = [
     ],
     curriculum: [
       {
-        week: 1,
-        title: 'Introduction to Digital Marketing',
-        lessons: [
-          { title: 'Marketing Fundamentals', duration: '25 min', type: 'video' },
-          { title: 'SEO Basics', duration: '30 min', type: 'video' },
-          { title: 'Content Marketing', duration: '35 min', type: 'video' },
-        ],
+        week: 'Week 1',
+        moduleName: 'Introduction to Digital Marketing',
+        topics: ['Marketing Fundamentals', 'SEO Basics', 'Content Marketing'],
+        learningOutcomes: ['Understand marketing funnels', 'Basic SEO'],
       },
     ],
     tags: ['SEO', 'Social Media', 'Content Marketing', 'Analytics'],
@@ -1066,13 +1043,10 @@ export const courses: Course[] = [
     ],
     curriculum: [
       {
-        week: 1,
-        title: 'Introduction to Generative AI',
-        lessons: [
-          { title: 'What is Generative AI?', duration: '30 min', type: 'video' },
-          { title: 'LLMs Overview', duration: '35 min', type: 'video' },
-          { title: 'Getting Started', duration: '25 min', type: 'video' },
-        ],
+        week: 'Week 1',
+        moduleName: 'Introduction to Generative AI',
+        topics: ['What is Generative AI?', 'LLMs Overview', 'Getting Started'],
+        learningOutcomes: ['Understand GenAI concepts', 'Use basic LLMs'],
       },
     ],
     tags: ['AI', 'Machine Learning', 'LLM', 'Generative AI'],
@@ -1115,13 +1089,10 @@ export const courses: Course[] = [
     ],
     curriculum: [
       {
-        week: 1,
-        title: 'Introduction to DevOps',
-        lessons: [
-          { title: 'DevOps Fundamentals', duration: '30 min', type: 'video' },
-          { title: 'Docker Basics', duration: '40 min', type: 'video' },
-          { title: 'Container Orchestration', duration: '35 min', type: 'video' },
-        ],
+        week: 'Week 1',
+        moduleName: 'Introduction to DevOps',
+        topics: ['DevOps Fundamentals', 'Docker Basics', 'Container Orchestration'],
+        learningOutcomes: ['Understand DevOps culture', 'Run Docker containers'],
       },
     ],
     tags: ['DevOps', 'CI/CD', 'Docker', 'Kubernetes', 'Jenkins'],
@@ -1164,13 +1135,10 @@ export const courses: Course[] = [
     ],
     curriculum: [
       {
-        week: 1,
-        title: 'HTML Basics',
-        lessons: [
-          { title: 'HTML Structure', duration: '25 min', type: 'video' },
-          { title: 'HTML Elements', duration: '30 min', type: 'video' },
-          { title: 'Forms and Inputs', duration: '35 min', type: 'video' },
-        ],
+        week: 'Week 1',
+        moduleName: 'HTML Basics',
+        topics: ['HTML Structure', 'HTML Elements', 'Forms and Inputs'],
+        learningOutcomes: ['Create HTML structure', 'Use forms'],
       },
     ],
     tags: ['HTML', 'CSS', 'JavaScript', 'Web Development'],
@@ -1213,13 +1181,10 @@ export const courses: Course[] = [
     ],
     curriculum: [
       {
-        week: 1,
-        title: 'SQL Fundamentals',
-        lessons: [
-          { title: 'Introduction to Databases', duration: '25 min', type: 'video' },
-          { title: 'SQL Basics', duration: '35 min', type: 'video' },
-          { title: 'SELECT Queries', duration: '30 min', type: 'video' },
-        ],
+        week: 'Week 1',
+        moduleName: 'SQL Fundamentals',
+        topics: ['Introduction to Databases', 'SQL Basics', 'SELECT Queries'],
+        learningOutcomes: ['Write basic SQL queries', 'Understand RDBMS'],
       },
     ],
     tags: ['SQL', 'Database', 'MySQL', 'PostgreSQL', 'MongoDB'],
@@ -1262,14 +1227,134 @@ export const courses: Course[] = [
     ],
     curriculum: [
       {
-        week: 1,
-        title: 'Python Basics',
-        lessons: [
-          { title: 'Introduction to Python', duration: '20 min', type: 'video' },
-          { title: 'Variables and Data Types', duration: '30 min', type: 'video' },
-          { title: 'Control Flow', duration: '35 min', type: 'video' },
+        week: 'Day 1',
+        moduleName: 'Python Foundations',
+        topics: [
+          'Installation & Env Setup',
+          'Variables & Data Types',
+          'Input/Output operations',
+          'Basic Operators'
         ],
+        learningOutcomes: ['Understand how Python handles memory and basic data manipulation.'],
+        project: 'Project: Expense Splitter CLI - A command-line tool to split bills among friends.'
       },
+      {
+        week: 'Day 2 & 3',
+        moduleName: 'Control Flow & Logic',
+        topics: [
+          'Conditional Statements (If/Else)',
+          'Loops (For/While)',
+          'Error Handling (Try/Except)',
+          'Break/Continue/Pass'
+        ],
+        learningOutcomes: ['Ability to write logic and handle basic runtime errors gracefully.'],
+        project: 'Project: Text-Based Adventure Game - A game using complex logic flows and loops.'
+      },
+      {
+        week: 'Day 4 & 5',
+        moduleName: 'Data Structures',
+        topics: [
+          'Lists, Tuples, Sets, Dictionaries',
+          'List Comprehensions',
+          'Slicing & Indexing',
+          'Built-in methods'
+        ],
+        learningOutcomes: ['Master data organization and efficient retrieval.'],
+        project: 'Project: Inventory Management System - CRUD operations using Dictionaries/Lists.'
+      },
+      {
+        week: 'Day 6 & 7',
+        moduleName: 'Functions & Modules',
+        topics: [
+          'Defining Functions & Arguments',
+          'Lambda Functions',
+          'Scope (Global/Local)',
+          'Importing Modules & Libraries'
+        ],
+        learningOutcomes: ['Write reusable, modular, and clean code.'],
+        project: 'Project: Password Generator & Manager - Generate secure passwords and store them.'
+      },
+      {
+        week: 'Day 8',
+        moduleName: 'File Handling & RegEx',
+        topics: [
+          'Reading/Writing Files (txt, csv, json)',
+          'Context Managers (with statement)',
+          'Regular Expressions (RegEx)'
+        ],
+        learningOutcomes: ['Automate data extraction and file manipulation tasks.'],
+        project: 'Project: Log File Analyzer - Parse server logs to find error patterns automatically.'
+      },
+      {
+        week: 'Day 10 & 11',
+        moduleName: 'Object-Oriented Programming (OOP)',
+        topics: [
+          'Classes & Objects',
+          'Inheritance & Polymorphism',
+          'Encapsulation & Abstraction',
+          'Magic Methods (__init__, __str__)'
+        ],
+        learningOutcomes: ['Build scalable systems using industry-standard OOP principles.'],
+        project: 'Project: Library Management System - Class-based system for borrowing/returning books.'
+      },
+      {
+        week: 'Day 12 & 13',
+        moduleName: 'Advanced Python',
+        topics: [
+          'Decorators & Generators',
+          'Iterators & Closures',
+          'Virtual Environments (venv)',
+          'Pip & Dependency Management'
+        ],
+        learningOutcomes: ['Write efficient, "Pythonic" code used in senior-level roles.'],
+        project: 'Project: Custom Decorator Library - Create tools to time code execution and log errors.'
+      },
+      {
+        week: 'Day 14 & 15',
+        moduleName: 'Web Scraping & Automation',
+        topics: [
+          'Requests & BeautifulSoup',
+          'N8N - Automating Excel/Email tasks'
+        ],
+        learningOutcomes: ['Automate repetitive web and office tasks.'],
+        project: 'Project: E-commerce Price Tracker - Scrape Amazon/Flipkart for price drops and email alerts.'
+      },
+      {
+        week: 'Day 16',
+        moduleName: 'API Development (FastAPI/Flask)',
+        topics: [
+          'What is a REST API?',
+          'GET/POST/PUT/DELETE requests',
+          'Routing & Endpoints',
+          'JSON Response handling'
+        ],
+        learningOutcomes: ['Build the backend for web and mobile applications.'],
+        project: 'Project: Todo List API - A fully functional backend API tested with Postman.'
+      },
+      {
+        week: 'Day 17 - 20',
+        moduleName: 'Project Workflow & Collaboration',
+        topics: [
+          'Git & GitHub (Branching, PRs)',
+          'Unit Testing (PyTest)',
+          'Debugging strategies',
+          'Documentation (Docstrings)'
+        ],
+        learningOutcomes: ['Work effectively in a professional development team.'],
+        project: 'Project: Open Source Contribution - Fix a bug or add a feature to a shared class repo.'
+      },
+      {
+        week: 'Day 21 - 31',
+        moduleName: 'Capstone & Deployment',
+        topics: [
+          'Capstone Development',
+          'Deployment (Render/Heroku/AWS EC2)',
+          'Final Code Review',
+          'Mock Interview'
+        ],
+        learningOutcomes: ['Deploy a full-stack application to the live web.'],
+        project: 'Capstone: Full Stack Blog or Task Manager - deployed live with Database and API.'
+      }
     ],
     tags: ['Python', 'Programming', 'Automation', 'Scripting'],
     whoCanApply: [
@@ -1318,13 +1403,10 @@ export const courses: Course[] = [
     ],
     curriculum: [
       {
-        week: 1,
-        title: 'Java Fundamentals',
-        lessons: [
-          { title: 'Java Basics', duration: '30 min', type: 'video' },
-          { title: 'Object-Oriented Programming', duration: '40 min', type: 'video' },
-          { title: 'Spring Framework Introduction', duration: '35 min', type: 'video' },
-        ],
+        week: 'Week 1',
+        moduleName: 'Java Fundamentals',
+        topics: ['Java Basics', 'Object-Oriented Programming', 'Spring Framework Introduction'],
+        learningOutcomes: ['Write Java code', 'Understand OOP'],
       },
     ],
     tags: ['Java', 'Spring Boot', 'Enterprise', 'Microservices'],
@@ -1367,13 +1449,10 @@ export const courses: Course[] = [
     ],
     curriculum: [
       {
-        week: 1,
-        title: 'Excel Basics',
-        lessons: [
-          { title: 'Excel Interface', duration: '20 min', type: 'video' },
-          { title: 'Basic Formulas', duration: '30 min', type: 'video' },
-          { title: 'Data Entry and Formatting', duration: '25 min', type: 'video' },
-        ],
+        week: 'Week 1',
+        moduleName: 'Excel Basics',
+        topics: ['Excel Interface', 'Basic Formulas', 'Data Entry and Formatting'],
+        learningOutcomes: ['Navigate Excel', 'Write formulas'],
       },
     ],
     tags: ['Excel', 'Business', 'Data Analysis', 'VBA'],
@@ -1416,13 +1495,10 @@ export const courses: Course[] = [
     ],
     curriculum: [
       {
-        week: 1,
-        title: 'Introduction to AI',
-        lessons: [
-          { title: 'AI Fundamentals', duration: '30 min', type: 'video' },
-          { title: 'Machine Learning Basics', duration: '35 min', type: 'video' },
-          { title: 'Neural Networks Introduction', duration: '40 min', type: 'video' },
-        ],
+        week: 'Week 1',
+        moduleName: 'Introduction to AI',
+        topics: ['AI Fundamentals', 'Machine Learning Basics', 'Neural Networks Introduction'],
+        learningOutcomes: ['Understand AI basics', 'Intro to ML'],
       },
     ],
     tags: ['AI', 'Deep Learning', 'Neural Networks', 'Computer Vision'],
@@ -1465,13 +1541,10 @@ export const courses: Course[] = [
     ],
     curriculum: [
       {
-        week: 1,
-        title: 'Algebra Fundamentals',
-        lessons: [
-          { title: 'Introduction to Algebra', duration: '25 min', type: 'video' },
-          { title: 'Linear Equations', duration: '30 min', type: 'video' },
-          { title: 'Quadratic Equations', duration: '35 min', type: 'video' },
-        ],
+        week: 'Week 1',
+        moduleName: 'Algebra Fundamentals',
+        topics: ['Introduction to Algebra', 'Linear Equations', 'Quadratic Equations'],
+        learningOutcomes: ['Solve linear equations', 'Understand quadratics'],
       },
     ],
     tags: ['Mathematics', 'Algebra', 'Calculus', 'Geometry'],
@@ -1514,13 +1587,10 @@ export const courses: Course[] = [
     ],
     curriculum: [
       {
-        week: 1,
-        title: 'Mechanics Basics',
-        lessons: [
-          { title: 'Introduction to Mechanics', duration: '30 min', type: 'video' },
-          { title: 'Kinematics', duration: '35 min', type: 'video' },
-          { title: 'Forces and Motion', duration: '40 min', type: 'video' },
-        ],
+        week: 'Week 1',
+        moduleName: 'Mechanics Basics',
+        topics: ['Introduction to Mechanics', 'Kinematics', 'Forces and Motion'],
+        learningOutcomes: ['Understand mechanics', 'Solve motion problems'],
       },
     ],
     tags: ['Physics', 'Mechanics', 'Optics', 'Modern Physics'],
@@ -1563,13 +1633,10 @@ export const courses: Course[] = [
     ],
     curriculum: [
       {
-        week: 1,
-        title: 'Chemistry Fundamentals',
-        lessons: [
-          { title: 'Introduction to Chemistry', duration: '25 min', type: 'video' },
-          { title: 'Atomic Structure', duration: '30 min', type: 'video' },
-          { title: 'Chemical Bonding', duration: '35 min', type: 'video' },
-        ],
+        week: 'Week 1',
+        moduleName: 'Chemistry Fundamentals',
+        topics: ['Introduction to Chemistry', 'Atomic Structure', 'Chemical Bonding'],
+        learningOutcomes: ['Understand atoms', 'Chemical bonds'],
       },
     ],
     tags: ['Chemistry', 'Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry'],
@@ -1612,13 +1679,10 @@ export const courses: Course[] = [
     ],
     curriculum: [
       {
-        week: 1,
-        title: 'Programming Basics',
-        lessons: [
-          { title: 'Introduction to Programming', duration: '25 min', type: 'video' },
-          { title: 'Python Basics', duration: '30 min', type: 'video' },
-          { title: 'Variables and Data Types', duration: '35 min', type: 'video' },
-        ],
+        week: 'Week 1',
+        moduleName: 'Programming Basics',
+        topics: ['Introduction to Programming', 'Python Basics', 'Variables and Data Types'],
+        learningOutcomes: ['Write simple programs', 'Understand variables'],
       },
     ],
     tags: ['Programming', 'Python', 'C++', 'Java', 'Beginner'],
@@ -1662,13 +1726,10 @@ export const courses: Course[] = [
     ],
     curriculum: [
       {
-        week: 1,
-        title: 'English Fundamentals',
-        lessons: [
-          { title: 'Grammar Basics', duration: '25 min', type: 'video' },
-          { title: 'Parts of Speech', duration: '30 min', type: 'video' },
-          { title: 'Sentence Structure', duration: '35 min', type: 'video' },
-        ],
+        week: 'Week 1',
+        moduleName: 'English Fundamentals',
+        topics: ['Grammar Basics', 'Parts of Speech', 'Sentence Structure'],
+        learningOutcomes: ['Improve grammar', 'Write better sentences'],
       },
     ],
     tags: ['English', 'Grammar', 'Literature', 'Essay Writing'],
@@ -1711,13 +1772,10 @@ export const courses: Course[] = [
     ],
     curriculum: [
       {
-        week: 1,
-        title: 'Introduction to Regular Subjects',
-        lessons: [
-          { title: 'History Overview', duration: '30 min', type: 'video' },
-          { title: 'Geography Basics', duration: '30 min', type: 'video' },
-          { title: 'Biology Fundamentals', duration: '30 min', type: 'video' },
-        ],
+        week: 'Week 1',
+        moduleName: 'Introduction to Regular Subjects',
+        topics: ['History Overview', 'Geography Basics', 'Biology Fundamentals'],
+        learningOutcomes: ['General knowledge', 'Basic biology'],
       },
     ],
     tags: ['History', 'Geography', 'Biology', 'Social Studies'],

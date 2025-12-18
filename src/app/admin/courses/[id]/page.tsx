@@ -8,6 +8,7 @@ import {
   FormSelect,
 } from "@/components/admin/FormField";
 import { useToast } from "@/components/admin/Toast";
+import { CurriculumEditor } from "@/components/admin/CurriculumEditor";
 
 export default function EditCoursePage() {
   const router = useRouter();
@@ -44,7 +45,7 @@ export default function EditCoursePage() {
     tags: "",
     isPopular: false,
     isNew: false,
-    curriculum: "",
+    curriculum: [] as any[],
   });
 
   useEffect(() => {
@@ -94,7 +95,7 @@ export default function EditCoursePage() {
           tags: Array.isArray(course.tags) ? course.tags.join(", ") : "",
           isPopular: course.isPopular || false,
           isNew: course.isNew || false,
-          curriculum: JSON.stringify(course.curriculum || [], null, 2),
+          curriculum: course.curriculum || [],
         });
       } else {
         showToast("Failed to load course", "error");
@@ -163,20 +164,12 @@ export default function EditCoursePage() {
         .map((tag) => tag.trim())
         .filter((tag) => tag.length > 0);
 
-      // Parse curriculum JSON
-      let curriculumArray;
-      try {
-        curriculumArray = JSON.parse(formData.curriculum);
-      } catch {
-        throw new Error("Invalid curriculum JSON format");
-      }
-
       const payload = {
         ...formData,
         features: featuresArray,
         bulletPoints: bulletPointsArray,
         tags: tagsArray,
-        curriculum: curriculumArray,
+        curriculum: formData.curriculum,
         originalPrice: formData.originalPrice || null,
       };
 
@@ -469,15 +462,12 @@ export default function EditCoursePage() {
           </label>
         </div>
 
-        <FormTextarea
-          label="Curriculum (JSON)"
-          name="curriculum"
+        <CurriculumEditor
           value={formData.curriculum}
-          onChange={handleChange}
-          required
+          onChange={(newCurriculum) =>
+            setFormData((prev) => ({ ...prev, curriculum: newCurriculum }))
+          }
           error={errors.curriculum}
-          rows={10}
-          description="JSON array of curriculum weeks. Each week should have: week (number), title (string), lessons (array of {title, duration, type})"
         />
 
         <div className="flex justify-end gap-3 pt-6 border-t">
