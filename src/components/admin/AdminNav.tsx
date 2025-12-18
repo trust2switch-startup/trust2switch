@@ -23,6 +23,7 @@ export function AdminNav() {
     { href: '/admin/courses', label: 'Courses' },
     { href: '/admin/blog', label: 'Blog' },
     { href: '/admin/products', label: 'Products' },
+    { href: '/admin/callback-requests', label: 'Callback Requests' },
     { href: '/admin/settings', label: 'Settings' },
   ];
 
