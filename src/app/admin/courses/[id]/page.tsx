@@ -55,18 +55,6 @@ export default function EditCoursePage() {
     comparisonData: [] as any[],
     careerTransitions: [] as any[],
     faqs: [] as any[],
-    certificate: {
-      serialNumber: "",
-      instituteName: "",
-      instituteSubtitle: "",
-      diplomaTitle: "",
-      certificateText: "",
-      directorName: "",
-      directorTitle: "",
-      deanName: "",
-      deanTitle: "",
-      address: "",
-    },
     brochureDownloadLink: "",
     noCostEMIAmount: "",
     admissionDeadlineDate: "",
@@ -124,18 +112,6 @@ export default function EditCoursePage() {
           comparisonData: course.comparisonData || [],
           careerTransitions: course.careerTransitions || [],
           faqs: course.faqs || [],
-          certificate: {
-            serialNumber: course.certificate?.serialNumber || "",
-            instituteName: course.certificate?.instituteName || "",
-            instituteSubtitle: course.certificate?.instituteSubtitle || "",
-            diplomaTitle: course.certificate?.diplomaTitle || "",
-            certificateText: course.certificate?.certificateText || "",
-            directorName: course.certificate?.directorName || "",
-            directorTitle: course.certificate?.directorTitle || "",
-            deanName: course.certificate?.deanName || "",
-            deanTitle: course.certificate?.deanTitle || "",
-            address: course.certificate?.address || "",
-          },
           brochureDownloadLink: course.brochureDownloadLink || "",
           noCostEMIAmount: course.noCostEMIAmount || "",
           admissionDeadlineDate: course.admissionDeadlineDate || "",
@@ -171,15 +147,6 @@ export default function EditCoursePage() {
           [field]: value,
         },
       }));
-    } else if (name.startsWith("certificate.")) {
-      const field = name.split(".")[1];
-      setFormData((prev) => ({
-        ...prev,
-        certificate: {
-          ...prev.certificate,
-          [field]: value,
-        },
-      }));
     } else if (type === "number") {
       const numValue = value === "" ? 0 : parseFloat(value);
       setFormData((prev) => ({ ...prev, [name]: numValue }));
@@ -207,14 +174,10 @@ export default function EditCoursePage() {
         .map((tag) => tag.trim())
         .filter((tag) => tag.length > 0);
 
-      // Check if certificate has meaningful data
-      const hasCertificateData = Object.values(formData.certificate).some(val => val.trim() !== "");
-
       const payload = {
         ...formData,
         tags: tagsArray,
         originalPrice: formData.originalPrice || null,
-        certificate: hasCertificateData ? formData.certificate : null,
       };
 
       const response = await fetch(`/api/courses/${id}`, {
@@ -676,74 +639,6 @@ export default function EditCoursePage() {
             fields={faqFields}
             titleField="question"
           />
-        </section>
-
-        {/* Certificate */}
-        <section>
-          <h2 className="text-xl font-semibold text-gray-900 border-b pb-2 mb-4">Certificate Details</h2>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <FormInput
-              label="Serial Number"
-              name="certificate.serialNumber"
-              value={formData.certificate.serialNumber}
-              onChange={handleChange}
-            />
-            <FormInput
-              label="Institute Name"
-              name="certificate.instituteName"
-              value={formData.certificate.instituteName}
-              onChange={handleChange}
-            />
-            <FormInput
-              label="Institute Subtitle"
-              name="certificate.instituteSubtitle"
-              value={formData.certificate.instituteSubtitle}
-              onChange={handleChange}
-            />
-            <FormInput
-              label="Diploma Title"
-              name="certificate.diplomaTitle"
-              value={formData.certificate.diplomaTitle}
-              onChange={handleChange}
-            />
-            <FormTextarea
-              label="Certificate Text"
-              name="certificate.certificateText"
-              value={formData.certificate.certificateText}
-              onChange={handleChange}
-              rows={3}
-            />
-            <FormInput
-              label="Director Name"
-              name="certificate.directorName"
-              value={formData.certificate.directorName}
-              onChange={handleChange}
-            />
-            <FormInput
-              label="Director Title"
-              name="certificate.directorTitle"
-              value={formData.certificate.directorTitle}
-              onChange={handleChange}
-            />
-            <FormInput
-              label="Dean Name"
-              name="certificate.deanName"
-              value={formData.certificate.deanName}
-              onChange={handleChange}
-            />
-            <FormInput
-              label="Dean Title"
-              name="certificate.deanTitle"
-              value={formData.certificate.deanTitle}
-              onChange={handleChange}
-            />
-            <FormInput
-              label="Address"
-              name="certificate.address"
-              value={formData.certificate.address}
-              onChange={handleChange}
-            />
-          </div>
         </section>
 
         <div className="flex justify-end gap-3 pt-6 border-t sticky bottom-0 bg-white p-4 shadow-t mt-8 z-10">
