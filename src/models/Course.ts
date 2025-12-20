@@ -20,16 +20,19 @@ export interface IComparisonRow {
 }
 
 export interface ICareerTransition {
-  hike: string;
+  hike?: string;
   name: string;
-  field: string;
-  previousRole: string;
-  previousCompany: string;
-  newRole: string;
-  newCompany: string;
+  field?: string;
+  previousRole?: string;
+  previousCompany?: string;
+  newRole?: string;
+  newCompany?: string;
   companyLogo: string | null;
   image: string;
+  review: string;
+  video?: string;
 }
+
 
 export interface IFAQ {
   question: string;
@@ -154,15 +157,17 @@ const ComparisonRowSchema = new Schema<IComparisonRow>(
 
 const CareerTransitionSchema = new Schema<ICareerTransition>(
   {
-    hike: { type: String, required: true },
+    hike: { type: String, required: false },
     name: { type: String, required: true },
-    field: { type: String, required: true },
-    previousRole: { type: String, required: true },
-    previousCompany: { type: String, required: true },
-    newRole: { type: String, required: true },
-    newCompany: { type: String, required: true },
+    field: { type: String, required: false },
+    previousRole: { type: String, required: false },
+    previousCompany: { type: String, required: false },
+    newRole: { type: String, required: false },
+    newCompany: { type: String, required: false },
     companyLogo: { type: String, default: null },
-    image: { type: String, required: true },
+    image: { type: String, required: false }, // Made optional as per prompt request "image... only to be shown", but implied required for display. However, prompt said "I want only Student Name and Review/Feebback to be mandatory rest not to be madatory". So image optional in schema, but we should probably try to show it if there.
+    review: { type: String, required: false },
+    video: { type: String, required: false },
   },
   { _id: false }
 );
@@ -257,6 +262,11 @@ CourseSchema.index({ tags: 1, category: 1 });
 
 // Text index for search
 CourseSchema.index({ title: "text", description: "text", tags: "text" });
+
+// Prevent OverwriteModelError in HMR
+if (process.env.NODE_ENV !== 'production') {
+  delete mongoose.models['Course'];
+}
 
 export const Course: Model<ICourse> =
   mongoose.models.Course || mongoose.model<ICourse>("Course", CourseSchema);

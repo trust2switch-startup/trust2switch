@@ -160,14 +160,12 @@ export default function NewCoursePage() {
 
   const careerFields: FieldConfig[] = [
     { name: "name", label: "Student Name", type: "text", required: true },
-    { name: "hike", label: "Hike %", type: "text", required: true },
-    { name: "field", label: "Field", type: "text", required: true },
-    { name: "previousRole", label: "Previous Role", type: "text", required: true },
-    { name: "previousCompany", label: "Previous Company", type: "text", required: true },
-    { name: "newRole", label: "New Role", type: "text", required: true },
-    { name: "newCompany", label: "New Company", type: "text", required: true },
-    { name: "companyLogo", label: "Company Logo URL", type: "text" },
-    { name: "image", label: "Student Image URL", type: "text", required: true },
+    { name: "review", label: "Review/Feedback", type: "textarea", required: true },
+    { name: "video", label: "Video URL", type: "text", required: false },
+    { name: "newCompany", label: "Company Name", type: "text", required: false },
+    { name: "newRole", label: "Role", type: "text", required: false },
+    { name: "companyLogo", label: "Company Logo URL", type: "text", required: false },
+    { name: "image", label: "Student Image URL", type: "text", required: false },
   ];
 
   const faqFields: FieldConfig[] = [

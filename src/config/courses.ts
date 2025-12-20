@@ -1,104 +1,15 @@
 // Centralized Courses Data
 // All course information is defined here
 
-export interface ProgramHighlight {
-  icon: string;
-  title: string;
-  description: string;
-  gradient: string;
-}
-
-export interface Project {
-  title: string;
-  description: string;
-}
-
-export interface ComparisonRow {
-  category: string;
-  trust2switch: string;
-  otherCourses: string;
-}
-
-export interface CareerTransition {
-  hike: string;
-  name: string;
-  field: string;
-  previousRole: string;
-  previousCompany: string;
-  newRole: string;
-  newCompany: string;
-  companyLogo: string | null;
-  image: string;
-}
-
-export interface FAQ {
-  question: string;
-  answer: string;
-}
-
-export interface Skill {
-  name: string;
-  icon: string;
-}
-
-export interface Course {
-  id: string;
-  slug: string;
-  title: string;
-  description: string;
-  longDescription: string;
-  instructor: {
-    name: string;
-    role: string;
-    image: string;
-    bio: string;
-  };
-  image: string;
-  category: string;
-  level: 'Beginner' | 'Intermediate' | 'Advanced';
-  duration: string;
-  price: number;
-  originalPrice?: number;
-  rating: number;
-  reviews: number;
-  students: number;
-  language: string;
-  features: string[];
-  bulletPoints: string[];
-  brochureDownloadLink?: string;
-  noCostEMIAmount?: string;
-  admissionDeadlineDate?: string;
-  whoCanApply?: string[];
-  programHighlights?: ProgramHighlight[];
-  projects?: Project[];
-  skills?: Skill[];
-  comparisonData?: ComparisonRow[];
-  careerTransitions?: CareerTransition[];
-  faqs?: FAQ[];
-  jobDescriptionsLink?: string;
-  certificate?: {
-    serialNumber: string;
-    instituteName: string;
-    instituteSubtitle: string;
-    diplomaTitle: string;
-    certificateText: string;
-    directorName: string;
-    directorTitle: string;
-    deanName: string;
-    deanTitle: string;
-    address: string;
-  };
-  curriculum: {
-    week: string;
-    moduleName: string;
-    topics: string[];
-    learningOutcomes: string[];
-    project?: string;
-  }[];
-  tags: string[];
-  isPopular?: boolean;
-  isNew?: boolean;
-}
+import {
+  Course,
+  ProgramHighlight,
+  Project,
+  ComparisonRow,
+  CareerTransition,
+  FAQ,
+  Skill,
+} from '@/types';
 
 export const courses: Course[] = [
   {
@@ -395,6 +306,7 @@ export const courses: Course[] = [
         newCompany: 'Indegene',
         companyLogo: null,
         image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150',
+        review: "The curriculum is very well structured and the mentors are extremely helpful. The projects gave me real-world experience.",
       },
       {
         hike: '483%',
@@ -406,6 +318,7 @@ export const courses: Course[] = [
         newCompany: 'Cotiviti',
         companyLogo: 'COTIVITI',
         image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150',
+        review: "Trust2Switch helped me transition from a non-tech role to Data Science seamlessly. The career support was exceptional.",
       },
       {
         hike: '303%',
@@ -417,6 +330,7 @@ export const courses: Course[] = [
         newCompany: 'EXL',
         companyLogo: null,
         image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
+        review: "I was able to crack a job at EXL thanks to the rigorous training and mock interviews. Highly recommend this program.",
       },
       {
         hike: '192%',
@@ -428,6 +342,7 @@ export const courses: Course[] = [
         newCompany: 'Cotiviti',
         companyLogo: 'COTIVITI',
         image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150',
+        review: "The best investment for my career. The hands-on learning approach made complex topics easy to understand.",
       },
     ],
     faqs: [

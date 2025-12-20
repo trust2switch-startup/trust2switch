@@ -128,7 +128,7 @@ export function ArrayObjectEditor({
                                             <FormTextarea
                                                 label={field.label}
                                                 name={`${field.name}-${index}`}
-                                                value={item[field.name]}
+                                                value={item[field.name] ?? ""}
                                                 onChange={(e) =>
                                                     handleChange(index, field.name, e.target.value)
                                                 }
@@ -141,7 +141,7 @@ export function ArrayObjectEditor({
                                                 label={field.label}
                                                 name={`${field.name}-${index}`}
                                                 type={field.type}
-                                                value={item[field.name]}
+                                                value={item[field.name] ?? ""}
                                                 onChange={(e) =>
                                                     handleChange(index, field.name, e.target.value)
                                                 }

@@ -110,7 +110,11 @@ export default function EditCoursePage() {
           projects: course.projects || [],
           skills: course.skills || [],
           comparisonData: course.comparisonData || [],
-          careerTransitions: course.careerTransitions || [],
+          careerTransitions: (course.careerTransitions || []).map((t: any) => ({
+            ...t,
+            review: t.review || "",
+            video: t.video || "",
+          })),
           faqs: course.faqs || [],
           brochureDownloadLink: course.brochureDownloadLink || "",
           noCostEMIAmount: course.noCostEMIAmount || "",
@@ -248,14 +252,17 @@ export default function EditCoursePage() {
 
   const careerFields: FieldConfig[] = [
     { name: "name", label: "Student Name", type: "text", required: true },
-    { name: "hike", label: "Hike %", type: "text", required: true },
-    { name: "field", label: "Field", type: "text", required: true },
-    { name: "previousRole", label: "Previous Role", type: "text", required: true },
-    { name: "previousCompany", label: "Previous Company", type: "text", required: true },
-    { name: "newRole", label: "New Role", type: "text", required: true },
-    { name: "newCompany", label: "New Company", type: "text", required: true },
-    { name: "companyLogo", label: "Company Logo URL", type: "text" },
-    { name: "image", label: "Student Image URL", type: "text", required: true },
+    { name: "review", label: "Review/Feedback", type: "textarea", required: true },
+    { name: "video", label: "Video URL", type: "text", required: false },
+    { name: "newCompany", label: "Company Name", type: "text", required: false },
+    { name: "newRole", label: "Role", type: "text", required: false },
+    { name: "companyLogo", label: "Company Logo URL", type: "text", required: false },
+    { name: "image", label: "Student Image URL", type: "text", required: false },
+    // Hidden fields preserved for data integrity but not shown in UI as per request
+    // { name: "hike", label: "Hike %", type: "text", required: false },
+    // { name: "field", label: "Field", type: "text", required: false },
+    // { name: "previousRole", label: "Previous Role", type: "text", required: false },
+    // { name: "previousCompany", label: "Previous Company", type: "text", required: false },
   ];
 
   const faqFields: FieldConfig[] = [

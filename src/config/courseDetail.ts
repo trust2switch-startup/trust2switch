@@ -1,40 +1,13 @@
 // Course Detail Page Content Configuration
 // All content for the course detail page is defined here for easy customization
 
-export interface ProgramHighlight {
-  icon: string; // Icon name from lucide-react
-  title: string;
-  description: string;
-  gradient: string; // Tailwind gradient classes
-}
-
-export interface Project {
-  title: string;
-  description: string;
-}
-
-export interface ComparisonRow {
-  category: string;
-  trust2switch: string;
-  otherCourses: string;
-}
-
-export interface CareerTransition {
-  hike: string;
-  name: string;
-  field: string;
-  previousRole: string;
-  previousCompany: string;
-  newRole: string;
-  newCompany: string;
-  companyLogo: string | null;
-  image: string;
-}
-
-export interface FAQ {
-  question: string;
-  answer: string;
-}
+import {
+  ProgramHighlight,
+  Project,
+  ComparisonRow,
+  CareerTransition,
+  FAQ,
+} from "@/types";
 
 export interface CourseDetailConfig {
   // Section Titles and Headings
@@ -312,6 +285,7 @@ export const courseDetailConfig: CourseDetailConfig = {
       newCompany: 'Indegene',
       companyLogo: null,
       image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150',
+      review: "The curriculum is very well structured and the mentors are extremely helpful. The projects gave me real-world experience.",
     },
     {
       hike: '483%',
@@ -323,6 +297,7 @@ export const courseDetailConfig: CourseDetailConfig = {
       newCompany: 'Cotiviti',
       companyLogo: 'COTIVITI',
       image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150',
+      review: "Trust2Switch helped me transition from a non-tech role to Data Science seamlessly. The career support was exceptional.",
     },
     {
       hike: '303%',
@@ -334,6 +309,7 @@ export const courseDetailConfig: CourseDetailConfig = {
       newCompany: 'EXL',
       companyLogo: null,
       image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
+      review: "I was able to crack a job at EXL thanks to the rigorous training and mock interviews. Highly recommend this program.",
     },
     {
       hike: '192%',
@@ -345,6 +321,7 @@ export const courseDetailConfig: CourseDetailConfig = {
       newCompany: 'Cotiviti',
       companyLogo: 'COTIVITI',
       image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150',
+      review: "The best investment for my career. The hands-on learning approach made complex topics easy to understand.",
     },
   ],
 
