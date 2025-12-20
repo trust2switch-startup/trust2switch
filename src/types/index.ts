@@ -19,15 +19,17 @@ export interface ComparisonRow {
 }
 
 export interface CareerTransition {
-  hike: string;
+  hike?: string;
   name: string;
-  field: string;
-  previousRole: string;
-  previousCompany: string;
-  newRole: string;
-  newCompany: string;
+  field?: string;
+  previousRole?: string;
+  previousCompany?: string;
+  newRole?: string;
+  newCompany?: string;
   companyLogo: string | null;
-  image: string;
+  image?: string;
+  review: string;
+  video?: string;
 }
 
 export interface FAQ {

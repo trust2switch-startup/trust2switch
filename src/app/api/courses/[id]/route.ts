@@ -44,8 +44,10 @@ export const PUT = withAuth(async (
     await ensureDatabaseConnection();
     const { id } = await params;
     const payload = await req.json();
+    console.log("PUT Payload:", JSON.stringify(payload, null, 2)); // DEBUG
     const parsed = validateSchema(courseUpdateSchema, payload);
     if ('error' in parsed) {
+      console.log("Validation Error:", parsed.error); // DEBUG
       return NextResponse.json(
         { success: false, message: parsed.error },
         { status: 400 }
@@ -53,7 +55,8 @@ export const PUT = withAuth(async (
     }
 
     const updateData = parsed.data;
-    
+    console.log("Parsed Update Data:", JSON.stringify(updateData, null, 2)); // DEBUG
+
     // Convert null values to undefined for repository compatibility
     const cleanUpdateData: Record<string, any> = {};
     for (const [key, value] of Object.entries(updateData)) {
