@@ -66,15 +66,17 @@ const comparisonRowSchema = z.object({
 });
 
 const careerTransitionSchema = z.object({
-  hike: z.string().min(1),
+  hike: z.string().optional(),
   name: z.string().min(1),
-  field: z.string().min(1),
-  previousRole: z.string().min(1),
-  previousCompany: z.string().min(1),
-  newRole: z.string().min(1),
-  newCompany: z.string().min(1),
+  field: z.string().optional(),
+  previousRole: z.string().optional(),
+  previousCompany: z.string().optional(),
+  newRole: z.string().optional(),
+  newCompany: z.string().optional(),
   companyLogo: z.string().optional().nullable(),
-  image: z.string().min(1),
+  image: z.string().optional(),
+  review: z.string().optional(),
+  video: z.string().optional(),
 });
 
 const faqSchema = z.object({

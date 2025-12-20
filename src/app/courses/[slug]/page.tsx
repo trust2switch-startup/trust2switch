@@ -10,6 +10,8 @@ import {
   Clock,
   Check,
   ArrowLeft,
+  Quote,
+  PlayCircle,
   Calendar,
   ChevronDown,
   ChevronUp,
@@ -667,7 +669,7 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
               {sections.topSection.backButton}
             </Link>
 
-            <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
+            <div className="grid lg:grid-cols-2 items-center gap-6 sm:gap-8 lg:gap-12">
               {/* Left Column - Course Overview */}
               <div className="space-y-4 sm:space-y-6">
                 <Badge
@@ -778,7 +780,8 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
 
                     {/* Key Information */}
                     <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
-                      <div className="flex items-center gap-3 sm:gap-4 bg-white/10 backdrop-blur-sm p-3 sm:p-4 rounded-lg">
+                      {/* EMI Option - Disabled */}
+                      {/* <div className="flex items-center gap-3 sm:gap-4 bg-white/10 backdrop-blur-sm p-3 sm:p-4 rounded-lg">
                         <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#84994F]/20 rounded-lg flex items-center justify-center flex-shrink-0">
                           <CreditCard className="w-5 h-5 sm:w-6 sm:h-6 text-[#84994F]" />
                         </div>
@@ -791,7 +794,7 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
                               sections.topSection.noCostEMIAmount}
                           </div>
                         </div>
-                      </div>
+                      </div> */}
 
                       <div className="flex items-center gap-3 sm:gap-4 bg-white/10 backdrop-blur-sm p-3 sm:p-4 rounded-lg">
                         <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#84994F]/20 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -1116,19 +1119,19 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-slate-900 mb-6 sm:mb-8">
                 {sections.skills.title}
               </h2>
-              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+              <div className="grid grid-cols-2 min-[450px]:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3">
                 {skills.map((skill: Skill, index: number) => {
                   const BrandIcon = getBrandIcon(skill.name);
                   return (
                     <Card
                       key={index}
-                      className="border-2 border-slate-200 hover:border-[#84994F] transition-all bg-white hover:shadow-md"
+                      className="border border-slate-200 hover:border-[#84994F] transition-all bg-white hover:shadow-sm"
                     >
-                      <CardContent className="p-4 sm:p-5 text-center flex flex-col items-center gap-2 sm:gap-3">
-                        <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full">
-                          <BrandIcon className="w-8 h-8 sm:w-10 sm:h-10" />
+                      <CardContent className="p-3 flex items-center gap-3">
+                        <div className="w-8 h-8 flex items-center justify-center flex-shrink-0 text-[#84994F]">
+                          <BrandIcon className="w-5 h-5" />
                         </div>
-                        <div className="text-xs sm:text-sm font-semibold text-slate-900">
+                        <div className="text-xs font-semibold text-slate-900 leading-tight">
                           {skill.name}
                         </div>
                       </CardContent>
@@ -1275,94 +1278,82 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
                         className="flex-shrink-0"
                         style={{ scrollSnapAlign: "start" }}
                       >
-                        <Card className="w-[280px] sm:w-[300px] md:w-[320px] lg:w-[340px] h-[520px] sm:h-[560px] border-2 border-slate-200 hover:border-[#84994F] transition-all bg-white shadow-md hover:shadow-xl overflow-hidden flex flex-col">
-                          <CardContent className="p-5 sm:p-6 flex flex-col h-full">
-                            {/* Header with Hike Badge */}
-                            <div className="flex items-center justify-between mb-4 flex-shrink-0">
-                              <Badge className="bg-gradient-to-r from-green-500 to-green-600 text-white font-bold text-xs px-3 py-1.5 shadow-md">
-                                {transition.hike} HIKE
-                              </Badge>
-                              <div className="w-8 h-8 bg-gradient-to-br from-[#84994F]/10 to-[#435663]/10 rounded-lg flex items-center justify-center">
-                                <Linkedin className="w-4 h-4 text-[#435663]" />
+                        <Card className="w-[280px] sm:w-[300px] md:w-[320px] lg:w-[340px] h-auto min-h-[420px] border-2 border-slate-200 hover:border-[#84994F] transition-all bg-white shadow-md hover:shadow-xl overflow-hidden flex flex-col">
+                          <CardContent className="p-5 sm:p-6 flex flex-col h-full items-center text-center">
+                            {/* Profile Image */}
+                            <div className="relative w-20 h-20 sm:w-24 sm:h-24 mb-4 flex-shrink-0">
+                              <Image
+                                src={
+                                  transition.image || "/placeholder-user.jpg"
+                                }
+                                alt={transition.name}
+                                fill
+                                className="rounded-full object-cover ring-4 ring-[#84994F]/20 shadow-lg"
+                              />
+                              <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white flex items-center justify-center">
+                                <Check className="w-3 h-3 text-white" />
                               </div>
                             </div>
 
-                            {/* Profile Section */}
-                            <div className="text-center mb-4 flex-shrink-0">
-                              <div className="relative w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-3">
-                                <Image
-                                  src={transition.image}
-                                  alt={transition.name}
-                                  fill
-                                  className="rounded-full object-cover ring-4 ring-[#84994F]/20 shadow-lg"
-                                />
-                                <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white flex items-center justify-center">
-                                  <Check className="w-3 h-3 text-white" />
-                                </div>
+                            {/* Name */}
+                            <h3 className="font-heading font-semibold text-slate-900 text-base sm:text-lg mb-1">
+                              {transition.name}
+                            </h3>
+
+                            {/* Role & Company - Disabled */}
+                            {/* <div className="mb-4 flex flex-col items-center gap-2">
+                              <div className="text-sm font-medium text-slate-700">
+                                {transition.newRole}
                               </div>
-                              <h3 className="font-heading font-semibold text-slate-900 text-base sm:text-lg mb-1">
-                                {transition.name}
-                              </h3>
-                              <p className="text-xs sm:text-sm text-[#84994F] font-medium">
-                                {transition.field}
+                              {(transition.newCompany ||
+                                transition.companyLogo) && (
+                                <div className="flex items-center gap-2 justify-center">
+                                  <span className="text-xs text-slate-500">
+                                    at
+                                  </span>
+                                  {transition.companyLogo ? (
+                                    <div className="h-6 w-auto relative">
+                                      <img
+                                        src={transition.companyLogo}
+                                        alt={transition.newCompany || "Company"}
+                                        className="h-6 w-auto object-contain"
+                                      />
+                                    </div>
+                                  ) : (
+                                    <span className="font-semibold text-slate-900 text-sm">
+                                      {transition.newCompany}
+                                    </span>
+                                  )}
+                                </div>
+                              )}
+                              {transition.newCompany &&
+                                transition.companyLogo && (
+                                  <span className="text-sm font-semibold text-slate-900">
+                                    {transition.newCompany}
+                                  </span>
+                                )}
+                            </div> */}
+
+                            {/* Review */}
+                            <div className="relative bg-slate-50 rounded-xl p-4 mb-4 flex-1 w-full text-left">
+                              <Quote className="w-8 h-8 text-[#84994F]/20 absolute -top-2 -left-2 transform -scale-x-100" />
+                              <p className="text-sm text-slate-600 leading-relaxed italic relative z-10 line-clamp-6">
+                                "{transition.review}"
                               </p>
                             </div>
 
-                            {/* Career Transition Flow */}
-                            <div className="space-y-3 pt-4 border-t border-slate-200 flex-1 flex flex-col">
-                              {/* Previous Role */}
-                              <div className="bg-slate-50 rounded-lg p-3 flex-shrink-0">
-                                <div className="text-xs text-slate-500 uppercase tracking-wide mb-1">
-                                  Previous
-                                </div>
-                                <div className="font-semibold text-slate-900 text-sm mb-1">
-                                  {transition.previousRole}
-                                </div>
-                                <div className="text-xs text-slate-600 truncate">
-                                  {transition.previousCompany}
-                                </div>
-                              </div>
-
-                              {/* Arrow */}
-                              <div className="flex justify-center py-1 flex-shrink-0">
-                                <div className="relative">
-                                  <div className="absolute inset-0 flex items-center justify-center">
-                                    <div className="w-8 h-0.5 bg-gradient-to-r from-slate-300 to-green-400"></div>
-                                  </div>
-                                  <ArrowDown className="w-5 h-5 sm:w-6 sm:h-6 text-green-500 relative z-10 bg-white rounded-full p-0.5" />
-                                </div>
-                              </div>
-
-                              {/* New Role */}
-                              <div className="bg-gradient-to-br from-green-50 to-[#84994F]/5 rounded-lg p-3 border border-green-100 flex-shrink-0">
-                                <div className="text-xs text-green-600 uppercase tracking-wide mb-1 font-semibold">
-                                  New Role
-                                </div>
-                                <div className="font-semibold text-slate-900 text-sm mb-1">
-                                  {transition.newRole}
-                                </div>
-                                <div className="text-xs text-slate-600 truncate">
-                                  {transition.newCompany}
-                                </div>
-                              </div>
-
-                              {/* Company Logo - Always reserve space */}
-                              <div
-                                className={`pt-3 mt-3 border-t border-slate-200 flex-shrink-0 ${
-                                  transition.companyLogo ? "" : "min-h-[48px]"
-                                }`}
+                            {/* Video Button */}
+                            {transition.video && (
+                              <a
+                                href={transition.video}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center justify-center gap-2 text-sm font-medium text-[#84994F] hover:text-[#6d7f42] transition-colors w-full py-2 border border-[#84994F]/30 rounded-lg hover:bg-[#84994F]/5"
                               >
-                                {transition.companyLogo ? (
-                                  <div className="text-center">
-                                    <div className="inline-block px-3 py-1.5 bg-slate-100 rounded-md">
-                                      <div className="text-xs font-bold text-slate-700">
-                                        {transition.companyLogo}
-                                      </div>
-                                    </div>
-                                  </div>
-                                ) : null}
-                              </div>
-                            </div>
+                                <PlayCircle className="w-4 h-4" />
+                                Watch Story
+                              </a>
+                            )}
                           </CardContent>
                         </Card>
                       </div>
@@ -1439,33 +1430,33 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
                 </p>
               </div>
 
-              <div className="space-y-3 sm:space-y-4">
+              <div className="space-y-3">
                 {faqs.map((faq: FAQ, index: number) => {
                   const isExpanded = expandedFAQs.has(index);
                   return (
                     <Card
                       key={index}
-                      className="border-2 border-slate-200 hover:border-[#84994F] transition-all bg-white shadow-sm hover:shadow-md"
+                      className="border border-slate-200 hover:border-[#84994F] transition-all bg-white hover:shadow-sm h-fit"
                     >
                       <button
                         onClick={() => toggleFAQ(index)}
-                        className="w-full p-4 sm:p-6 text-left flex items-center justify-between gap-3 sm:gap-4 hover:bg-slate-50 transition-colors rounded-lg"
+                        className="w-full p-4 text-left flex items-start gap-3 hover:bg-slate-50 transition-colors rounded-lg group"
                       >
-                        <h3 className="text-base sm:text-lg font-heading font-semibold text-slate-900 pr-4 sm:pr-8 flex-1">
+                        <div className="mt-1.5 flex-shrink-0 w-2 h-2 rounded-full bg-[#84994F] group-hover:scale-125 transition-transform" />
+                        <h3 className="text-sm sm:text-base font-heading font-semibold text-slate-900 flex-1 leading-tight">
                           {faq.question}
                         </h3>
-                        <div className="flex-shrink-0">
+                        <div className="flex-shrink-0 ml-1">
                           {isExpanded ? (
-                            <ChevronUp className="w-4 h-4 sm:w-5 sm:h-5 text-[#84994F]" />
+                            <ChevronUp className="w-4 h-4 text-[#84994F]" />
                           ) : (
-                            <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400" />
+                            <ChevronDown className="w-4 h-4 text-slate-400" />
                           )}
                         </div>
                       </button>
                       {isExpanded && (
-                        <div className="px-4 sm:px-6 pb-4 sm:pb-6 pt-0 animate-in slide-in-from-top-2 duration-200">
-                          <div className="w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent mb-3 sm:mb-4"></div>
-                          <p className="text-slate-700 leading-relaxed whitespace-pre-line text-sm sm:text-base">
+                        <div className="px-4 pb-4 pt-0 animate-in slide-in-from-top-1 duration-200 pl-9">
+                          <p className="text-slate-600 leading-relaxed whitespace-pre-line text-sm border-l-2 border-slate-100 pl-3">
                             {faq.answer}
                           </p>
                         </div>
