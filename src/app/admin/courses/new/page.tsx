@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { FormInput, FormTextarea, FormSelect } from '@/components/admin/FormField';
 import { useToast } from '@/components/admin/Toast';
 import { CurriculumEditor } from "@/components/admin/CurriculumEditor";
+import { StringListEditor } from "@/components/admin/StringListEditor";
+import { ArrayObjectEditor, FieldConfig } from "@/components/admin/ArrayObjectEditor";
 
 export default function NewCoursePage() {
   const router = useRouter();
@@ -33,16 +35,28 @@ export default function NewCoursePage() {
     reviews: 0,
     students: 0,
     language: 'English',
-    features: '',
-    bulletPoints: '',
+    features: [] as string[],
+    bulletPoints: [] as string[],
+    whoCanApply: [] as string[],
     tags: '',
     isPopular: false,
     isNew: false,
     curriculum: [] as any[],
+    programHighlights: [] as any[],
+    projects: [] as any[],
+    skills: [] as any[],
+    comparisonData: [] as any[],
+    careerTransitions: [] as any[],
+    faqs: [] as any[],
+    brochureDownloadLink: "",
+    noCostEMIAmount: "",
+    admissionDeadlineDate: "",
+    jobDescriptionsLink: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
+    // Handle checkbox separately
     const checked = (e.target as HTMLInputElement).checked;
 
     if (name.startsWith('instructor.')) {
@@ -68,6 +82,10 @@ export default function NewCoursePage() {
     }
   };
 
+  const handleArrayChange = (field: keyof typeof formData, value: any[]) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({});
@@ -76,17 +94,6 @@ export default function NewCoursePage() {
     try {
       const token = localStorage.getItem('admin_token');
 
-      // Parse arrays from comma-separated strings
-      const featuresArray = formData.features
-        .split('\n')
-        .map((f) => f.trim())
-        .filter((f) => f.length > 0);
-
-      const bulletPointsArray = formData.bulletPoints
-        .split('\n')
-        .map((b) => b.trim())
-        .filter((b) => b.length > 0);
-
       const tagsArray = formData.tags
         .split(',')
         .map((tag) => tag.trim())
@@ -94,10 +101,7 @@ export default function NewCoursePage() {
 
       const payload = {
         ...formData,
-        features: featuresArray,
-        bulletPoints: bulletPointsArray,
         tags: tagsArray,
-        curriculum: formData.curriculum,
         originalPrice: formData.originalPrice || null,
       };
 
@@ -130,161 +134,282 @@ export default function NewCoursePage() {
     }
   };
 
+  // Field configurations for ArrayObjectEditor
+  const programHighlightFields: FieldConfig[] = [
+    { name: "icon", label: "Icon Name (Lucide)", type: "text", required: true },
+    { name: "title", label: "Title", type: "text", required: true },
+    { name: "description", label: "Description", type: "textarea", required: true },
+    { name: "gradient", label: "Gradient CSS", type: "text", required: true, placeholder: "from-[#84994F] to-[#84994F]" },
+  ];
+
+  const projectFields: FieldConfig[] = [
+    { name: "title", label: "Title", type: "text", required: true },
+    { name: "description", label: "Description", type: "textarea", required: true },
+  ];
+
+  const skillFields: FieldConfig[] = [
+    { name: "name", label: "Skill Name", type: "text", required: true },
+    { name: "icon", label: "Icon Name", type: "text", required: true },
+  ];
+
+  const comparisonFields: FieldConfig[] = [
+    { name: "category", label: "Category", type: "text", required: true },
+    { name: "trust2switch", label: "Trust2Switch Feature", type: "text", required: true },
+    { name: "otherCourses", label: "Other Courses", type: "text", required: true },
+  ];
+
+  const careerFields: FieldConfig[] = [
+    { name: "name", label: "Student Name", type: "text", required: true },
+    { name: "hike", label: "Hike %", type: "text", required: true },
+    { name: "field", label: "Field", type: "text", required: true },
+    { name: "previousRole", label: "Previous Role", type: "text", required: true },
+    { name: "previousCompany", label: "Previous Company", type: "text", required: true },
+    { name: "newRole", label: "New Role", type: "text", required: true },
+    { name: "newCompany", label: "New Company", type: "text", required: true },
+    { name: "companyLogo", label: "Company Logo URL", type: "text" },
+    { name: "image", label: "Student Image URL", type: "text", required: true },
+  ];
+
+  const faqFields: FieldConfig[] = [
+    { name: "question", label: "Question", type: "text", required: true },
+    { name: "answer", label: "Answer", type: "textarea", required: true },
+  ];
+
   return (
-    <div className="max-w-5xl mx-auto">
+    <div className="max-w-5xl mx-auto pb-20">
       <ToastContainer />
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-900">Create New Course</h1>
         <p className="mt-1 text-sm text-gray-500">Fill in the details to create a new course</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6 bg-white shadow rounded-lg p-6">
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          <FormInput
-            label="Slug"
-            name="slug"
-            value={formData.slug}
-            onChange={handleChange}
-            required
-            error={errors.slug}
-            description="URL-friendly identifier"
-          />
-          <FormInput
-            label="Title"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            required
-            error={errors.title}
-          />
-        </div>
+      <form onSubmit={handleSubmit} className="space-y-8 bg-white shadow rounded-lg p-6">
+        {/* Basic Information */}
+        <section>
+          <h2 className="text-xl font-semibold text-gray-900 border-b pb-2 mb-4">Basic Information</h2>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <FormInput
+              label="Slug"
+              name="slug"
+              value={formData.slug}
+              onChange={handleChange}
+              required
+              error={errors.slug}
+              description="URL-friendly identifier"
+            />
+            <FormInput
+              label="Title"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              required
+              error={errors.title}
+            />
+          </div>
 
-        <FormTextarea
-          label="Description"
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          required
-          error={errors.description}
-          rows={3}
-        />
+          <div className="mt-4">
+            <FormTextarea
+              label="Description"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              required
+              error={errors.description}
+              rows={3}
+            />
+          </div>
 
-        <FormTextarea
-          label="Long Description"
-          name="longDescription"
-          value={formData.longDescription}
-          onChange={handleChange}
-          required
-          error={errors.longDescription}
-          rows={5}
-        />
+          <div className="mt-4">
+            <FormTextarea
+              label="Long Description"
+              name="longDescription"
+              value={formData.longDescription}
+              onChange={handleChange}
+              required
+              error={errors.longDescription}
+              rows={5}
+            />
+          </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          <FormInput
-            label="Image URL"
-            name="image"
-            value={formData.image}
-            onChange={handleChange}
-            required
-            error={errors.image}
-          />
-          <FormInput
-            label="Category"
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-            required
-            error={errors.category}
-          />
-        </div>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 mt-4">
+            <FormInput
+              label="Image URL"
+              name="image"
+              value={formData.image}
+              onChange={handleChange}
+              required
+              error={errors.image}
+            />
+            <FormInput
+              label="Category"
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              required
+              error={errors.category}
+            />
+          </div>
+        </section>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-          <FormSelect
-            label="Level"
-            name="level"
-            value={formData.level}
-            onChange={handleChange}
-            required
-            error={errors.level}
-            options={[
-              { value: 'Beginner', label: 'Beginner' },
-              { value: 'Intermediate', label: 'Intermediate' },
-              { value: 'Advanced', label: 'Advanced' },
-            ]}
-          />
-          <FormInput
-            label="Duration"
-            name="duration"
-            value={formData.duration}
-            onChange={handleChange}
-            required
-            error={errors.duration}
-            placeholder="e.g., '12 weeks'"
-          />
-          <FormInput
-            label="Language"
-            name="language"
-            value={formData.language}
-            onChange={handleChange}
-            required
-            error={errors.language}
-          />
-        </div>
+        {/* Course Details */}
+        <section>
+          <h2 className="text-xl font-semibold text-gray-900 border-b pb-2 mb-4">Course Details</h2>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+            <FormSelect
+              label="Level"
+              name="level"
+              value={formData.level}
+              onChange={handleChange}
+              required
+              error={errors.level}
+              options={[
+                { value: 'Beginner', label: 'Beginner' },
+                { value: 'Intermediate', label: 'Intermediate' },
+                { value: 'Advanced', label: 'Advanced' },
+              ]}
+            />
+            <FormInput
+              label="Duration"
+              name="duration"
+              value={formData.duration}
+              onChange={handleChange}
+              required
+              error={errors.duration}
+              placeholder="e.g., '12 weeks'"
+            />
+            <FormInput
+              label="Language"
+              name="language"
+              value={formData.language}
+              onChange={handleChange}
+              required
+              error={errors.language}
+            />
+          </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-4">
-          <FormInput
-            label="Price"
-            name="price"
-            type="number"
-            value={formData.price}
-            onChange={handleChange}
-            required
-            error={errors.price}
-          />
-          <FormInput
-            label="Original Price"
-            name="originalPrice"
-            type="number"
-            value={formData.originalPrice || ''}
-            onChange={handleChange}
-            error={errors.originalPrice}
-            description="Optional"
-          />
-          <FormInput
-            label="Rating"
-            name="rating"
-            type="number"
-            step="0.1"
-            min="0"
-            max="5"
-            value={formData.rating}
-            onChange={handleChange}
-            required
-            error={errors.rating}
-          />
-          <FormInput
-            label="Reviews"
-            name="reviews"
-            type="number"
-            value={formData.reviews}
-            onChange={handleChange}
-            required
-            error={errors.reviews}
-          />
-        </div>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-4 mt-4">
+            <FormInput
+              label="Price"
+              name="price"
+              type="number"
+              value={formData.price}
+              onChange={handleChange}
+              required
+              error={errors.price}
+            />
+            <FormInput
+              label="Original Price"
+              name="originalPrice"
+              type="number"
+              value={formData.originalPrice || ''}
+              onChange={handleChange}
+              error={errors.originalPrice}
+              description="Optional"
+            />
+            <FormInput
+              label="Rating"
+              name="rating"
+              type="number"
+              step="0.1"
+              min="0"
+              max="5"
+              value={formData.rating}
+              onChange={handleChange}
+              required
+              error={errors.rating}
+            />
+            <FormInput
+              label="Reviews"
+              name="reviews"
+              type="number"
+              value={formData.reviews}
+              onChange={handleChange}
+              required
+              error={errors.reviews}
+            />
+          </div>
 
-        <FormInput
-          label="Students"
-          name="students"
-          type="number"
-          value={formData.students}
-          onChange={handleChange}
-          required
-          error={errors.students}
-        />
+          <div className="mt-4">
+            <FormInput
+              label="Students"
+              name="students"
+              type="number"
+              value={formData.students}
+              onChange={handleChange}
+              required
+              error={errors.students}
+            />
+          </div>
 
-        <div className="border-t pt-6">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">Instructor Information</h3>
+          <div className="mt-4">
+            <FormInput
+              label="Tags"
+              name="tags"
+              value={formData.tags}
+              onChange={handleChange}
+              error={errors.tags}
+              description="Comma-separated tags"
+            />
+          </div>
+
+          <div className="flex items-center gap-6 mt-4">
+            <label className="flex items-center">
+              <input
+                type="checkbox"
+                name="isPopular"
+                checked={formData.isPopular}
+                onChange={handleChange}
+                className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+              />
+              <span className="ml-2 text-sm text-gray-700">Mark as Popular</span>
+            </label>
+            <label className="flex items-center">
+              <input
+                type="checkbox"
+                name="isNew"
+                checked={formData.isNew}
+                onChange={handleChange}
+                className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+              />
+              <span className="ml-2 text-sm text-gray-700">Mark as New</span>
+            </label>
+          </div>
+        </section>
+
+        {/* Links and Dates */}
+        <section>
+          <h2 className="text-xl font-semibold text-gray-900 border-b pb-2 mb-4">Links & Additional Info</h2>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <FormInput
+              label="Brochure Download Link"
+              name="brochureDownloadLink"
+              value={formData.brochureDownloadLink}
+              onChange={handleChange}
+            />
+            <FormInput
+              label="Job Descriptions Link"
+              name="jobDescriptionsLink"
+              value={formData.jobDescriptionsLink}
+              onChange={handleChange}
+            />
+            <FormInput
+              label="No Cost EMI Amount"
+              name="noCostEMIAmount"
+              value={formData.noCostEMIAmount}
+              onChange={handleChange}
+            />
+            <FormInput
+              label="Admission Deadline"
+              name="admissionDeadlineDate"
+              value={formData.admissionDeadlineDate}
+              onChange={handleChange}
+            />
+          </div>
+        </section>
+
+        {/* Instructor */}
+        <section>
+          <h2 className="text-xl font-semibold text-gray-900 border-b pb-2 mb-4">Instructor</h2>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <FormInput
               label="Instructor Name"
@@ -320,69 +445,110 @@ export default function NewCoursePage() {
               rows={3}
             />
           </div>
-        </div>
+        </section>
 
-        <FormTextarea
-          label="Features"
-          name="features"
-          value={formData.features}
-          onChange={handleChange}
-          error={errors.features}
-          rows={4}
-          description="One feature per line"
-        />
-
-        <FormTextarea
-          label="Bullet Points"
-          name="bulletPoints"
-          value={formData.bulletPoints}
-          onChange={handleChange}
-          error={errors.bulletPoints}
-          rows={4}
-          description="One bullet point per line"
-        />
-
-        <FormInput
-          label="Tags"
-          name="tags"
-          value={formData.tags}
-          onChange={handleChange}
-          error={errors.tags}
-          description="Comma-separated tags"
-        />
-
-        <div className="flex items-center gap-6">
-          <label className="flex items-center">
-            <input
-              type="checkbox"
-              name="isPopular"
-              checked={formData.isPopular}
-              onChange={handleChange}
-              className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+        {/* Lists: Features, Bullet Points, Who Can Apply */}
+        <section>
+          <h2 className="text-xl font-semibold text-gray-900 border-b pb-2 mb-4">Key Features & Lists</h2>
+          <div className="space-y-6">
+            <StringListEditor
+              label="Features"
+              value={formData.features}
+              onChange={(val) => handleArrayChange('features', val)}
+              placeholder="Enter feature"
             />
-            <span className="ml-2 text-sm text-gray-700">Mark as Popular</span>
-          </label>
-          <label className="flex items-center">
-            <input
-              type="checkbox"
-              name="isNew"
-              checked={formData.isNew}
-              onChange={handleChange}
-              className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+            <StringListEditor
+              label="Bullet Points"
+              value={formData.bulletPoints}
+              onChange={(val) => handleArrayChange('bulletPoints', val)}
+              placeholder="Enter bullet point"
             />
-            <span className="ml-2 text-sm text-gray-700">Mark as New</span>
-          </label>
-        </div>
+            <StringListEditor
+              label="Who Can Apply"
+              value={formData.whoCanApply}
+              onChange={(val) => handleArrayChange('whoCanApply', val)}
+              placeholder="Criteria for application"
+            />
+          </div>
+        </section>
 
-        <CurriculumEditor
-          value={formData.curriculum}
-          onChange={(newCurriculum) =>
-            setFormData((prev) => ({ ...prev, curriculum: newCurriculum }))
-          }
-          error={errors.curriculum}
-        />
+        {/* Complex Arrays */}
+        <section>
+          <h2 className="text-xl font-semibold text-gray-900 border-b pb-2 mb-4">Program Highlights & Projects</h2>
+          <div className="space-y-6">
+            <ArrayObjectEditor
+              label="Program Highlights"
+              itemName="Highlight"
+              value={formData.programHighlights}
+              onChange={(val) => handleArrayChange('programHighlights', val)}
+              fields={programHighlightFields}
+            />
+            <ArrayObjectEditor
+              label="Projects"
+              itemName="Project"
+              value={formData.projects}
+              onChange={(val) => handleArrayChange('projects', val)}
+              fields={projectFields}
+            />
+            <ArrayObjectEditor
+              label="Skills"
+              itemName="Skill"
+              value={formData.skills}
+              onChange={(val) => handleArrayChange('skills', val)}
+              fields={skillFields}
+            />
+          </div>
+        </section>
 
-        <div className="flex justify-end gap-3 pt-6 border-t">
+        {/* Comparison Data */}
+        <section>
+          <h2 className="text-xl font-semibold text-gray-900 border-b pb-2 mb-4">Comparison & Career</h2>
+          <div className="space-y-6">
+            <ArrayObjectEditor
+              label="Comparison with Other Courses"
+              itemName="Row"
+              value={formData.comparisonData}
+              onChange={(val) => handleArrayChange('comparisonData', val)}
+              fields={comparisonFields}
+              titleField="category"
+            />
+            <ArrayObjectEditor
+              label="Career Transitions"
+              itemName="Success Story"
+              value={formData.careerTransitions}
+              onChange={(val) => handleArrayChange('careerTransitions', val)}
+              fields={careerFields}
+              titleField="name"
+            />
+          </div>
+        </section>
+
+        {/* Curriculum */}
+        <section>
+          <h2 className="text-xl font-semibold text-gray-900 border-b pb-2 mb-4">Curriculum</h2>
+          <CurriculumEditor
+            value={formData.curriculum}
+            onChange={(newCurriculum) =>
+              setFormData((prev) => ({ ...prev, curriculum: newCurriculum }))
+            }
+            error={errors.curriculum}
+          />
+        </section>
+
+        {/* FAQs */}
+        <section>
+          <h2 className="text-xl font-semibold text-gray-900 border-b pb-2 mb-4">FAQs</h2>
+          <ArrayObjectEditor
+            label="FAQs"
+            itemName="FAQ"
+            value={formData.faqs}
+            onChange={(val) => handleArrayChange('faqs', val)}
+            fields={faqFields}
+            titleField="question"
+          />
+        </section>
+
+        <div className="flex justify-end gap-3 pt-6 border-t sticky bottom-0 bg-white p-4 shadow-t mt-8 z-10">
           <button
             type="button"
             onClick={() => router.back()}
@@ -402,3 +568,4 @@ export default function NewCoursePage() {
     </div>
   );
 }
+
