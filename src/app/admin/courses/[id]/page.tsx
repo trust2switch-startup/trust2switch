@@ -193,9 +193,7 @@ export default function EditCoursePage() {
 
       if (data.success) {
         showToast("Course updated successfully!", "success");
-        setTimeout(() => {
-          router.push("/admin/courses");
-        }, 1000);
+        // No redirection, stay on page
       } else {
         showToast(data.message || "Failed to update course", "error");
         if (data.errors) {
@@ -661,3 +659,4 @@ export default function EditCoursePage() {
     </div>
   );
 }
+
