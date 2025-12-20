@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
-import { courses } from '@/config/courses';
 import { content } from '@/config/content';
+import { ensureDatabaseConnection } from '@/lib/db/connect';
+import { Course } from '@/models/Course';
 
 interface CourseLayoutProps {
   children: React.ReactNode;
@@ -11,7 +12,9 @@ interface CourseLayoutProps {
 
 export async function generateMetadata({ params }: CourseLayoutProps): Promise<Metadata> {
   const { slug } = await params;
-  const course = courses.find((c) => c.slug === slug);
+
+  await ensureDatabaseConnection();
+  const course = await Course.findOne({ slug }).lean();
 
   if (!course) {
     return {
