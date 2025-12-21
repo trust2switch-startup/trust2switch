@@ -6,7 +6,7 @@ import Link from "next/link";
 import { SearchBar } from "@/components/admin/SearchBar";
 import { ConfirmDeleteModal } from "@/components/admin/ConfirmDeleteModal";
 import { useToast } from "@/components/admin/Toast";
-import { Edit2, Trash2, Plus, RefreshCw } from "lucide-react";
+import { Edit2, Trash2, Plus, RefreshCw, Copy } from "lucide-react";
 
 interface Course {
   _id: string;
@@ -25,6 +25,7 @@ export default function AdminCoursesPage() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(false);
+  const [duplicating, setDuplicating] = useState<string | null>(null);
   const [deleteModal, setDeleteModal] = useState<{
     isOpen: boolean;
     course: Course | null;
@@ -55,11 +56,11 @@ export default function AdminCoursesPage() {
           },
         });
         const data = await response.json();
-        
+
         if (data.success) {
           const courses = data.data || [];
           allCourses.push(...courses);
-          
+
           // Check if we got all items
           if (courses.length < limit || allCourses.length >= (data.total || 0)) {
             hasMore = false;
@@ -77,6 +78,7 @@ export default function AdminCoursesPage() {
       showToast("An error occurred while fetching courses", "error");
     } finally {
       setLoading(false);
+      setDuplicating(null);
     }
   };
 
@@ -128,6 +130,32 @@ export default function AdminCoursesPage() {
   const levels = useMemo(() => {
     return ["All", ...Array.from(new Set(courses.map((c) => c.level)))];
   }, [courses]);
+
+  const handleDuplicate = async (courseId: string) => {
+    setDuplicating(courseId);
+    try {
+      const token = localStorage.getItem("admin_token");
+      const response = await fetch(`/api/courses/${courseId}/clone`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        showToast("Course duplicated successfully", "success");
+        // Refetch courses to show the new one
+        fetchCourses();
+      } else {
+        showToast(data.message || "Failed to duplicate course", "error");
+        setDuplicating(null);
+      }
+    } catch (error) {
+      showToast("An error occurred while duplicating the course", "error");
+      setDuplicating(null);
+    }
+  };
 
   const handleDelete = async () => {
     if (!deleteModal.course) return;
@@ -310,6 +338,14 @@ export default function AdminCoursesPage() {
                           <Edit2 className="w-4 h-4 mr-1" />
                           Edit
                         </Link>
+                        <button
+                          onClick={() => handleDuplicate(course._id)}
+                          disabled={duplicating === course._id}
+                          className="text-blue-600 hover:text-blue-900 inline-flex items-center disabled:opacity-50"
+                        >
+                          <Copy className="w-4 h-4 mr-1" />
+                          {duplicating === course._id ? "Copying..." : "Duplicate"}
+                        </button>
                         <button
                           onClick={() =>
                             setDeleteModal({ isOpen: true, course })
