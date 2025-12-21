@@ -11,6 +11,7 @@ import { useToast } from "@/components/admin/Toast";
 import { CurriculumEditor } from "@/components/admin/CurriculumEditor";
 import { StringListEditor } from "@/components/admin/StringListEditor";
 import { ArrayObjectEditor, FieldConfig } from "@/components/admin/ArrayObjectEditor";
+import { Copy, ClipboardPaste } from "lucide-react";
 
 export default function EditCoursePage() {
   const router = useRouter();
@@ -224,6 +225,31 @@ export default function EditCoursePage() {
 
   const handleArrayChange = (field: keyof typeof formData, value: any[]) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleCopySection = (data: any, label: string) => {
+    try {
+      const dataStr = JSON.stringify(data);
+      navigator.clipboard.writeText(dataStr);
+      showToast(`${label} copied to clipboard!`, "success");
+    } catch (err) {
+      showToast("Failed to copy to clipboard", "error");
+    }
+  };
+
+  const handlePasteSection = async (field: keyof typeof formData, label: string) => {
+    try {
+      const text = await navigator.clipboard.readText();
+      const data = JSON.parse(text);
+      if (Array.isArray(data)) {
+        setFormData((prev) => ({ ...prev, [field]: data }));
+        showToast(`${label} pasted successfully!`, "success");
+      } else {
+        showToast("Invalid data format in clipboard (expected array)", "error");
+      }
+    } catch (err) {
+      showToast("Failed to paste from clipboard (invalid JSON)", "error");
+    }
   };
 
   // Field configurations for ArrayObjectEditor
@@ -547,7 +573,25 @@ export default function EditCoursePage() {
 
         {/* Lists: Features, Bullet Points, Who Can Apply */}
         <section>
-          <h2 className="text-xl font-semibold text-gray-900 border-b pb-2 mb-4">Key Features & Lists</h2>
+          <div className="flex items-center justify-between border-b pb-2 mb-4">
+            <h2 className="text-xl font-semibold text-gray-900">Key Features & Lists</h2>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  const data = {
+                    features: formData.features,
+                    bulletPoints: formData.bulletPoints,
+                    whoCanApply: formData.whoCanApply
+                  };
+                  handleCopySection(data, "Lists");
+                }}
+                className="text-xs flex items-center gap-1 text-gray-600 hover:text-indigo-600"
+              >
+                <Copy className="w-3 h-3" /> Copy All
+              </button>
+            </div>
+          </div>
           <div className="space-y-6">
             <StringListEditor
               label="Features"
@@ -572,58 +616,98 @@ export default function EditCoursePage() {
 
         {/* Complex Arrays */}
         <section>
-          <h2 className="text-xl font-semibold text-gray-900 border-b pb-2 mb-4">Program Highlights & Projects</h2>
+          <div className="flex items-center justify-between border-b pb-2 mb-4">
+            <h2 className="text-xl font-semibold text-gray-900">Program Highlights & Projects</h2>
+          </div>
           <div className="space-y-6">
-            <ArrayObjectEditor
-              label="Program Highlights"
-              itemName="Highlight"
-              value={formData.programHighlights}
-              onChange={(val) => handleArrayChange('programHighlights', val)}
-              fields={programHighlightFields}
-            />
-            <ArrayObjectEditor
-              label="Projects"
-              itemName="Project"
-              value={formData.projects}
-              onChange={(val) => handleArrayChange('projects', val)}
-              fields={projectFields}
-            />
-            <ArrayObjectEditor
-              label="Skills"
-              itemName="Skill"
-              value={formData.skills}
-              onChange={(val) => handleArrayChange('skills', val)}
-              fields={skillFields}
-            />
+            <div className="relative">
+              <div className="absolute right-0 top-0 -mt-10 flex gap-2">
+                <button type="button" onClick={() => handleCopySection(formData.programHighlights, "Highlights")} className="text-xs flex items-center gap-1 text-gray-600 hover:text-indigo-600"><Copy className="w-3 h-3" /> Copy</button>
+                <button type="button" onClick={() => handlePasteSection('programHighlights', "Highlights")} className="text-xs flex items-center gap-1 text-gray-600 hover:text-indigo-600"><ClipboardPaste className="w-3 h-3" /> Paste</button>
+              </div>
+              <ArrayObjectEditor
+                label="Program Highlights"
+                itemName="Highlight"
+                value={formData.programHighlights}
+                onChange={(val) => handleArrayChange('programHighlights', val)}
+                fields={programHighlightFields}
+              />
+            </div>
+            <div className="relative">
+              <div className="absolute right-0 top-0 -mt-10 flex gap-2">
+                <button type="button" onClick={() => handleCopySection(formData.projects, "Projects")} className="text-xs flex items-center gap-1 text-gray-600 hover:text-indigo-600"><Copy className="w-3 h-3" /> Copy</button>
+                <button type="button" onClick={() => handlePasteSection('projects', "Projects")} className="text-xs flex items-center gap-1 text-gray-600 hover:text-indigo-600"><ClipboardPaste className="w-3 h-3" /> Paste</button>
+              </div>
+              <ArrayObjectEditor
+                label="Projects"
+                itemName="Project"
+                value={formData.projects}
+                onChange={(val) => handleArrayChange('projects', val)}
+                fields={projectFields}
+              />
+            </div>
+            <div className="relative">
+              <div className="absolute right-0 top-0 -mt-10 flex gap-2">
+                <button type="button" onClick={() => handleCopySection(formData.skills, "Skills")} className="text-xs flex items-center gap-1 text-gray-600 hover:text-indigo-600"><Copy className="w-3 h-3" /> Copy</button>
+                <button type="button" onClick={() => handlePasteSection('skills', "Skills")} className="text-xs flex items-center gap-1 text-gray-600 hover:text-indigo-600"><ClipboardPaste className="w-3 h-3" /> Paste</button>
+              </div>
+              <ArrayObjectEditor
+                label="Skills"
+                itemName="Skill"
+                value={formData.skills}
+                onChange={(val) => handleArrayChange('skills', val)}
+                fields={skillFields}
+              />
+            </div>
           </div>
         </section>
 
         {/* Comparison Data */}
         <section>
-          <h2 className="text-xl font-semibold text-gray-900 border-b pb-2 mb-4">Comparison & Career</h2>
+          <div className="flex items-center justify-between border-b pb-2 mb-4">
+            <h2 className="text-xl font-semibold text-gray-900">Comparison & Career</h2>
+          </div>
           <div className="space-y-6">
-            <ArrayObjectEditor
-              label="Comparison with Other Courses"
-              itemName="Row"
-              value={formData.comparisonData}
-              onChange={(val) => handleArrayChange('comparisonData', val)}
-              fields={comparisonFields}
-              titleField="category"
-            />
-            <ArrayObjectEditor
-              label="Career Transitions"
-              itemName="Success Story"
-              value={formData.careerTransitions}
-              onChange={(val) => handleArrayChange('careerTransitions', val)}
-              fields={careerFields}
-              titleField="name"
-            />
+            <div className="relative">
+              <div className="absolute right-0 top-0 -mt-10 flex gap-2">
+                <button type="button" onClick={() => handleCopySection(formData.comparisonData, "Comparison")} className="text-xs flex items-center gap-1 text-gray-600 hover:text-indigo-600"><Copy className="w-3 h-3" /> Copy</button>
+                <button type="button" onClick={() => handlePasteSection('comparisonData', "Comparison")} className="text-xs flex items-center gap-1 text-gray-600 hover:text-indigo-600"><ClipboardPaste className="w-3 h-3" /> Paste</button>
+              </div>
+              <ArrayObjectEditor
+                label="Comparison with Other Courses"
+                itemName="Row"
+                value={formData.comparisonData}
+                onChange={(val) => handleArrayChange('comparisonData', val)}
+                fields={comparisonFields}
+                titleField="category"
+              />
+            </div>
+            <div className="relative">
+              <div className="absolute right-0 top-0 -mt-10 flex gap-2">
+                <button type="button" onClick={() => handleCopySection(formData.careerTransitions, "Career")} className="text-xs flex items-center gap-1 text-gray-600 hover:text-indigo-600"><Copy className="w-3 h-3" /> Copy</button>
+                <button type="button" onClick={() => handlePasteSection('careerTransitions', "Career")} className="text-xs flex items-center gap-1 text-gray-600 hover:text-indigo-600"><ClipboardPaste className="w-3 h-3" /> Paste</button>
+              </div>
+              <ArrayObjectEditor
+                label="Career Transitions"
+                itemName="Success Story"
+                value={formData.careerTransitions}
+                onChange={(val) => handleArrayChange('careerTransitions', val)}
+                fields={careerFields}
+                titleField="name"
+              />
+            </div>
           </div>
         </section>
 
         {/* Curriculum */}
         <section>
-          <h2 className="text-xl font-semibold text-gray-900 border-b pb-2 mb-4">Curriculum</h2>
+          <div className="flex items-center justify-between border-b pb-2 mb-4">
+            <h2 className="text-xl font-semibold text-gray-900">Curriculum</h2>
+            <div className="flex gap-2">
+              <button type="button" onClick={() => handleCopySection(formData.curriculum, "Curriculum")} className="text-xs flex items-center gap-1 text-gray-600 hover:text-indigo-600"><Copy className="w-3 h-3" /> Copy</button>
+              <button type="button" onClick={() => handlePasteSection('curriculum', "Curriculum")} className="text-xs flex items-center gap-1 text-gray-600 hover:text-indigo-600"><ClipboardPaste className="w-3 h-3" /> Paste</button>
+            </div>
+          </div>
           <CurriculumEditor
             value={formData.curriculum}
             onChange={(newCurriculum) =>
@@ -635,7 +719,13 @@ export default function EditCoursePage() {
 
         {/* FAQs */}
         <section>
-          <h2 className="text-xl font-semibold text-gray-900 border-b pb-2 mb-4">FAQs</h2>
+          <div className="flex items-center justify-between border-b pb-2 mb-4">
+            <h2 className="text-xl font-semibold text-gray-900">FAQs</h2>
+            <div className="flex gap-2">
+              <button type="button" onClick={() => handleCopySection(formData.faqs, "FAQs")} className="text-xs flex items-center gap-1 text-gray-600 hover:text-indigo-600"><Copy className="w-3 h-3" /> Copy</button>
+              <button type="button" onClick={() => handlePasteSection('faqs', "FAQs")} className="text-xs flex items-center gap-1 text-gray-600 hover:text-indigo-600"><ClipboardPaste className="w-3 h-3" /> Paste</button>
+            </div>
+          </div>
           <ArrayObjectEditor
             label="FAQs"
             itemName="FAQ"
