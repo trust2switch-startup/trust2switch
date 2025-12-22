@@ -107,14 +107,15 @@ export const CourseSections: React.FC = () => {
         </div>
 
         {/* Professional/College Students Section */}
-        <div id="professional-section" className="mb-12 sm:mb-16 lg:mb-20" style={{ scrollMarginTop: '120px' }}>
+        {/* <div id="professional-section" className="mb-12 sm:mb-16 lg:mb-20" style={{ scrollMarginTop: '120px' }}> */}
+        <div id="professional-section" className="" style={{ scrollMarginTop: '120px' }}>
           <div className="flex items-center gap-2 sm:gap-4 mb-6 sm:mb-8 lg:mb-10 px-2">
-            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-orange-400 to-transparent"></div>
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-green-400 to-transparent"></div>
             <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-slate-900 flex items-center gap-2 whitespace-nowrap">
               {/* <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">Pro</span> */}
               <span className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl">Professionals & College Students</span>
             </h3>
-            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-orange-400 to-transparent"></div>
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-green-400 to-transparent"></div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
             {visibleCourses.map((course, index) => {
@@ -181,11 +182,10 @@ export const CourseSections: React.FC = () => {
         </div>
 
         {/* School Mentorship Section */}
-        <div id="school-mentorship" style={{ scrollMarginTop: '120px' }}>
+        {/* <div id="school-mentorship" style={{ scrollMarginTop: '120px' }}>
           <div className="flex items-center gap-2 sm:gap-4 mb-6 sm:mb-8 lg:mb-10 px-2">
             <div className="flex-1 h-px bg-gradient-to-r from-transparent via-indigo-400 to-transparent"></div>
             <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-slate-900 flex items-center gap-2 whitespace-nowrap">
-              {/* <span className="bg-gradient-to-r from-indigo-500 to-indigo-600 bg-clip-text text-transparent">School</span> */}
               <span className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl">School Mentorship & Tutoring</span>
             </h3>
             <div className="flex-1 h-px bg-gradient-to-r from-transparent via-indigo-400 to-transparent"></div>
@@ -200,30 +200,25 @@ export const CourseSections: React.FC = () => {
                   className="group"
                 >
                   <div className="bg-white p-3 sm:p-4 lg:p-6 text-center rounded-xl sm:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-2 border-slate-100 hover:border-orange-200 flex flex-col justify-between h-full min-h-[180px] sm:min-h-[200px] lg:min-h-[220px] relative overflow-hidden">
-                    {/* Gradient Background on Hover */}
                     <div className="absolute inset-0 bg-gradient-to-br from-orange-50 to-orange-100/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-0"></div>
                     
-                    {/* Icon */}
                     <div className="relative z-10 mb-2 sm:mb-3 lg:mb-4 flex justify-center">
                       <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-[#435663] rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
                         <Icon className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" />
                       </div>
                     </div>
 
-                    {/* Content */}
                     <div className="relative z-10 flex-1">
                       <p className="text-xs sm:text-sm lg:text-base font-bold text-slate-900 mb-1 sm:mb-2 group-hover:text-orange-900 transition-colors">{subject.title}</p>
                       <p className="text-[10px] sm:text-xs text-slate-600 group-hover:text-slate-700 transition-colors leading-relaxed">{subject.description}</p>
                     </div>
 
-                    {/* Button */}
                     <div className="relative z-10 mt-2 sm:mt-3 lg:mt-4">
                       <div className="w-full text-[10px] sm:text-xs font-semibold text-white bg-[#84994F] hover:from-green-500 hover:to-green-600 py-1.5 sm:py-2 rounded-lg sm:rounded-xl transition-all duration-200 group-hover:shadow-lg group-hover:scale-105">
                         View Details
                       </div>
                     </div>
 
-                    {/* Decorative Elements */}
                     <div className="absolute top-2 right-2 w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 opacity-10 rounded-full blur-sm"></div>
                     <div className="absolute bottom-2 left-2 w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-600 opacity-10 rounded-full blur-sm"></div>
                   </div>
@@ -231,7 +226,7 @@ export const CourseSections: React.FC = () => {
               );
             })}
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

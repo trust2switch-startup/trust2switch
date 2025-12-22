@@ -6,7 +6,7 @@ import Link from "next/link";
 import { SearchBar } from "@/components/admin/SearchBar";
 import { ConfirmDeleteModal } from "@/components/admin/ConfirmDeleteModal";
 import { useToast } from "@/components/admin/Toast";
-import { Edit2, Trash2, Plus, RefreshCw, Copy } from "lucide-react";
+import { Edit2, Trash2, Plus, RefreshCw, Copy, Eye, EyeOff } from "lucide-react";
 
 interface Course {
   _id: string;
@@ -19,6 +19,7 @@ interface Course {
   description?: string;
   students?: number;
   reviews?: number;
+  isVisible: boolean;
 }
 
 export default function AdminCoursesPage() {
@@ -157,6 +158,45 @@ export default function AdminCoursesPage() {
     }
   };
 
+  const handleToggleVisibility = async (course: Course) => {
+    try {
+      const token = localStorage.getItem("admin_token");
+      const newVisibility = !course.isVisible;
+
+      // Optimistic update
+      setCourses(prev => prev.map(c =>
+        c._id === course._id ? { ...c, isVisible: newVisibility } : c
+      ));
+
+      const response = await fetch(`/api/courses/${course._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ isVisible: newVisibility }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        showToast(`Course ${newVisibility ? 'enabled' : 'disabled'} successfully`, "success");
+      } else {
+        // Revert on failure
+        setCourses(prev => prev.map(c =>
+          c._id === course._id ? { ...c, isVisible: course.isVisible } : c
+        ));
+        showToast(data.message || "Failed to update course visibility", "error");
+      }
+    } catch (error) {
+      // Revert on failure
+      setCourses(prev => prev.map(c =>
+        c._id === course._id ? { ...c, isVisible: course.isVisible } : c
+      ));
+      showToast("An error occurred while updating visibility", "error");
+    }
+  };
+
   const handleDelete = async () => {
     if (!deleteModal.course) return;
 
@@ -285,6 +325,9 @@ export default function AdminCoursesPage() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Rating / Students
                   </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Visibility
+                  </th>
                   <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Actions
                   </th>
@@ -328,6 +371,28 @@ export default function AdminCoursesPage() {
                           {course.students} students
                         </div>
                       )}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <button
+                        onClick={() => handleToggleVisibility(course)}
+                        className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium transition-colors ${course.isVisible
+                            ? "bg-green-100 text-green-800 hover:bg-green-200"
+                            : "bg-gray-100 text-gray-800 hover:bg-gray-200"
+                          }`}
+                        title={course.isVisible ? "Click to hide" : "Click to show"}
+                      >
+                        {course.isVisible ? (
+                          <>
+                            <Eye className="w-3 h-3 mr-1" />
+                            Enabled
+                          </>
+                        ) : (
+                          <>
+                            <EyeOff className="w-3 h-3 mr-1" />
+                            Disabled
+                          </>
+                        )}
+                      </button>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <div className="flex justify-end gap-3">
