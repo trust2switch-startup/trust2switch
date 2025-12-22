@@ -140,6 +140,7 @@ export const courseSchema = z
     tags: z.array(z.string()).default([]),
     isPopular: z.boolean().default(false),
     isNew: z.boolean().default(false),
+    isVisible: z.boolean().default(true),
   })
   .strict();
 

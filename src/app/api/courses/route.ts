@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ensureDatabaseConnection } from '@/lib/db/connect';
 import { withAuth } from '@/lib/auth/middleware';
+import { verifyToken, extractTokenFromHeader } from '@/lib/auth/auth';
 import { courseRepository } from '@/lib/repositories';
 import { parsePagination, validateSchema, courseSchema } from '@/lib/validation';
 
@@ -30,6 +31,17 @@ export async function GET(req: NextRequest) {
       filter.$text = { $search: search };
     }
 
+    // Check handling for visibility
+    const authHeader = req.headers.get('authorization');
+    const token = extractTokenFromHeader(authHeader);
+    const payload = token ? verifyToken(token) : null;
+    const isAdmin = payload?.role === 'admin' || payload?.role === 'editor';
+
+    // If not admin, only show visible courses
+    if (!isAdmin) {
+      filter.isVisible = true;
+    }
+
     const sortObj: Record<string, any> = search
       ? { score: { $meta: 'textScore' } }
       : { [pagination.sort]: pagination.order === 'asc' ? 1 : -1 };
@@ -51,13 +63,13 @@ export async function GET(req: NextRequest) {
     });
   } catch (error: any) {
     console.error('Get courses error:', error);
-    
+
     // Provide more detailed error information in development
     const isDevelopment = process.env.NODE_ENV === 'development';
-    const errorMessage = isDevelopment 
+    const errorMessage = isDevelopment
       ? `Failed to fetch courses: ${error?.message || 'Unknown error'}`
       : 'Failed to fetch courses';
-    
+
     // Log additional context for debugging
     console.error('Error details:', {
       message: error?.message,
@@ -70,10 +82,10 @@ export async function GET(req: NextRequest) {
         nodeEnv: process.env.NODE_ENV,
       }
     });
-    
+
     return NextResponse.json(
-      { 
-        success: false, 
+      {
+        success: false,
         message: errorMessage,
         ...(isDevelopment && { error: error?.message, stack: error?.stack })
       },

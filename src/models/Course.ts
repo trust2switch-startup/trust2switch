@@ -106,6 +106,7 @@ export interface ICourse extends Omit<Document, "isNew"> {
   tags: string[];
   isPopular?: boolean;
   isNew: boolean;
+  isVisible: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -248,6 +249,7 @@ const CourseSchema = new Schema<ICourse>(
     isPopular: { type: Boolean, default: false, index: true },
     // @ts-ignore - isNew conflicts with Document.isNew but we need it as a schema field
     isNew: { type: Boolean, default: false, index: true },
+    isVisible: { type: Boolean, default: true, index: true },
   },
   {
     timestamps: true,
