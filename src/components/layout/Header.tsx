@@ -246,7 +246,7 @@ export const Header: React.FC = () => {
                       </div>
 
                       {/* School & Mentorship Section */}
-                      <div className="pt-4 border-t border-slate-200">
+                      {/* <div className="pt-4 border-t border-slate-200">
                         <h4 className="text-xs font-bold uppercase text-[#435663] mb-3 flex items-center gap-2 tracking-wider">
                           <Users className="w-4 h-4" />
                           School & Mentorship
@@ -293,7 +293,7 @@ export const Header: React.FC = () => {
                             </div>
                           </Link>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   )}
                 </div>
@@ -305,14 +305,14 @@ export const Header: React.FC = () => {
                 >
                   Professionals
                 </Link>
-                <Link
+                {/* <Link
                   href="/#school-mentorship"
                   onClick={() => trackNavigation('/#school-mentorship', 'header')}
                   className="text-white hover:text-white font-medium text-xs xl:text-sm py-1.5 px-2 xl:px-3 rounded-lg hover:bg-slate-600/50 transition-all duration-200 whitespace-nowrap"
                 >
                   <span className="hidden 2xl:inline">School Mentorship</span>
                   <span className="2xl:hidden">Mentorship</span>
-                </Link>
+                </Link> */}
                 <Link
                   href="/blog"
                   onClick={() => trackNavigation('/blog', 'header')}
@@ -426,7 +426,7 @@ export const Header: React.FC = () => {
                     <GraduationCap className="w-4 h-4 flex-shrink-0" />
                     Professionals/College Students
                   </Link>
-                  <Link
+                  {/* <Link
                     href="/#school-mentorship"
                     className="flex items-center gap-3 px-4 py-3 min-h-[44px] rounded-lg text-sm font-medium text-white hover:bg-slate-700 hover:text-white transition-all"
                     onClick={() => {
@@ -436,7 +436,7 @@ export const Header: React.FC = () => {
                   >
                     <Users className="w-4 h-4 flex-shrink-0" />
                     School Mentorship
-                  </Link>
+                  </Link> */}
                   <Link
                     href="/blog"
                     className="flex items-center gap-3 px-4 py-3 min-h-[44px] rounded-lg text-sm font-medium text-white hover:bg-slate-700 hover:text-white transition-all"
