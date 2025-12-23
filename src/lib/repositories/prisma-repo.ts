@@ -10,6 +10,10 @@ export class PrismaRepository<T> implements Repository<T> {
     constructor(modelName: string) {
         // @ts-ignore - dynamic access to prisma models
         this.model = prisma[modelName];
+
+        if (!this.model) {
+            console.error(`[PrismaRepository] Model '${modelName}' not found in Prisma client. Make sure 'prisma generate' has been run.`);
+        }
     }
 
     async find(filter: QueryFilter = {}, options: QueryOptions = {}): Promise<T[]> {
