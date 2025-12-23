@@ -58,7 +58,11 @@ export async function GET() {
   } catch (error) {
     console.error('Get professional courses error:', error);
     return NextResponse.json(
-      { success: false, message: 'Failed to fetch professional courses' },
+      {
+        success: false,
+        message: 'Failed to fetch professional courses',
+        error: error instanceof Error ? error.message : String(error)
+      },
       { status: 500 }
     );
   }
