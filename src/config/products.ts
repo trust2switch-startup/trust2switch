@@ -20,6 +20,7 @@ export const products: Product[] = [
     rating: 4.8,
     reviews: 124,
     tags: ['React', 'Node.js', 'MongoDB', 'Full Stack', 'E-Commerce'],
+    isNewProduct: false,
     features: [
       'Complete source code',
       'Documentation',
@@ -59,7 +60,7 @@ export const products: Product[] = [
     fileFormat: 'PDF',
     fileSize: '8 MB',
     deliveryMethod: 'Instant Download',
-    isNew: true
+    isNewProduct: true
   },
   {
     id: '3',
@@ -77,6 +78,7 @@ export const products: Product[] = [
     rating: 4.6,
     reviews: 67,
     tags: ['React', 'Dashboard', 'Analytics', 'Data Visualization'],
+    isNewProduct: false,
     features: [
       'React components',
       'Chart library integration',
@@ -104,6 +106,7 @@ export const products: Product[] = [
     rating: 4.7,
     reviews: 156,
     tags: ['Next.js', 'Portfolio', 'Template', 'Responsive'],
+    isNewProduct: false,
     features: [
       'Fully responsive',
       'Dark mode support',
@@ -131,6 +134,7 @@ export const products: Product[] = [
     rating: 4.5,
     reviews: 43,
     tags: ['Blockchain', 'Supply Chain', 'Research', 'Technology'],
+    isNewProduct: false,
     features: [
       'PDF format',
       'Case studies',
@@ -169,7 +173,7 @@ export const products: Product[] = [
     fileFormat: 'ZIP',
     fileSize: '15 MB',
     deliveryMethod: 'Instant Download',
-    isNew: true
+    isNewProduct: true
   },
   {
     id: '7',
@@ -187,6 +191,7 @@ export const products: Product[] = [
     rating: 4.9,
     reviews: 112,
     tags: ['E-Learning', 'Template', 'Education', 'Platform'],
+    isNewProduct: false,
     features: [
       'Course management',
       'Student dashboard',
@@ -215,6 +220,7 @@ export const products: Product[] = [
     rating: 4.7,
     reviews: 56,
     tags: ['Cybersecurity', 'Security', 'Analysis', 'Research'],
+    isNewProduct: false,
     features: [
       'PDF format',
       'Case studies',

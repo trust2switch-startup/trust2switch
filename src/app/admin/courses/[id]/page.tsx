@@ -48,7 +48,7 @@ export default function EditCoursePage() {
     whoCanApply: [] as string[],
     tags: "",
     isPopular: false,
-    isNew: false,
+    isNewCourse: false,
     curriculum: [] as any[],
     programHighlights: [] as any[],
     projects: [] as any[],
@@ -105,7 +105,7 @@ export default function EditCoursePage() {
           whoCanApply: Array.isArray(course.whoCanApply) ? course.whoCanApply : [],
           tags: Array.isArray(course.tags) ? course.tags.join(", ") : "",
           isPopular: course.isPopular || false,
-          isNew: course.isNew || false,
+          isNewCourse: course.isNewCourse || false,
           curriculum: course.curriculum || [],
           programHighlights: course.programHighlights || [],
           projects: course.projects || [],
@@ -490,8 +490,8 @@ export default function EditCoursePage() {
             <label className="flex items-center">
               <input
                 type="checkbox"
-                name="isNew"
-                checked={formData.isNew}
+                name="isNewCourse"
+                checked={formData.isNewCourse}
                 onChange={handleChange}
                 className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
               />

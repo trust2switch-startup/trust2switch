@@ -100,7 +100,7 @@ export interface Course {
   }[];
   tags: string[];
   isPopular?: boolean;
-  isNew?: boolean;
+  isNewCourse: boolean;
 }
 
 export interface BlogPost {
@@ -142,7 +142,7 @@ export interface Product {
   fileSize?: string;
   deliveryMethod?: string;
   isPopular?: boolean;
-  isNew?: boolean;
+  isNewProduct: boolean;
   isFeatured?: boolean;
 }
 

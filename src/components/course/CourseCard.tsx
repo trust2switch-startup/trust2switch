@@ -23,78 +23,90 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
-      whileHover={{ y: -8 }}
+      whileHover={{ y: -5 }}
+      className="h-full"
     >
-      <Card hover className="h-full flex flex-col group">
-        <div className="relative h-48 w-full overflow-hidden">
+      <Card hover className="h-full flex flex-col group overflow-hidden border-slate-200 transition-shadow duration-300 hover:shadow-xl rounded-xl">
+        <div className="relative h-44 w-full overflow-hidden">
           <Image
             src={course.image}
             alt={course.title}
             fill
-            className="object-cover group-hover:scale-110 transition-transform duration-500"
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
           />
-          {course.isPopular && (
-            <div className="absolute top-4 left-4">
-              <Badge variant="primary">Popular</Badge>
-            </div>
-          )}
-          {course.isNew && (
-            <div className="absolute top-4 left-4">
-              <Badge variant="success">New</Badge>
-            </div>
-          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+          <div className="absolute top-3 left-3 flex flex-col gap-2">
+            {course.isPopular && (
+              <Badge variant="primary" className="shadow-sm backdrop-blur-md bg-white/90 text-[#84994F] border-none text-[10px] px-2 py-0.5 font-bold uppercase tracking-wider">
+                Popular
+              </Badge>
+            )}
+            {course.isNewCourse && (
+              <Badge variant="success" className="shadow-sm backdrop-blur-md bg-[#84994F] text-white border-none text-[10px] px-2 py-0.5 font-bold uppercase tracking-wider">
+                New
+              </Badge>
+            )}
+          </div>
         </div>
-        <CardContent className="flex-1 flex flex-col">
-          <div className="mb-4">
-            <Badge variant="default" className="mb-2 bg-[#84994F]/10 text-[#84994F] border border-[#84994F]/20">{course.category}</Badge>
-            <h3 className="text-xl font-semibold text-slate-900 mb-2 line-clamp-2 group-hover:text-[#84994F] transition-colors">
+
+        <CardContent className="flex-1 flex flex-col p-4 sm:p-5">
+          <div className="mb-3">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#84994F] bg-[#84994F]/10 px-2 py-1 rounded-full">
+                {course.category}
+              </span>
+              <div className="flex items-center gap-1 text-amber-400">
+                <Star className="w-3.5 h-3.5 fill-current" />
+                <span className="text-xs font-bold text-slate-700">{course.rating}</span>
+              </div>
+            </div>
+
+            <h3 className="text-lg font-bold text-slate-900 mb-2 line-clamp-2 leading-tight group-hover:text-[#84994F] transition-colors">
               {course.title}
             </h3>
-            <p className="text-slate-600 text-sm mb-4 line-clamp-2">
+            <p className="text-slate-500 text-xs sm:text-sm line-clamp-2 leading-relaxed">
               {course.description}
             </p>
           </div>
 
-          <div className="flex items-center gap-4 text-sm text-slate-600 mb-4">
-            <div className="flex items-center gap-1">
-              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-              <span className="font-medium">{course.rating}</span>
+          <div className="mt-auto pt-3 border-t border-slate-100 flex flex-col gap-3">
+            <div className="flex items-center justify-between text-xs text-slate-500">
+              <div className="flex items-center gap-1.5">
+                <Users className="w-3.5 h-3.5" />
+                <span>{course.students.toLocaleString()} students</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5" />
+                <span>{course.duration}</span>
+              </div>
             </div>
-            <div className="flex items-center gap-1">
-              <Users className="w-4 h-4" />
-              <span>{course.students.toLocaleString()}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Clock className="w-4 h-4" />
-              <span>{course.duration}</span>
-            </div>
-          </div>
 
-          <div className="mt-auto pt-4 border-t border-slate-200">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-baseline gap-2">
-                <span className="text-2xl font-bold text-[#84994F]">
-                  {formatPrice(course.price)}
-                </span>
+            <div className="flex items-end justify-between gap-3">
+              <div className="flex flex-col">
                 {course.originalPrice && (
-                  <span className="text-sm text-slate-500 line-through">
+                  <span className="text-[10px] text-slate-400 line-through leading-none mb-0.5">
                     {formatPrice(course.originalPrice)}
                   </span>
                 )}
+                <span className="text-xl font-bold text-slate-900 leading-none">
+                  {formatPrice(course.price)}
+                </span>
               </div>
+
+              <Link
+                href={`/courses/${course.slug}`}
+                className="flex-1"
+                onClick={() => {
+                  trackCourseView(course.slug, course.title);
+                  trackButtonClick('view_course_details', 'course_card');
+                }}
+              >
+                <Button size="sm" className="w-full bg-[#84994F] hover:bg-slate-900 text-white text-xs font-medium h-9 rounded-lg transition-colors shadow-none hover:shadow-md">
+                  View Course
+                </Button>
+              </Link>
             </div>
-            <Link 
-              href={`/courses/${course.slug}`} 
-              className="block"
-              onClick={() => {
-                trackCourseView(course.slug, course.title);
-                trackButtonClick('view_course_details', 'course_card');
-              }}
-            >
-              <Button variant="primary" className="w-full hover:scale-105 transition-transform bg-[#84994F] hover:bg-[#6d7f42] text-white shadow-lg">
-                View Details
-              </Button>
-            </Link>
           </div>
         </CardContent>
       </Card>

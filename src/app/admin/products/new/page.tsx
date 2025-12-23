@@ -31,7 +31,7 @@ export default function NewProductPage() {
     fileSize: '',
     deliveryMethod: '',
     isPopular: false,
-    isNew: false,
+    isNewProduct: false,
     isFeatured: false,
   });
 
@@ -60,13 +60,13 @@ export default function NewProductPage() {
 
     try {
       const token = localStorage.getItem('admin_token');
-      
+
       // Parse arrays from comma-separated strings
       const tagsArray = formData.tags
         .split(',')
         .map((tag) => tag.trim())
         .filter((tag) => tag.length > 0);
-      
+
       const featuresArray = formData.features
         .split('\n')
         .map((f) => f.trim())
@@ -321,8 +321,8 @@ export default function NewProductPage() {
           <label className="flex items-center">
             <input
               type="checkbox"
-              name="isNew"
-              checked={formData.isNew}
+              name="isNewProduct"
+              checked={formData.isNewProduct}
               onChange={handleChange}
               className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
             />

@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ensureDatabaseConnection } from '@/lib/db/connect';
 import { withAuth } from '@/lib/auth/middleware';
-import { professionalCourseRepository } from '@/lib/repositories';
+import { courseRepository, professionalCourseRepository } from '@/lib/repositories';
 import { professionalCourseSchema, validateSchema } from '@/lib/validation';
 
 // GET all professional courses
@@ -10,14 +10,50 @@ export async function GET() {
   try {
     await ensureDatabaseConnection();
 
-    const courses = await professionalCourseRepository.find(
-      {},
-      { sort: { order: 1, createdAt: -1 } }
+    // Fetch from Course repository instead of ProfessionalCourse repository
+    // Filter out School category as requested
+    const courses = await courseRepository.find(
+      {
+        isVisible: true,
+        // @ts-ignore - Prisma filter syntax passed through generic repo
+        category: {
+          notIn: ['School', 'school', 'K-12']
+        }
+      },
+      { sort: { createdAt: -1 } }
     );
+
+    // Map categories to icons for frontend display
+    const coursesWithIcons = courses.map((course: any) => {
+      let icon = 'Code'; // Default
+
+      const category = course.category?.toLowerCase() || '';
+
+      if (category.includes('data') || category.includes('analytics')) {
+        icon = 'Database';
+      } else if (category.includes('design') || category.includes('ui/ux')) {
+        icon = 'Palette';
+      } else if (category.includes('cloud') || category.includes('aws')) {
+        icon = 'Cloud';
+      } else if (category.includes('mobile') || category.includes('app')) {
+        icon = 'Laptop';
+      } else if (category.includes('security')) {
+        icon = 'Settings';
+      } else if (category.includes('marketing') || category.includes('business')) {
+        icon = 'BarChart3';
+      } else if (category.includes('web') || category.includes('full stack')) {
+        icon = 'Code';
+      }
+
+      return {
+        ...course,
+        icon
+      };
+    });
 
     return NextResponse.json({
       success: true,
-      data: courses,
+      data: coursesWithIcons,
     });
   } catch (error) {
     console.error('Get professional courses error:', error);

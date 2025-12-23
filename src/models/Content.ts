@@ -1,7 +1,8 @@
 // Content model with Mongoose - stores site-wide content configuration
 import mongoose, { Schema, Document, Model } from "mongoose";
 
-export interface IContent extends Document {
+export interface IContent {
+  _id: string;
   site: {
     name: string;
     tagline: string;

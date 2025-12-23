@@ -705,7 +705,7 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
                         {Math.round(
                           ((course.originalPrice - course.price) /
                             course.originalPrice) *
-                            100
+                          100
                         )}
                         %)
                       </p>
@@ -1187,10 +1187,10 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
                         window.innerWidth < 640
                           ? 272
                           : window.innerWidth < 768
-                          ? 292
-                          : window.innerWidth < 1024
-                          ? 312
-                          : 332;
+                            ? 292
+                            : window.innerWidth < 1024
+                              ? 312
+                              : 332;
                       projectsScrollRef.current.scrollBy({
                         left: cardWidth,
                         behavior: "smooth",
@@ -1284,7 +1284,7 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
                             <div className="relative w-20 h-20 sm:w-24 sm:h-24 mb-4 flex-shrink-0">
                               <Image
                                 src={
-                                  transition.image || "/placeholder-user.jpg"
+                                  transition.image || "/trust2switch_logo.jpg"
                                 }
                                 alt={transition.name}
                                 fill
@@ -1367,10 +1367,10 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
                         window.innerWidth < 640
                           ? 292
                           : window.innerWidth < 768
-                          ? 312
-                          : window.innerWidth < 1024
-                          ? 332
-                          : 352;
+                            ? 312
+                            : window.innerWidth < 1024
+                              ? 332
+                              : 352;
                       careerTransitionScrollRef.current.scrollBy({
                         left: cardWidth,
                         behavior: "smooth",
@@ -1393,10 +1393,10 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
                         window.innerWidth < 640
                           ? 292
                           : window.innerWidth < 768
-                          ? 312
-                          : window.innerWidth < 1024
-                          ? 332
-                          : 352;
+                            ? 312
+                            : window.innerWidth < 1024
+                              ? 332
+                              : 352;
                       careerTransitionScrollRef.current.scrollBy({
                         left: -cardWidth,
                         behavior: "smooth",

@@ -41,7 +41,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, compact = tru
               {product.isPopular && (
                 <Badge variant="primary" className="text-[10px] px-1.5 py-0.5">Popular</Badge>
               )}
-              {product.isNew && (
+              {product.isNewProduct && (
                 <Badge variant="success" className="text-[10px] px-1.5 py-0.5">New</Badge>
               )}
               {product.isFeatured && (

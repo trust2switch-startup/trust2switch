@@ -110,7 +110,7 @@ export const Testimonials: React.FC = () => {
             >
               {/* Gradient Border Effect */}
               {/* <div className="absolute inset-0 bg-gradient-to-br from-orange-400 via-indigo-500 to-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-0 blur-xl"></div> */}
-              
+
               {/* Top Accent Bar */}
               {/* <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-400 via-indigo-500 to-orange-400"></div> */}
 
@@ -145,6 +145,7 @@ export const Testimonials: React.FC = () => {
                       width={56}
                       height={56}
                       className="object-cover"
+                      unoptimized
                     />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -213,6 +214,7 @@ export const Testimonials: React.FC = () => {
                         width={56}
                         height={56}
                         className="object-cover"
+                        unoptimized
                       />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -263,11 +265,10 @@ export const Testimonials: React.FC = () => {
                 onClick={() => goToTestimonial(index)}
                 onMouseEnter={() => setIsAutoPlaying(false)}
                 onMouseLeave={() => setIsAutoPlaying(true)}
-                className={`transition-all duration-300 rounded-full ${
-                  index === currentIndex
+                className={`transition-all duration-300 rounded-full ${index === currentIndex
                     ? 'w-8 h-2 bg-gradient-to-r from-orange-400 to-indigo-500'
                     : 'w-2 h-2 bg-slate-300 hover:bg-slate-400'
-                }`}
+                  }`}
                 aria-label={`Go to testimonial ${index + 1}`}
               />
             ))}
