@@ -1,7 +1,8 @@
 // Product model with Mongoose
 import mongoose, { Schema, Document, Model } from "mongoose";
 
-export interface IProduct extends Omit<Document, "isNew"> {
+export interface IProduct {
+  _id: string; // Compatibility
   sku: string;
   title: string;
   description: string;
@@ -21,7 +22,7 @@ export interface IProduct extends Omit<Document, "isNew"> {
   fileSize?: string;
   deliveryMethod?: string;
   isPopular?: boolean;
-  isNew: boolean;
+  isNewProduct: boolean;
   isFeatured?: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -49,7 +50,7 @@ const ProductSchema = new Schema<IProduct>(
     deliveryMethod: { type: String },
     isPopular: { type: Boolean, index: true },
     // @ts-ignore - isNew conflicts with Document.isNew but we need it as a schema field
-    isNew: { type: Boolean, index: true },
+    isNewProduct: { type: Boolean, index: true },
     isFeatured: { type: Boolean, index: true },
   },
   {
@@ -61,7 +62,7 @@ const ProductSchema = new Schema<IProduct>(
 ProductSchema.index({ category: 1, inStock: 1 });
 ProductSchema.index({ isPopular: 1, rating: -1 });
 ProductSchema.index({ isFeatured: 1, isPopular: 1 });
-ProductSchema.index({ isNew: 1, createdAt: -1 });
+ProductSchema.index({ isNewProduct: 1, createdAt: -1 });
 ProductSchema.index({ tags: 1, category: 1 });
 
 // Text index for search

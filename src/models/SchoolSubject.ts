@@ -1,7 +1,8 @@
 // SchoolSubject model with Mongoose
 import mongoose, { Schema, Document, Model } from "mongoose";
 
-export interface ISchoolSubject extends Document {
+export interface ISchoolSubject {
+  _id: string;
   title: string;
   description: string;
   icon: string;

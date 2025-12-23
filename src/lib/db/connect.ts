@@ -1,17 +1,17 @@
 // Database connection utility for API routes
-import { connectDatabase, getDatabaseConnection } from "./database";
+import { prisma } from "./prisma";
 
 let isConnected = false;
 
 export async function ensureDatabaseConnection(): Promise<void> {
-  if (!isConnected) {
-    await connectDatabase();
+  // Prisma manages connection pool automatically
+  // Ideally we don't need to do anything, but for compatibility with existing calls:
+  try {
+    await prisma.$connect();
     isConnected = true;
-  } else {
-    // Check if still connected
-    const connection = getDatabaseConnection();
-    if (!connection.adapter.isConnected()) {
-      await connectDatabase();
-    }
+  } catch (error) {
+    console.error("Failed to connect to database via Prisma", error);
+    throw error;
   }
 }
+

@@ -42,7 +42,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
                 Popular
               </Badge>
             )}
-            {course.isNew && (
+            {course.isNewCourse && (
               <Badge variant="success" className="shadow-sm backdrop-blur-md bg-[#84994F] text-white border-none text-[10px] px-2 py-0.5 font-bold uppercase tracking-wider">
                 New
               </Badge>
