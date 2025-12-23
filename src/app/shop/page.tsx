@@ -115,8 +115,8 @@ export default function ShopPage() {
       });
     } else if (sortBy === 'newest') {
       filtered.sort((a, b) => {
-        if (a.isNew && !b.isNew) return -1;
-        if (!a.isNew && b.isNew) return 1;
+        if (a.isNewProduct && !b.isNewProduct) return -1;
+        if (!a.isNewProduct && b.isNewProduct) return 1;
         return 0;
       });
     } else if (sortBy === 'rating') {
@@ -237,11 +237,10 @@ export default function ShopPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap border-b-2 transition-colors ${
-                  activeTab === tab.id
+                className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm whitespace-nowrap border-b-2 transition-colors ${activeTab === tab.id
                     ? 'border-green-800 text-green-800 bg-[rgba(132,153,79,0)] font-bold'
                     : 'border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 font-medium'
-                }`}
+                  }`}
               >
                 {getCategoryIcon(tab.id)}
                 <span>{tab.label}</span>

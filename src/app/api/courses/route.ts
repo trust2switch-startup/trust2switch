@@ -37,22 +37,55 @@ export async function GET(req: NextRequest) {
     const payload = token ? verifyToken(token) : null;
     const isAdmin = payload?.role === 'admin' || payload?.role === 'editor';
 
-    // If not admin, only show visible courses
-    if (!isAdmin) {
-      filter.isVisible = true;
+    // Build filter
+    const where: any = {};
+
+    if (category && category !== 'All') {
+      where.category = category;
     }
 
-    const sortObj: Record<string, any> = search
-      ? { score: { $meta: 'textScore' } }
-      : { [pagination.sort]: pagination.order === 'asc' ? 1 : -1 };
+    if (level && level !== 'All') {
+      where.level = level;
+    }
 
-    const courses = await courseRepository.find(filter, {
-      sort: sortObj,
+    // Text search implementation for Prisma
+    if (search) {
+      where.OR = [
+        { title: { contains: search } }, // Implicitly case-insensitive in MySQL usually, or use mode: 'insensitive'
+        { description: { contains: search } },
+        { tags: { array_contains: search } } // JSON array search if supported or string search
+      ];
+      // Note: Full text search in Prisma MySQL requires explicit raw query or @fulltext index usage which is specific.
+      // For simple "contains", the above works for scalar fields. 
+      // array_contains is for Postgres. For MySQL JSON, we might need path syntax or just ignore tags for now in simple search.
+      // Let's simplify to title/description for stability.
+      where.OR = [
+        { title: { contains: search } },
+        { description: { contains: search } }
+      ];
+    }
+
+    if (!isAdmin) {
+      where.isVisible = true;
+    }
+
+    // Sorting
+    const orderBy: any = {};
+    if (search) {
+      // No text score in simple Prisma findMany, sort by relevance not easy without raw query.
+      // Fallback to title or just created date
+      orderBy.title = 'asc';
+    } else {
+      orderBy[pagination.sort] = pagination.order;
+    }
+
+    const courses = await courseRepository.find(where, {
+      sort: orderBy,
       limit: pagination.limit,
       skip: pagination.skip,
     });
 
-    const total = await courseRepository.count(filter);
+    const total = await courseRepository.count(where);
 
     return NextResponse.json({
       success: true,

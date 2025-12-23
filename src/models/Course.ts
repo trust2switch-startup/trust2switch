@@ -72,7 +72,8 @@ export interface IInstructor {
   bio: string;
 }
 
-export interface ICourse extends Omit<Document, "isNew"> {
+export interface ICourse {
+  _id: string;
   slug: string;
   title: string;
   description: string;
@@ -105,7 +106,7 @@ export interface ICourse extends Omit<Document, "isNew"> {
   curriculum: ICurriculumModule[];
   tags: string[];
   isPopular?: boolean;
-  isNew: boolean;
+  isNewCourse: boolean;
   isVisible: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -248,7 +249,7 @@ const CourseSchema = new Schema<ICourse>(
     tags: { type: [String], default: [], index: true },
     isPopular: { type: Boolean, default: false, index: true },
     // @ts-ignore - isNew conflicts with Document.isNew but we need it as a schema field
-    isNew: { type: Boolean, default: false, index: true },
+    isNewCourse: { type: Boolean, default: false, index: true },
     isVisible: { type: Boolean, default: true, index: true },
   },
   {
@@ -259,7 +260,7 @@ const CourseSchema = new Schema<ICourse>(
 // Compound indexes for common queries
 CourseSchema.index({ category: 1, level: 1 });
 CourseSchema.index({ isPopular: 1, rating: -1 });
-CourseSchema.index({ isNew: 1, createdAt: -1 });
+CourseSchema.index({ isNewCourse: 1, createdAt: -1 });
 CourseSchema.index({ tags: 1, category: 1 });
 
 // Text index for search

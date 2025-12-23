@@ -2,12 +2,13 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import type { Permission } from "@/lib/auth/permissions";
 
-export interface IUser extends Document {
+export interface IUser {
+  _id: string; // Maintain compatibility
   username: string;
   email: string;
   password: string;
   role: "admin" | "editor" | "custom";
-  permissions?: Permission[];
+  permissions?: Permission[]; // Prisma returns Json, need to cast or handle
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;

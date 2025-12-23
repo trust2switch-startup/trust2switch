@@ -40,7 +40,7 @@ export default function NewCoursePage() {
     whoCanApply: [] as string[],
     tags: '',
     isPopular: false,
-    isNew: false,
+    isNewCourse: false,
     curriculum: [] as any[],
     programHighlights: [] as any[],
     projects: [] as any[],
@@ -364,8 +364,8 @@ export default function NewCoursePage() {
             <label className="flex items-center">
               <input
                 type="checkbox"
-                name="isNew"
-                checked={formData.isNew}
+                name="isNewCourse"
+                checked={formData.isNewCourse}
                 onChange={handleChange}
                 className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
               />

@@ -1,24 +1,22 @@
-import { createMongoRepository } from "@/lib/db/repository";
+import { createPrismaRepository } from "@/lib/repositories/prisma-repo";
 import { BlogPost, IBlogPost } from "@/models/BlogPost";
 import { CallbackRequest, ICallbackRequest } from "@/models/CallbackRequest";
 import { Content, IContent } from "@/models/Content";
 import { Course, ICourse } from "@/models/Course";
 import { Product, IProduct } from "@/models/Product";
 import {
-  ProfessionalCourse,
-  IProfessionalCourse,
+    ProfessionalCourse,
+    IProfessionalCourse,
 } from "@/models/ProfessionalCourse";
 import { SchoolSubject, ISchoolSubject } from "@/models/SchoolSubject";
 import { User, IUser } from "@/models/User";
 
-export const courseRepository = createMongoRepository<ICourse>(Course);
-export const blogRepository = createMongoRepository<IBlogPost>(BlogPost);
-export const productRepository = createMongoRepository<IProduct>(Product);
-export const professionalCourseRepository =
-  createMongoRepository<IProfessionalCourse>(ProfessionalCourse);
-export const schoolSubjectRepository =
-  createMongoRepository<ISchoolSubject>(SchoolSubject);
-export const contentRepository = createMongoRepository<IContent>(Content);
-export const userRepository = createMongoRepository<IUser>(User);
-export const callbackRequestRepository =
-  createMongoRepository<ICallbackRequest>(CallbackRequest);
+export const courseRepository = createPrismaRepository<ICourse>("course");
+export const blogRepository = createPrismaRepository<IBlogPost>("blogPost");
+export const productRepository = createPrismaRepository<IProduct>("product");
+export const professionalCourseRepository = createPrismaRepository<IProfessionalCourse>("professionalCourse");
+export const schoolSubjectRepository = createPrismaRepository<ISchoolSubject>("schoolSubject");
+export const contentRepository = createPrismaRepository<IContent>("content");
+export const userRepository = createPrismaRepository<IUser>("user");
+export const callbackRequestRepository = createPrismaRepository<ICallbackRequest>("callbackRequest");
+

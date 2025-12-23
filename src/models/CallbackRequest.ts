@@ -1,7 +1,8 @@
 // CallbackRequest model with Mongoose
 import mongoose, { Schema, Document, Model } from "mongoose";
 
-export interface ICallbackRequest extends Document {
+export interface ICallbackRequest {
+  _id: string;
   name: string;
   phone: string;
   preferredTime: string;

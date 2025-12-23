@@ -1,7 +1,8 @@
 // ProfessionalCourse model with Mongoose
 import mongoose, { Schema, Document, Model } from "mongoose";
 
-export interface IProfessionalCourse extends Document {
+export interface IProfessionalCourse {
+  _id: string;
   title: string;
   description: string;
   icon: string;

@@ -139,6 +139,7 @@ export const courses: Course[] = [
       },
     ],
     tags: ['React', 'Node.js', 'MongoDB', 'JavaScript'],
+    isNewCourse: false,
     isPopular: true,
   },
   {
@@ -429,6 +430,7 @@ export const courses: Course[] = [
       },
     ],
     tags: ['Python', 'Machine Learning', 'Pandas', 'Data Visualization'],
+    isNewCourse: false,
     isPopular: true,
   },
   {
@@ -552,7 +554,7 @@ export const courses: Course[] = [
       },
     ],
     tags: ['Figma', 'UX Design', 'UI Design', 'Prototyping'],
-    isNew: true,
+    isNewCourse: true,
   },
   {
     id: '4',
@@ -675,6 +677,7 @@ export const courses: Course[] = [
       },
     ],
     tags: ['AWS', 'Cloud Computing', 'DevOps', 'Infrastructure'],
+    isNewCourse: false,
   },
   {
     id: '5',
@@ -797,6 +800,7 @@ export const courses: Course[] = [
       },
     ],
     tags: ['React Native', 'iOS', 'Android', 'Mobile Development'],
+    isNewCourse: false,
   },
   {
     id: '6',
@@ -919,6 +923,7 @@ export const courses: Course[] = [
       },
     ],
     tags: ['SEO', 'Social Media', 'Content Marketing', 'Analytics'],
+    isNewCourse: false,
   },
   {
     id: '7',
@@ -965,6 +970,7 @@ export const courses: Course[] = [
       },
     ],
     tags: ['AI', 'Machine Learning', 'LLM', 'Generative AI'],
+    isNewCourse: false,
   },
   {
     id: '8',
@@ -1011,6 +1017,7 @@ export const courses: Course[] = [
       },
     ],
     tags: ['DevOps', 'CI/CD', 'Docker', 'Kubernetes', 'Jenkins'],
+    isNewCourse: false,
   },
   {
     id: '9',
@@ -1057,6 +1064,7 @@ export const courses: Course[] = [
       },
     ],
     tags: ['HTML', 'CSS', 'JavaScript', 'Web Development'],
+    isNewCourse: false,
   },
   {
     id: '10',
@@ -1103,6 +1111,7 @@ export const courses: Course[] = [
       },
     ],
     tags: ['SQL', 'Database', 'MySQL', 'PostgreSQL', 'MongoDB'],
+    isNewCourse: false,
   },
   {
     id: '11',
@@ -1272,6 +1281,7 @@ export const courses: Course[] = [
       }
     ],
     tags: ['Python', 'Programming', 'Automation', 'Scripting'],
+    isNewCourse: false,
     whoCanApply: [
       'Graduates eager to launch a career in web development',
       'Working professionals seeking growth in full-stack development',
@@ -1325,6 +1335,7 @@ export const courses: Course[] = [
       },
     ],
     tags: ['Java', 'Spring Boot', 'Enterprise', 'Microservices'],
+    isNewCourse: false,
   },
   {
     id: '13',
@@ -1371,6 +1382,7 @@ export const courses: Course[] = [
       },
     ],
     tags: ['Excel', 'Business', 'Data Analysis', 'VBA'],
+    isNewCourse: false,
   },
   {
     id: '14',
@@ -1417,6 +1429,7 @@ export const courses: Course[] = [
       },
     ],
     tags: ['AI', 'Deep Learning', 'Neural Networks', 'Computer Vision'],
+    isNewCourse: false,
   },
   {
     id: '15',
@@ -1463,6 +1476,7 @@ export const courses: Course[] = [
       },
     ],
     tags: ['Mathematics', 'Algebra', 'Calculus', 'Geometry'],
+    isNewCourse: false,
   },
   {
     id: '16',
@@ -1509,6 +1523,7 @@ export const courses: Course[] = [
       },
     ],
     tags: ['Physics', 'Mechanics', 'Optics', 'Modern Physics'],
+    isNewCourse: false,
   },
   {
     id: '17',
@@ -1555,6 +1570,7 @@ export const courses: Course[] = [
       },
     ],
     tags: ['Chemistry', 'Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry'],
+    isNewCourse: false,
   },
   {
     id: '18',
@@ -1601,6 +1617,7 @@ export const courses: Course[] = [
       },
     ],
     tags: ['Programming', 'Python', 'C++', 'Java', 'Beginner'],
+    isNewCourse: false,
     skills: []
   },
   {
@@ -1648,6 +1665,7 @@ export const courses: Course[] = [
       },
     ],
     tags: ['English', 'Grammar', 'Literature', 'Essay Writing'],
+    isNewCourse: false,
   },
   {
     id: '20',
@@ -1694,6 +1712,7 @@ export const courses: Course[] = [
       },
     ],
     tags: ['History', 'Geography', 'Biology', 'Social Studies'],
+    isNewCourse: false,
   },
 ];
 

@@ -7,7 +7,8 @@ export interface IAuthor {
   role: string;
 }
 
-export interface IBlogPost extends Document {
+export interface IBlogPost {
+  _id: string;
   slug: string;
   title: string;
   excerpt: string;
