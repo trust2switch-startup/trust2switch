@@ -139,7 +139,7 @@ export const courseSchema = z
     curriculum: z.array(curriculumModuleSchema),
     tags: z.array(z.string()).default([]),
     isPopular: z.boolean().default(false),
-    isNew: z.boolean().default(false),
+    isNewCourse: z.boolean().default(false),
     isVisible: z.boolean().default(true),
   })
   .strict();

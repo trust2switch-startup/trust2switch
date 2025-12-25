@@ -122,7 +122,7 @@ import {
   SiSlack,
   SiNotion,
 } from "react-icons/si";
-import { Button } from "@/components/ui/Button";
+import { Button, getButtonStyles } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Modal } from "@/components/ui/Modal";
@@ -246,13 +246,9 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
           <p className="text-slate-600 mb-6">
             The course you're looking for doesn't exist or couldn't be loaded.
           </p>
-          <Link href="/courses">
-            <Button
-              variant="primary"
-              className="bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-600"
-            >
-              Back to Courses
-            </Button>
+          <Link href="/courses" className={getButtonStyles("ghost", "sm", "text-[#435663] hover:text-[#84994F] mb-4 sm:mb-6 transition-colors group text-sm sm:text-base hover:bg-transparent px-0")}>
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
+            {courseDetailConfig.sections.topSection.backButton}
           </Link>
         </div>
       </div>
@@ -666,7 +662,7 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
               className="inline-flex items-center text-[#435663] hover:text-[#84994F] mb-4 sm:mb-6 transition-colors group text-sm sm:text-base"
             >
               <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
-              {sections.topSection.backButton}
+              {courseDetailConfig.sections.topSection.backButton}
             </Link>
 
             <div className="grid lg:grid-cols-2 items-center gap-6 sm:gap-8 lg:gap-12">

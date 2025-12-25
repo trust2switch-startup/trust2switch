@@ -58,8 +58,15 @@ export const PUT = withAuth(async (
     console.log("Parsed Update Data:", JSON.stringify(updateData, null, 2)); // DEBUG
 
     // Convert null values to undefined for repository compatibility
-    const cleanUpdateData: Record<string, any> = {};
-    for (const [key, value] of Object.entries(updateData)) {
+    // And map frontend fields to database fields
+    const { isNewCourse, ...rest } = updateData;
+    const cleanUpdateData: Record<string, any> = { ...rest };
+
+    if (isNewCourse !== undefined) {
+      cleanUpdateData.isNew = isNewCourse;
+    }
+
+    for (const [key, value] of Object.entries(cleanUpdateData)) {
       cleanUpdateData[key] = value === null ? undefined : value;
     }
 
