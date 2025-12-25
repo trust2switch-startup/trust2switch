@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ensureDatabaseConnection } from "@/lib/db/connect";
-import { Course } from "@/models/Course";
+import { prisma } from "@/lib/db/prisma";
 import { withAuth } from "@/lib/auth/middleware";
 
 export const POST = withAuth(async (
@@ -8,10 +7,11 @@ export const POST = withAuth(async (
     { params }: { params: Promise<{ id: string }> }
 ) => {
     try {
-        await ensureDatabaseConnection();
         const { id } = await params;
 
-        const originalCourse = await Course.findById(id);
+        const originalCourse = await prisma.course.findUnique({
+            where: { id },
+        });
 
         if (!originalCourse) {
             return NextResponse.json(
@@ -20,19 +20,26 @@ export const POST = withAuth(async (
             );
         }
 
-        const courseObj = originalCourse.toObject();
-
-        // Create new object by excluding fields
-        const { _id, __v, createdAt, updatedAt, ...rest } = courseObj as any;
-        const cleanCourse = { ...rest };
+        // Create new object by excluding system fields
+        const { id: _, createdAt, updatedAt, ...rest } = originalCourse;
 
         // Create unique slug and title
         const timestamp = Date.now();
-        cleanCourse.title = `Copy of ${cleanCourse.title}`;
-        cleanCourse.slug = `${cleanCourse.slug}-copy-${timestamp}`;
-        cleanCourse.isNew = true; // Mark as new simply because it's a new entry
+        const title = `Copy of ${rest.title}`;
+        const slug = `${rest.slug}-copy-${timestamp}`;
 
-        const newCourse = await Course.create(cleanCourse);
+        const courseData = {
+            ...rest,
+            title,
+            slug,
+            isNew: true,
+            // Ensure JSON fields are passed correctly (Prisma handles object types automatically, checking strictly for type safety might be needed but usually spread works if types align)
+            // Explicitly casting JSON fields if needed, but 'rest' should have them as objects/arrays
+        };
+
+        const newCourse = await prisma.course.create({
+            data: courseData as any, // Using as any to avoid strict typing issues with Json fields if there's a slight mismatch, but generally safe here
+        });
 
         return NextResponse.json({
             success: true,
