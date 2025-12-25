@@ -9,12 +9,12 @@ import { AnalyticsProvider } from '@/components/AnalyticsProvider';
 import { theme } from '@/config/theme';
 import { content } from '@/config/content';
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
 });
 
-const poppins = Poppins({ 
+const poppins = Poppins({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700', '800'],
   variable: '--font-heading',
@@ -165,7 +165,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
       </head>
-      <body className={`${inter.variable} ${poppins.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} ${poppins.variable} font-sans antialiased`} suppressHydrationWarning={true}>
         <div style={{
           '--color-primary-50': theme.colors.primary[50],
           '--color-primary-100': theme.colors.primary[100],
