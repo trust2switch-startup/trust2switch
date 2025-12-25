@@ -153,8 +153,14 @@ export const POST = withAuth(async (req) => {
     }
 
     // Convert null values to undefined for repository compatibility
-    const cleanCourseData: Record<string, any> = {};
-    for (const [key, value] of Object.entries(courseData)) {
+    // And map frontend fields to database fields
+    const { isNewCourse, ...rest } = courseData;
+    const cleanCourseData: Record<string, any> = {
+      ...rest,
+      isNew: isNewCourse
+    };
+
+    for (const [key, value] of Object.entries(cleanCourseData)) {
       cleanCourseData[key] = value === null ? undefined : value;
     }
 

@@ -154,6 +154,7 @@ export const Footer: React.FC = () => {
                     placeholder={footerConfig.newsletter.placeholder}
                     className="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#435663] focus:border-transparent text-xs sm:text-sm"
                     required
+                    suppressHydrationWarning={true}
                   />
                   <button
                     type="submit"
