@@ -8,6 +8,8 @@ export interface ICallbackRequest {
   preferredTime: string;
   message?: string;
   status?: "pending" | "contacted" | "completed";
+  courseName?: string;
+  intent?: "callback" | "apply" | "brochure";
   createdAt: Date;
   updatedAt: Date;
 }
@@ -22,6 +24,13 @@ const CallbackRequestSchema = new Schema<ICallbackRequest>(
       type: String,
       enum: ["pending", "contacted", "completed"],
       default: "pending",
+      index: true,
+    },
+    courseName: { type: String, required: false, index: true },
+    intent: {
+      type: String,
+      enum: ["callback", "apply", "brochure"],
+      default: "callback",
       index: true,
     },
   },

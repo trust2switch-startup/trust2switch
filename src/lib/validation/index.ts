@@ -244,6 +244,7 @@ export const contentSchema = z
     contact: z.record(z.string(), z.any()),
     blog: z.record(z.string(), z.any()),
     shop: z.record(z.string(), z.any()),
+    footer: z.record(z.string(), z.any()).optional(),
   })
   .strict();
 
@@ -269,6 +270,8 @@ export const callbackRequestSchema = z
       .enum(["pending", "contacted", "completed"])
       .optional()
       .default("pending"),
+    courseName: z.string().optional(),
+    intent: z.enum(["callback", "apply", "brochure"]).optional().default("callback"),
   })
   .strict();
 
@@ -276,3 +279,4 @@ function clamp(value: number, min: number, max: number) {
   if (Number.isNaN(value)) return min;
   return Math.min(Math.max(value, min), max);
 }
+

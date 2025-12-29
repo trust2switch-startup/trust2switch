@@ -11,11 +11,17 @@ import { trackModalOpen, trackFormSubmit } from '@/lib/analytics';
 interface CallbackModalProps {
   isOpen: boolean;
   onClose: () => void;
+  courseName?: string;
+  intent?: 'callback' | 'apply' | 'brochure';
+  brochureLink?: string;
 }
 
 export const CallbackModal: React.FC<CallbackModalProps> = ({
   isOpen,
   onClose,
+  courseName,
+  intent = 'callback',
+  brochureLink,
 }) => {
   const [formData, setFormData] = useState({
     name: '',
@@ -29,9 +35,9 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({
 
   useEffect(() => {
     if (isOpen) {
-      trackModalOpen('callback_modal');
+      trackModalOpen(`${intent}_modal`);
     }
-  }, [isOpen]);
+  }, [isOpen, intent]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -63,12 +69,19 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({
     }
 
     setIsSubmitting(true);
-    
+
     try {
       // Track form submission
-      trackFormSubmit('callback_request', {
+      const eventName =
+        intent === 'apply' ? 'course_application' :
+          intent === 'brochure' ? 'brochure_download_request' :
+            'callback_request';
+
+      trackFormSubmit(eventName, {
         preferred_time: formData.preferredTime,
         has_message: !!formData.message,
+        course_name: courseName,
+        intent,
       });
 
       // Submit to API
@@ -82,6 +95,8 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({
           phone: formData.phone.trim(),
           preferredTime: formData.preferredTime,
           message: formData.message.trim() || '',
+          courseName,
+          intent,
         }),
       });
 
@@ -93,6 +108,19 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({
 
       // Success - show success message
       setSubmitted(true);
+
+      // specific handling for brochure
+      if (intent === 'brochure' && brochureLink) {
+        // Trigger download
+        const link = document.createElement('a');
+        link.href = brochureLink;
+        link.download = ''; // browser will infer filename or use header
+        link.target = '_blank';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+
       setTimeout(() => {
         setSubmitted(false);
         setFormData({
@@ -113,18 +141,36 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({
     }
   };
 
+  const getTitle = () => {
+    if (intent === 'apply' && courseName) return `Apply for ${courseName}`;
+    if (intent === 'brochure' && courseName) return `Download Brochure for ${courseName}`;
+    return "Request a Callback";
+  };
+
+  const getSuccessMessage = () => {
+    if (intent === 'brochure') return "Brochure downloading...";
+    if (intent === 'apply') return "Application Received!";
+    return "Request Received!";
+  };
+
+  const getSuccessDescription = () => {
+    if (intent === 'brochure') return "Your brochure download should start automatically.";
+    if (intent === 'apply') return "We have received your application. Our team will contact you shortly.";
+    return "We'll call you back at your preferred time. Our team will contact you shortly.";
+  };
+
   if (submitted) {
     return (
-      <Modal isOpen={isOpen} onClose={onClose} title="Callback Requested">
+      <Modal isOpen={isOpen} onClose={onClose} title={intent === 'apply' ? 'Application Submitted' : intent === 'brochure' ? 'Download Started' : 'Callback Requested'}>
         <div className="text-center py-8">
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <CheckCircle className="w-8 h-8 text-green-600" />
           </div>
           <h3 className="text-xl font-semibold text-neutral-900 mb-2">
-            Request Received!
+            {getSuccessMessage()}
           </h3>
           <p className="text-neutral-600 mb-6">
-            We'll call you back at your preferred time. Our team will contact you shortly.
+            {getSuccessDescription()}
           </p>
           <Button variant="primary" onClick={onClose}>
             Close
@@ -135,14 +181,20 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Request a Callback" size="md">
+    <Modal isOpen={isOpen} onClose={onClose} title={getTitle()} size="md">
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="bg-primary-50 border border-primary-200 rounded-lg p-4 flex items-start gap-3">
           <Phone className="w-5 h-5 text-primary-600 mt-0.5" />
           <div>
-            <p className="font-semibold text-neutral-900 mb-1">Get Expert Guidance</p>
+            <p className="font-semibold text-neutral-900 mb-1">
+              {intent === 'brochure' ? 'Get Course Syllabus' : intent === 'apply' ? 'Start Your Journey' : 'Get Expert Guidance'}
+            </p>
             <p className="text-sm text-neutral-600">
-              Our career counselors will call you back to discuss your learning goals and help you choose the right course.
+              {intent === 'brochure'
+                ? 'Fill in your details to download the complete course brochure.'
+                : intent === 'apply'
+                  ? 'Submit your details to start your application process.'
+                  : 'Our career counselors will call you back to discuss your learning goals and help you choose the right course.'}
             </p>
           </div>
         </div>
@@ -171,15 +223,14 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({
         <div>
           <label className="block text-sm font-medium text-neutral-700 mb-2">
             <Clock className="w-4 h-4 inline mr-1" />
-            Preferred Callback Time
+            {intent === 'brochure' ? 'Best time to reach you' : 'Preferred Callback Time'}
           </label>
           <select
             name="preferredTime"
             value={formData.preferredTime}
             onChange={(e) => handleChange(e as any)}
-            className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 ${
-              errors.preferredTime ? 'border-error' : 'border-neutral-300'
-            }`}
+            className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 ${errors.preferredTime ? 'border-error' : 'border-neutral-300'
+              }`}
             required
           >
             <option value="">Select a time</option>
@@ -217,9 +268,9 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({
           >
             Cancel
           </Button>
-          <Button 
-            type="submit" 
-            variant="primary" 
+          <Button
+            type="submit"
+            variant="primary"
             className="flex-1 flex items-center justify-center"
             disabled={isSubmitting}
           >
@@ -229,12 +280,16 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                Submitting...
+                {intent === 'brochure' ? 'Downloading...' : 'Submitting...'}
               </>
             ) : (
               <>
-                <Phone className="w-4 h-4 mr-2" />
-                Request Callback
+                {intent === 'brochure' ? (
+                  <CheckCircle className="w-4 h-4 mr-2" />
+                ) : (
+                  <Phone className="w-4 h-4 mr-2" />
+                )}
+                {intent === 'brochure' ? 'Download Brochure' : intent === 'apply' ? 'Apply Now' : 'Request Callback'}
               </>
             )}
           </Button>
