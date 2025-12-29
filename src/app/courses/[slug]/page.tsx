@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { use } from "react";
+import { CallbackModal } from "@/components/booking/CallbackModal";
 import {
   Star,
   Users,
@@ -149,6 +150,77 @@ import {
 import { PlatformRatings } from "@/components/sections/PlatformRatings";
 import { CurriculumSection } from "@/components/sections/CurriculumSection";
 
+const ReviewText = ({ text }: { text: string }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const shouldTruncate = text.length > 200;
+
+  return (
+    <div className="relative z-10 flex flex-col items-start w-full">
+      <p
+        className={`text-sm text-slate-600 leading-relaxed italic mb-1 ${!isExpanded ? "line-clamp-6" : ""
+          }`}
+      >
+        "{text}"
+      </p>
+      {shouldTruncate && (
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setIsExpanded(!isExpanded);
+          }}
+          className="text-xs font-bold text-[#84994F] hover:text-[#6d7f42] transition-colors flex items-center gap-1 mt-1 z-20"
+        >
+          {isExpanded ? (
+            <>
+              Read Less <ChevronUp className="w-3 h-3" />
+            </>
+          ) : (
+            <>
+              Read More <ChevronDown className="w-3 h-3" />
+            </>
+          )}
+        </button>
+      )}
+    </div>
+  );
+};
+
+const ExpandableText = ({ text, className = "" }: { text: string; className?: string }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const shouldTruncate = text.length > 150;
+
+  return (
+    <div className="relative z-10 flex flex-col items-start w-full">
+      <p
+        className={`${className} ${!isExpanded ? "line-clamp-4" : ""}`}
+      >
+        {text}
+      </p>
+      {shouldTruncate && (
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setIsExpanded(!isExpanded);
+          }}
+          className="text-xs font-bold text-[#84994F] hover:text-[#6d7f42] transition-colors flex items-center gap-1 mt-2 z-20"
+        >
+          {isExpanded ? (
+            <>
+              Read Less <ChevronUp className="w-3 h-3" />
+            </>
+          ) : (
+            <>
+              Read More <ChevronDown className="w-3 h-3" />
+            </>
+          )}
+        </button>
+      )}
+    </div>
+  );
+};
+
 interface CourseDetailPageProps {
   params: Promise<{
     slug: string;
@@ -164,6 +236,8 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
   const [isOneOnOneModalOpen, setIsOneOnOneModalOpen] = useState(false);
   const [isCareerAdviceModalOpen, setIsCareerAdviceModalOpen] = useState(false);
   const [isCertificateModalOpen, setIsCertificateModalOpen] = useState(false);
+  const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
+  const [isBrochureModalOpen, setIsBrochureModalOpen] = useState(false);
   const [expandedWeeks, setExpandedWeeks] = useState<Set<number>>(new Set([0]));
   const [expandedFAQs, setExpandedFAQs] = useState<Set<number>>(new Set());
   const projectsScrollRef = useRef<HTMLDivElement>(null);
@@ -720,46 +794,29 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
 
                 {/* CTA Buttons */}
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2 sm:pt-4">
-                  {course.brochureDownloadLink ? (
-                    <a
-                      href={course.brochureDownloadLink}
-                      download
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center border-2 border-[#435663] text-[#435663] hover:bg-[#435663] hover:text-white text-sm sm:text-base px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-all"
-                      onClick={() =>
-                        trackButtonClick(
-                          "download_brochure",
-                          "course_detail_page"
-                        )
-                      }
-                    >
-                      <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                      {sections.topSection.downloadBrochure}
-                    </a>
-                  ) : (
-                    <Button
-                      variant="outline"
-                      size="lg"
-                      className="flex items-center justify-center border-[#435663] text-[#435663] hover:bg-[#435663] hover:text-white text-sm sm:text-base px-4 sm:px-6 py-2 sm:py-3"
-                      onClick={() =>
-                        trackButtonClick(
-                          "download_brochure",
-                          "course_detail_page"
-                        )
-                      }
-                    >
-                      <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                      {sections.topSection.downloadBrochure}
-                    </Button>
-                  )}
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="flex items-center justify-center border-[#435663] text-[#435663] hover:bg-[#435663] hover:text-white text-sm sm:text-base px-4 sm:px-6 py-2 sm:py-3"
+                    onClick={() => {
+                      trackButtonClick(
+                        "download_brochure",
+                        "course_detail_page"
+                      );
+                      setIsBrochureModalOpen(true);
+                    }}
+                  >
+                    <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                    {sections.topSection.downloadBrochure}
+                  </Button>
                   <Button
                     variant="primary"
                     size="lg"
                     className="flex items-center justify-center bg-gradient-to-r from-[#84994F] to-[#84994F] hover:from-[#6d7f42] hover:to-[#6d7f42] text-white text-sm sm:text-base px-4 sm:px-6 py-2 sm:py-3"
-                    onClick={() =>
-                      trackButtonClick("apply_now", "course_detail_page")
-                    }
+                    onClick={() => {
+                      trackButtonClick("apply_now", "course_detail_page");
+                      setIsApplyModalOpen(true);
+                    }}
                   >
                     {sections.topSection.applyNow}
                   </Button>
@@ -1158,7 +1215,7 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
                       className="flex-shrink-0"
                       style={{ scrollSnapAlign: "start" }}
                     >
-                      <Card className="w-[260px] sm:w-[280px] md:w-[300px] lg:w-[320px] h-[240px] sm:h-[260px] md:h-[280px] border-2 border-slate-200 hover:border-[#84994F] transition-all bg-white shadow-sm hover:shadow-lg flex flex-col">
+                      <Card className="w-[260px] sm:w-[280px] md:w-[300px] lg:w-[320px] min-h-[240px] sm:min-h-[260px] md:min-h-[280px] h-auto border-2 border-slate-200 hover:border-[#84994F] transition-all bg-white shadow-sm hover:shadow-lg flex flex-col">
                         <CardContent className="p-4 sm:p-5 flex flex-col h-full">
                           <div className="mb-3 flex-shrink-0">
                             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-[#84994F] to-[#84994F] rounded-lg flex items-center justify-center mb-3 shadow-md">
@@ -1168,9 +1225,12 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
                           <h3 className="text-base sm:text-lg font-heading font-semibold text-slate-900 mb-2 sm:mb-3 leading-tight flex-shrink-0">
                             {project.title}
                           </h3>
-                          <p className="text-slate-600 leading-relaxed text-xs sm:text-sm line-clamp-4 flex-1 overflow-hidden">
-                            {project.description}
-                          </p>
+                          <div className="flex-1 overflow-hidden">
+                            <ExpandableText
+                              text={project.description}
+                              className="text-slate-600 leading-relaxed text-xs sm:text-sm"
+                            />
+                          </div>
                         </CardContent>
                       </Card>
                     </div>
@@ -1333,9 +1393,7 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
                             {/* Review */}
                             <div className="relative bg-slate-50 rounded-xl p-4 mb-4 flex-1 w-full text-left">
                               <Quote className="w-8 h-8 text-[#84994F]/20 absolute -top-2 -left-2 transform -scale-x-100" />
-                              <p className="text-sm text-slate-600 leading-relaxed italic relative z-10 line-clamp-6">
-                                "{transition.review}"
-                              </p>
+                              <ReviewText text={transition.review} />
                             </div>
 
                             {/* Video Button */}
@@ -1499,6 +1557,21 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
       <CareerAdviceModal
         isOpen={isCareerAdviceModalOpen}
         onClose={() => setIsCareerAdviceModalOpen(false)}
+      />
+
+      <CallbackModal
+        isOpen={isApplyModalOpen}
+        onClose={() => setIsApplyModalOpen(false)}
+        courseName={course.title}
+        intent="apply"
+      />
+
+      <CallbackModal
+        isOpen={isBrochureModalOpen}
+        onClose={() => setIsBrochureModalOpen(false)}
+        courseName={course.title}
+        intent="brochure"
+        brochureLink={course.brochureDownloadLink || undefined}
       />
     </>
   );

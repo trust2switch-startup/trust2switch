@@ -132,7 +132,7 @@ export const Header: React.FC = () => {
             <div className="flex justify-between items-center h-14 sm:h-16">
               {/* Logo */}
               <Link
-                href="/#hero"
+                href="/"
                 className="flex-shrink-0 flex items-center space-x-1.5 sm:space-x-2 group"
               >
                 <div className="relative w-7 h-7 sm:w-9 sm:h-9 rounded-lg overflow-hidden transform group-hover:scale-110 transition-transform">
@@ -233,9 +233,9 @@ export const Header: React.FC = () => {
                         </div>
                         {professionalCourses.length > 8 && (
                           <Link
-                            href="/#professional-section"
+                            href="/courses"
                             onClick={() => {
-                              trackNavigation('/#professional-section', 'dropdown');
+                              trackNavigation('/courses', 'dropdown');
                               setDropdownOpen(false);
                             }}
                             className="mt-3 block text-center text-sm font-medium text-[#84994F] hover:text-[#6d7f42] transition-colors"
@@ -299,8 +299,8 @@ export const Header: React.FC = () => {
                 </div>
 
                 <Link
-                  href="/#professional-section"
-                  onClick={() => trackNavigation('/#professional-section', 'header')}
+                  href="/courses"
+                  onClick={() => trackNavigation('/courses', 'header')}
                   className="text-white hover:text-white font-medium text-xs xl:text-sm py-1.5 px-2 xl:px-3 rounded-lg hover:bg-slate-600/50 transition-all duration-200 whitespace-nowrap"
                 >
                   Professionals
@@ -328,8 +328,8 @@ export const Header: React.FC = () => {
                   Buy
                 </Link>
                 <Link
-                  href="/#footer"
-                  onClick={() => trackNavigation('/#footer', 'header')}
+                  href="/contact"
+                  onClick={() => trackNavigation('/contact', 'header')}
                   className="text-white hover:text-white font-medium text-xs xl:text-sm py-1.5 px-2 xl:px-3 rounded-lg hover:bg-slate-600/50 transition-all duration-200"
                 >
                   Contact
@@ -416,10 +416,10 @@ export const Header: React.FC = () => {
                     All Courses
                   </Link>
                   <Link
-                    href="/#professional-section"
+                    href="/courses"
                     className="flex items-center gap-3 px-4 py-3 min-h-[44px] rounded-lg text-sm font-medium text-white hover:bg-slate-700 hover:text-white transition-all"
                     onClick={() => {
-                      trackNavigation('/#professional-section', 'mobile_menu');
+                      trackNavigation('/courses', 'mobile_menu');
                       setMobileMenuOpen(false);
                     }}
                   >
@@ -460,10 +460,10 @@ export const Header: React.FC = () => {
                     Buy
                   </Link>
                   <Link
-                    href="/#footer"
+                    href="/contact"
                     className="flex items-center gap-3 px-4 py-3 min-h-[44px] rounded-lg text-sm font-medium text-white hover:bg-slate-700 hover:text-white transition-all"
                     onClick={() => {
-                      trackNavigation('/#footer', 'mobile_menu');
+                      trackNavigation('/contact', 'mobile_menu');
                       setMobileMenuOpen(false);
                     }}
                   >

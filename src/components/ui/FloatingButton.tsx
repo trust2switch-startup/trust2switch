@@ -40,8 +40,8 @@ export const FloatingButton: React.FC = () => {
                 whileTap={{ scale: 0.9 }}
                 onClick={() => {
                   trackButtonClick('whatsapp', 'floating_button');
-                  trackExternalLink('https://wa.me/1234567890', 'WhatsApp');
-                  window.open('https://wa.me/1234567890', '_blank');
+                  trackExternalLink('https://wa.me/+919211460640', 'WhatsApp');
+                  window.open('https://wa.me/+919211460640', '_blank');
                 }}
                 className="w-12 h-12 sm:w-14 sm:h-14 bg-green-500 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-green-600 transition-colors"
                 aria-label="WhatsApp"
