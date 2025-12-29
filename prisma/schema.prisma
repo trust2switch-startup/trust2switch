@@ -1,9 +1,6 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-  provider = "prisma-client-js"
-  previewFeatures = ["fullTextSearch", "fullTextIndex"]
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextIndex", "fullTextSearch"]
 }
 
 datasource db {
@@ -11,31 +8,71 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id          String   @id @default(uuid())
-  username    String   @unique
-  email       String   @unique
-  password    String
-  role        String   @default("admin") // "admin", "editor", "custom"
-  permissions Json?    // Array of Permission objects
-  isActive    Boolean  @default(true)
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model BlogPost {
+  id          String   @id
+  slug        String   @unique
+  title       String   @db.Text
+  excerpt     String   @db.Text
+  content     String   @db.LongText
+  author      Json
+  image       String
+  category    String
+  tags        Json?
+  publishedAt String
+  readTime    String
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  updatedAt   DateTime
 
-  @@index([role])
-  @@index([isActive])
+  @@index([category])
+  @@fulltext([title, excerpt, content])
 }
 
+model CallbackRequest {
+  id            String   @id @default(uuid())
+  name          String
+  phone         String
+  preferredTime String
+  message       String   @default("")
+  status        String   @default("pending")
+  courseName    String?
+  intent        String   @default("callback")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([intent])
+  @@index([preferredTime])
+  @@index([status])
+  @@fulltext([name, phone, message])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model Content {
+  id         String   @id
+  site       Json
+  navigation Json
+  home       Json
+  courses    Json
+  about      Json
+  contact    Json
+  blog       Json
+  shop       Json
+  footer     Json
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model Course {
-  id                    String   @id @default(uuid())
+  id                    String   @id
   slug                  String   @unique
   title                 String   @db.Text
   description           String   @db.Text
   longDescription       String   @db.LongText
-  instructor            Json     // Instructor object
+  instructor            Json
   image                 String
   category              String
-  level                 String   // "Beginner", "Intermediate", "Advanced"
+  level                 String
   duration              String
   price                 Float
   originalPrice         Float?
@@ -43,39 +80,40 @@ model Course {
   reviews               Int      @default(0)
   students              Int      @default(0)
   language              String
-  features              Json     // String[]
-  bulletPoints          Json     // String[]
+  features              Json
+  bulletPoints          Json
   brochureDownloadLink  String?
   noCostEMIAmount       String?
   admissionDeadlineDate String?
-  whoCanApply           Json     // String[]
-  programHighlights     Json     // ProgramHighlight[]
-  projects              Json     // Project[]
-  skills                Json     // Skill[]
-  comparisonData        Json     // ComparisonRow[]
-  careerTransitions     Json     // CareerTransition[]
-  faqs                  Json     // FAQ[]
+  whoCanApply           Json
+  programHighlights     Json
+  projects              Json
+  skills                Json
+  comparisonData        Json
+  careerTransitions     Json
+  faqs                  Json
   jobDescriptionsLink   String?
-  certificate           Json?    // Certificate object
-  curriculum            Json     // CurriculumModule[]
-  tags                  Json     // String[]
+  certificate           Json?
+  curriculum            Json
+  tags                  Json
   isPopular             Boolean  @default(false)
   isNew                 Boolean  @default(false)
   isVisible             Boolean  @default(true)
   createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
+  updatedAt             DateTime
 
   @@index([category])
-  @@index([level])
-  @@index([isPopular])
-  @@index([rating])
   @@index([isNew])
+  @@index([isPopular])
   @@index([isVisible])
-  @@fulltext([title, description]) 
+  @@index([level])
+  @@index([rating])
+  @@fulltext([title, description])
 }
 
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model Product {
-  id              String   @id @default(uuid())
+  id              String   @id
   sku             String   @unique
   title           String   @db.Text
   description     String   @db.Text
@@ -89,8 +127,8 @@ model Product {
   stockQuantity   Int?
   rating          Float?
   reviews         Int?
-  tags            Json?    // String[]
-  features        Json?    // String[]
+  tags            Json?
+  features        Json?
   fileFormat      String?
   fileSize        String?
   deliveryMethod  String?
@@ -98,87 +136,54 @@ model Product {
   isNew           Boolean?
   isFeatured      Boolean?
   createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  updatedAt       DateTime
 
   @@index([category])
   @@index([inStock])
-  @@index([isPopular])
   @@index([isFeatured])
   @@index([isNew])
+  @@index([isPopular])
   @@fulltext([title, description])
 }
 
-model BlogPost {
-  id          String   @id @default(uuid())
-  slug        String   @unique
-  title       String   @db.Text
-  excerpt     String   @db.Text
-  content     String   @db.LongText
-  author      Json     // Author object
-  image       String
-  category    String
-  tags        Json?    // String[]
-  publishedAt String
-  readTime    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@index([category])
-  @@fulltext([title, excerpt, content])
-}
-
 model ProfessionalCourse {
-  id          String   @id @default(uuid())
+  id          String   @id
   title       String   @db.Text
   description String   @db.Text
   icon        String
   slug        String   @unique
   order       Int      @default(0)
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  updatedAt   DateTime
 
   @@fulltext([title, description])
 }
 
 model SchoolSubject {
-  id          String   @id @default(uuid())
+  id          String   @id
   title       String   @db.Text
   description String   @db.Text
   icon        String
   slug        String   @unique
   order       Int      @default(0)
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  updatedAt   DateTime
 
   @@fulltext([title, description])
 }
 
-model Content {
-  id         String   @id @default(uuid())
-  site       Json     // Site config
-  navigation Json     // Navigation config
-  home       Json     // Home page content
-  courses    Json     // Courses page content
-  about      Json     // About page content
-  contact    Json     // Contact page content
-  blog       Json     // Blog page content
-  shop       Json     // Shop page content
-  footer     Json     // Footer content
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-}
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model User {
+  id          String   @id
+  username    String   @unique
+  email       String   @unique
+  password    String
+  role        String   @default("admin")
+  permissions Json?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime
 
-model CallbackRequest {
-  id            String   @id @default(uuid())
-  name          String
-  phone         String
-  preferredTime String
-  message       String   @default("")
-  status        String   @default("pending") // "pending", "contacted", "completed"
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  @@index([status])
-  @@index([preferredTime])
-  @@fulltext([name, phone, message])
+  @@index([isActive])
+  @@index([role])
 }
