@@ -66,8 +66,10 @@ export class PrismaRepository<T> implements Repository<T> {
     }
 
     async create(data: Partial<T>): Promise<T> {
+        // Exclude id, createdAt, updatedAt as they are auto-generated
+        const { id, createdAt, updatedAt, _id, ...createData } = data as any;
         const result = await this.model.create({
-            data,
+            data: createData,
         });
         return this.mapResult(result);
     }
