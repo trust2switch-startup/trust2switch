@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/Input';
 import { Textarea } from '@/components/ui/Textarea';
 import { Button } from '@/components/ui/Button';
 import { content } from '@/config/content';
+import { useContactInfo } from '@/hooks/useContactInfo';
 
 // Note: Metadata should be in a separate metadata export for client components
 // For now, we'll handle SEO via layout or use a wrapper component
@@ -20,6 +21,7 @@ export default function ContactPage() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
+  const { visibleContactInfo } = useContactInfo();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -158,59 +160,65 @@ export default function ContactPage() {
               transition={{ duration: 0.6 }}
               className="space-y-6"
             >
-              <Card className="border-2 border-slate-200 hover:shadow-xl transition-shadow">
-                <CardContent>
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg">
-                      <Mail className="w-6 h-6 text-white" />
+              {visibleContactInfo.email && (
+                <Card className="border-2 border-slate-200 hover:shadow-xl transition-shadow">
+                  <CardContent>
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg">
+                        <Mail className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold text-slate-900 mb-2">Email</h3>
+                        <a
+                          href={`mailto:${visibleContactInfo.email}`}
+                          className="text-indigo-600 hover:text-indigo-700 transition-colors font-medium"
+                        >
+                          {visibleContactInfo.email}
+                        </a>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-slate-900 mb-2">Email</h3>
-                      <a
-                        href={`mailto:${content.contact.info.email}`}
-                        className="text-indigo-600 hover:text-indigo-700 transition-colors font-medium"
-                      >
-                        {content.contact.info.email}
-                      </a>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              )}
 
-              <Card className="border-2 border-slate-200 hover:shadow-xl transition-shadow">
-                <CardContent>
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg">
-                      <Phone className="w-6 h-6 text-white" />
+              {visibleContactInfo.phone && visibleContactInfo.phoneDisplay && (
+                <Card className="border-2 border-slate-200 hover:shadow-xl transition-shadow">
+                  <CardContent>
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg">
+                        <Phone className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold text-slate-900 mb-2">Phone</h3>
+                        <a
+                          href={`tel:${visibleContactInfo.phone}`}
+                          className="text-indigo-600 hover:text-indigo-700 transition-colors font-medium"
+                        >
+                          {visibleContactInfo.phoneDisplay}
+                        </a>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-slate-900 mb-2">Phone</h3>
-                      <a
-                        href={`tel:${content.contact.info.phone}`}
-                        className="text-indigo-600 hover:text-indigo-700 transition-colors font-medium"
-                      >
-                        {content.contact.info.phone}
-                      </a>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              )}
 
-              <Card className="border-2 border-slate-200 hover:shadow-xl transition-shadow">
-                <CardContent>
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg">
-                      <MapPin className="w-6 h-6 text-white" />
+              {visibleContactInfo.address && (
+                <Card className="border-2 border-slate-200 hover:shadow-xl transition-shadow">
+                  <CardContent>
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg">
+                        <MapPin className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold text-slate-900 mb-2">Address</h3>
+                        <p className="text-slate-600">
+                          {visibleContactInfo.address}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-slate-900 mb-2">Address</h3>
-                      <p className="text-slate-600">
-                        {content.contact.info.address}
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              )}
             </motion.div>
           </div>
         </div>

@@ -73,19 +73,19 @@ export const footerConfig: FooterConfig = {
     links: [
       {
         label: 'Home',
-        href: '/#hero',
+        href: '/',
       },
       {
         label: 'Pro Courses',
-        href: '/#professional-section',
+        href: '/courses',
       },
       {
         label: 'School Mentorship',
-        href: '/#school-mentorship',
+        href: '/',
       },
       {
         label: 'Student Reviews',
-        href: '/#learner-success',
+        href: '/',
       },
       {
         label: 'Blog',
@@ -136,7 +136,7 @@ export const footerConfig: FooterConfig = {
       },
       {
         name: 'LinkedIn',
-        href: '#',
+        href: 'https://www.linkedin.com/company/trust2switch/',
         ariaLabel: 'LinkedIn',
         hoverColor: 'blue-500',
         icon: 'linkedin',
@@ -157,7 +157,7 @@ export const footerConfig: FooterConfig = {
       },
       {
         name: 'YouTube',
-        href: '#',
+        href: 'https://www.youtube.com/@trust2switch',
         ariaLabel: 'YouTube',
         hoverColor: 'red-600',
         icon: 'youtube',

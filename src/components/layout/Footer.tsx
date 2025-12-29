@@ -13,12 +13,14 @@ import {
 import Image from "next/image";
 import trust2SwitchLogo from '@/app/trust2switch_logo.jpg';
 import { footerConfig } from '@/config/footer';
+import { useContactInfo } from '@/hooks/useContactInfo';
 
 // Calculate year once to ensure consistency
 const CURRENT_YEAR = new Date().getFullYear();
 
 export const Footer: React.FC = () => {
   const [email, setEmail] = useState("");
+  const { visibleContactInfo } = useContactInfo();
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,34 +65,40 @@ export const Footer: React.FC = () => {
 
               {/* Contact Info */}
               <div className="space-y-2 sm:space-y-3">
-                <a
-                  href={`mailto:${footerConfig.contact.email}`}
-                  className="flex items-center gap-2 sm:gap-3 text-slate-300 hover:font-semibold transition-colors group"
-                >
-                  <div className="w-7 h-7 sm:w-8 sm:h-8 bg-slate-700 rounded-lg flex items-center justify-center group-hover:bg-[#84994F] transition-colors flex-shrink-0">
-                    <Mail className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                {visibleContactInfo.email && (
+                  <a
+                    href={`mailto:${visibleContactInfo.email}`}
+                    className="flex items-center gap-2 sm:gap-3 text-slate-300 hover:font-semibold transition-colors group"
+                  >
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 bg-slate-700 rounded-lg flex items-center justify-center group-hover:bg-[#84994F] transition-colors flex-shrink-0">
+                      <Mail className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    </div>
+                    <span className="text-xs sm:text-sm break-all">
+                      {visibleContactInfo.email}
+                    </span>
+                  </a>
+                )}
+                {visibleContactInfo.phone && visibleContactInfo.phoneDisplay && (
+                  <a
+                    href={`tel:${visibleContactInfo.phone}`}
+                    className="flex items-center gap-2 sm:gap-3 text-slate-300 hover:font-semibold transition-colors group"
+                  >
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 bg-slate-700 rounded-lg flex items-center justify-center group-hover:bg-[#84994F] transition-colors flex-shrink-0">
+                      <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    </div>
+                    <span className="text-xs sm:text-sm">{visibleContactInfo.phoneDisplay}</span>
+                  </a>
+                )}
+                {visibleContactInfo.address && (
+                  <div className="flex items-start gap-2 sm:gap-3 text-slate-300">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 bg-slate-700 rounded-lg flex items-center justify-center mt-0.5 flex-shrink-0">
+                      <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    </div>
+                    <span className="text-xs sm:text-sm">
+                      {visibleContactInfo.address}
+                    </span>
                   </div>
-                  <span className="text-xs sm:text-sm break-all">
-                    {footerConfig.contact.email}
-                  </span>
-                </a>
-                <a
-                  href={`tel:${footerConfig.contact.phone}`}
-                  className="flex items-center gap-2 sm:gap-3 text-slate-300 hover:font-semibold transition-colors group"
-                >
-                  <div className="w-7 h-7 sm:w-8 sm:h-8 bg-slate-700 rounded-lg flex items-center justify-center group-hover:bg-[#84994F] transition-colors flex-shrink-0">
-                    <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                  </div>
-                  <span className="text-xs sm:text-sm">{footerConfig.contact.phoneDisplay}</span>
-                </a>
-                <div className="flex items-start gap-2 sm:gap-3 text-slate-300">
-                  <div className="w-7 h-7 sm:w-8 sm:h-8 bg-slate-700 rounded-lg flex items-center justify-center mt-0.5 flex-shrink-0">
-                    <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                  </div>
-                  <span className="text-xs sm:text-sm">
-                    {footerConfig.contact.address}
-                  </span>
-                </div>
+                )}
               </div>
             </div>
 
