@@ -24,6 +24,8 @@ const envSchema = z.object({
     .default('your-secret-key-change-in-production'),
   JWT_EXPIRES_IN: z.string().default('7d'),
   NODE_ENV: z.string().default('development'),
+  RESEND_API_KEY: z.string().optional(),
+  RESEND_FROM_EMAIL: z.string().email().optional(),
 });
 
 const parsed = envSchema.safeParse({
@@ -33,6 +35,8 @@ const parsed = envSchema.safeParse({
   JWT_SECRET: process.env.JWT_SECRET,
   JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN,
   NODE_ENV: process.env.NODE_ENV,
+  RESEND_API_KEY: process.env.RESEND_API_KEY,
+  RESEND_FROM_EMAIL: process.env.RESEND_FROM_EMAIL,
 });
 
 if (!parsed.success) {
