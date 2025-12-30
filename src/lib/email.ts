@@ -173,14 +173,16 @@ export async function sendAdminNotificationEmail(formData: {
       replyTo: formData.email,
     });
 
-    if (result.error) {
+    if ('error' in result && result.error) {
       console.error('Resend API error (admin):', JSON.stringify(result.error, null, 2));
-      const errorMessage = result.error.message || 
-                          (typeof result.error === 'string' ? result.error : 'Failed to send email');
+      const error = result.error as { message?: string } | string;
+      const errorMessage = (typeof error === 'string' ? error : error?.message) || 'Failed to send email';
       return { success: false, error: errorMessage };
     }
 
-    console.log('Admin notification email sent successfully:', result.data?.id);
+    if ('data' in result && result.data) {
+      console.log('Admin notification email sent successfully:', result.data.id);
+    }
 
     return { success: true };
   } catch (error: any) {
@@ -209,14 +211,16 @@ export async function sendUserConfirmationEmail(
       html: getUserConfirmationEmailTemplate(userName),
     });
 
-    if (result.error) {
+    if ('error' in result && result.error) {
       console.error('Resend API error (user):', JSON.stringify(result.error, null, 2));
-      const errorMessage = result.error.message || 
-                          (typeof result.error === 'string' ? result.error : 'Failed to send email');
+      const error = result.error as { message?: string } | string;
+      const errorMessage = (typeof error === 'string' ? error : error?.message) || 'Failed to send email';
       return { success: false, error: errorMessage };
     }
 
-    console.log('User confirmation email sent successfully:', result.data?.id);
+    if ('data' in result && result.data) {
+      console.log('User confirmation email sent successfully:', result.data.id);
+    }
 
     return { success: true };
   } catch (error: any) {
