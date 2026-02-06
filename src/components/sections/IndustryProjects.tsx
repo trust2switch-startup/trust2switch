@@ -82,7 +82,7 @@ export const IndustryProjects: React.FC = () => {
               ))}
             </div>
 
-            <Link href="/shop">
+            <Link href="/projects">
               <Button
                 variant="primary"
                 size="lg"

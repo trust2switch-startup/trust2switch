@@ -24,7 +24,7 @@ export default function ShopPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [shopContent, setShopContent] = useState<{ title?: string; subtitle?: string }>({
-    title: 'Shop',
+    title: 'Projects',
     subtitle: 'Browse and purchase projects, research papers, and templates'
   });
 
@@ -58,7 +58,7 @@ export default function ShopPage() {
           const contentData = await contentResponse.json();
           if (contentData.success && contentData.data?.shop) {
             setShopContent({
-              title: contentData.data.shop.title || 'Shop',
+              title: contentData.data.shop.title || 'Projects',
               subtitle: contentData.data.shop.subtitle || 'Browse and purchase projects, research papers, and templates'
             });
           }
