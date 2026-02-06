@@ -215,7 +215,7 @@ export const content = {
     date: 'Published on',
   },
   shop: {
-    title: 'Shop',
+    title: 'Projects',
     subtitle: 'Browse and purchase projects, research papers, and templates',
     empty: 'No products found',
     addToCart: 'Add to Cart',

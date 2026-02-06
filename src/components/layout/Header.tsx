@@ -321,8 +321,8 @@ export const Header: React.FC = () => {
                   Blog
                 </Link>
                 <Link
-                  href="/shop"
-                  onClick={() => trackNavigation('/shop', 'header')}
+                  href="/projects"
+                  onClick={() => trackNavigation('/projects', 'header')}
                   className="text-white hover:text-white font-medium text-xs xl:text-sm py-1.5 px-2 xl:px-3 rounded-lg hover:bg-slate-600/50 transition-all duration-200"
                 >
                   Buy
@@ -449,10 +449,10 @@ export const Header: React.FC = () => {
                     Blog
                   </Link>
                   <Link
-                    href="/shop"
+                    href="/projects"
                     className="flex items-center gap-3 px-4 py-3 min-h-[44px] rounded-lg text-sm font-medium text-white hover:bg-slate-700 hover:text-white transition-all"
                     onClick={() => {
-                      trackNavigation('/shop', 'mobile_menu');
+                      trackNavigation('/projects', 'mobile_menu');
                       setMobileMenuOpen(false);
                     }}
                   >
