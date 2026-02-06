@@ -17,7 +17,7 @@ export async function getRecipientEmail(): Promise<string> {
   try {
     await ensureDatabaseConnection();
     const content = await contentRepository.findOne();
-    
+
     if (content?.contact?.info?.email) {
       const email = content.contact.info.email;
       if (email && typeof email === 'string' && email.trim() !== '') {
@@ -229,3 +229,190 @@ export async function sendUserConfirmationEmail(
   }
 }
 
+
+// Project Request Admin Notification Template
+export function getProjectRequestAdminEmailTemplate(formData: {
+  name: string;
+  mobile: string;
+  email: string;
+  college: string;
+  projectTechStack: string;
+  projectRequirement?: string;
+}): string {
+  return `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>New Project Request</title>
+      </head>
+      <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 30px; border-radius: 8px 8px 0 0; text-align: center;">
+          <h1 style="color: white; margin: 0; font-size: 24px;">New Project Request</h1>
+        </div>
+        <div style="background: #f9fafb; padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
+          <p style="margin-top: 0; color: #6b7280;">You have received a new project request:</p>
+          
+          <div style="background: white; padding: 20px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #10b981;">
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="padding: 8px 0; font-weight: 600; color: #374151; width: 140px;">Name:</td>
+                <td style="padding: 8px 0; color: #111827;">${escapeHtml(formData.name)}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; font-weight: 600; color: #374151;">Mobile:</td>
+                <td style="padding: 8px 0; color: #111827;">${escapeHtml(formData.mobile)}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; font-weight: 600; color: #374151;">Email:</td>
+                <td style="padding: 8px 0; color: #111827;">
+                  <a href="mailto:${escapeHtml(formData.email)}" style="color: #10b981; text-decoration: none;">
+                    ${escapeHtml(formData.email)}
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; font-weight: 600; color: #374151;">College:</td>
+                <td style="padding: 8px 0; color: #111827;">${escapeHtml(formData.college)}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; font-weight: 600; color: #374151;">Tech Stack:</td>
+                <td style="padding: 8px 0; color: #111827;">${escapeHtml(formData.projectTechStack)}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; font-weight: 600; color: #374151; vertical-align: top;">Requirements:</td>
+                <td style="padding: 8px 0; color: #111827; white-space: pre-wrap;">${formData.projectRequirement ? escapeHtml(formData.projectRequirement) : '<em>None specified</em>'}</td>
+              </tr>
+            </table>
+          </div>
+
+          <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
+            <p style="margin: 0; font-size: 12px; color: #9ca3af; text-align: center;">
+              This email was sent from the Trust2Switch Project Request form.
+            </p>
+          </div>
+        </div>
+      </body>
+    </html>
+  `;
+}
+
+// Project Request User Confirmation Template
+export function getProjectRequestUserConfirmationEmailTemplate(userName: string): string {
+  return `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Project Request Received</title>
+      </head>
+      <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 30px; border-radius: 8px 8px 0 0; text-align: center;">
+          <h1 style="color: white; margin: 0; font-size: 24px;">Project Request Received!</h1>
+        </div>
+        <div style="background: #f9fafb; padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
+          <p style="margin-top: 0; color: #111827; font-size: 16px;">Hi ${escapeHtml(userName)},</p>
+          
+          <p style="color: #374151;">Thank you for submitting your project request to Trust2Switch! We have received your details.</p>
+          
+          <div style="background: white; padding: 20px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #10b981;">
+            <p style="margin: 0; color: #6b7280; font-size: 14px;">
+              <strong>What happens next?</strong><br>
+              Our technical team will review your requirements and get back to you within 24-48 hours with a proposal and timeline.
+            </p>
+          </div>
+
+          <div style="margin-top: 30px; text-align: center;">
+            <a href="${process.env.NEXT_PUBLIC_BASE_URL || 'https://trust2switch.com'}" 
+               style="display: inline-block; background: #10b981; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 600;">
+              Visit Our Website
+            </a>
+          </div>
+
+          <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
+            <p style="margin: 0; font-size: 12px; color: #9ca3af; text-align: center;">
+              Best regards,<br>
+              <strong>The Trust2Switch Team</strong>
+            </p>
+          </div>
+        </div>
+      </body>
+    </html>
+  `;
+}
+
+// Send Project Request Admin Notification
+export async function sendProjectRequestAdminEmail(formData: {
+  name: string;
+  mobile: string;
+  email: string;
+  college: string;
+  projectTechStack: string;
+  projectRequirement?: string;
+}): Promise<{ success: boolean; error?: string }> {
+  try {
+    const resend = getResendClient();
+    if (!resend) {
+      throw new Error('RESEND_API_KEY is not configured');
+    }
+
+    const recipientEmail = await getRecipientEmail();
+    const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
+
+    const result = await resend.emails.send({
+      from: `Trust2Switch Project Request <${fromEmail}>`,
+      to: [recipientEmail],
+      subject: `New Project Request from ${formData.name}`,
+      html: getProjectRequestAdminEmailTemplate(formData),
+      replyTo: formData.email,
+    });
+
+    if ('error' in result && result.error) {
+      console.error('Resend API error (project admin):', JSON.stringify(result.error, null, 2));
+      const error = result.error as { message?: string } | string;
+      const errorMessage = (typeof error === 'string' ? error : error?.message) || 'Failed to send email';
+      return { success: false, error: errorMessage };
+    }
+
+    return { success: true };
+  } catch (error: any) {
+    console.error('Error sending project request admin email:', error);
+    return { success: false, error: error.message || 'Failed to send email' };
+  }
+}
+
+// Send Project Request User Confirmation
+export async function sendProjectRequestUserConfirmationEmail(
+  userEmail: string,
+  userName: string
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const resend = getResendClient();
+    if (!resend) {
+      throw new Error('RESEND_API_KEY is not configured');
+    }
+
+    const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
+
+    const result = await resend.emails.send({
+      from: `Trust2Switch <${fromEmail}>`,
+      to: [userEmail],
+      subject: 'We Received Your Project Request - Trust2Switch',
+      html: getProjectRequestUserConfirmationEmailTemplate(userName),
+    });
+
+    if ('error' in result && result.error) {
+      console.error('Resend API error (project user):', JSON.stringify(result.error, null, 2));
+      const error = result.error as { message?: string } | string;
+      const errorMessage = (typeof error === 'string' ? error : error?.message) || 'Failed to send email';
+      return { success: false, error: errorMessage };
+    }
+
+    return { success: true };
+  } catch (error: any) {
+    console.error('Error sending project request user confirmation email:', error);
+    return { success: false, error: error.message || 'Failed to send email' };
+  }
+}
