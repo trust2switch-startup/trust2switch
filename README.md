@@ -1,2 +1,2 @@
 # trust2switch
-edtech
+Edtech
