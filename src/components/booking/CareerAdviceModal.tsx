@@ -151,8 +151,7 @@ export const CareerAdviceModal: React.FC<CareerAdviceModalProps> = ({
                 <div className="pt-2">
                     <Button
                         type="submit"
-                        variant="primary"
-                        className="w-full py-3 text-base flex items-center justify-center gap-2"
+                        className="w-full py-3 text-base flex items-center justify-center gap-2 bg-[#84994F] hover:bg-green-900"
                         disabled={isSubmitting}
                     >
                         {isSubmitting ? 'Submitting...' : (

@@ -163,16 +163,16 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({
     return (
       <Modal isOpen={isOpen} onClose={onClose} title={intent === 'apply' ? 'Application Submitted' : intent === 'brochure' ? 'Download Started' : 'Callback Requested'}>
         <div className="text-center py-8">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 animate-in zoom-in duration-300">
             <CheckCircle className="w-8 h-8 text-green-600" />
           </div>
           <h3 className="text-xl font-semibold text-neutral-900 mb-2">
             {getSuccessMessage()}
           </h3>
-          <p className="text-neutral-600 mb-6">
+          <p className="text-neutral-600 mb-6 max-w-xs mx-auto">
             {getSuccessDescription()}
           </p>
-          <Button variant="primary" onClick={onClose}>
+          <Button variant="primary" onClick={onClose} className="w-full sm:w-auto">
             Close
           </Button>
         </div>
@@ -182,96 +182,112 @@ export const CallbackModal: React.FC<CallbackModalProps> = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={getTitle()} size="md">
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="bg-primary-50 border border-primary-200 rounded-lg p-4 flex items-start gap-3">
-          <Phone className="w-5 h-5 text-primary-600 mt-0.5" />
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-100 rounded-xl p-3 sm:p-4 flex items-start gap-3 shadow-sm">
+          <div className="p-1.5 sm:p-2 bg-white rounded-lg shadow-sm border border-orange-100 shrink-0 mt-0.5">
+            <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600" />
+          </div>
           <div>
-            <p className="font-semibold text-neutral-900 mb-1">
+            <p className="font-semibold text-neutral-900 mb-0.5 text-sm sm:text-base">
               {intent === 'brochure' ? 'Get Course Syllabus' : intent === 'apply' ? 'Start Your Journey' : 'Get Expert Guidance'}
             </p>
-            <p className="text-sm text-neutral-600">
+            <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
               {intent === 'brochure'
                 ? 'Fill in your details to download the complete course brochure.'
                 : intent === 'apply'
                   ? 'Submit your details to start your application process.'
-                  : 'Our career counselors will call you back to discuss your learning goals and help you choose the right course.'}
+                  : 'Our career counselors will call you back to discuss your learning goals.'}
             </p>
           </div>
         </div>
 
-        <Input
-          label="Full Name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          error={errors.name}
-          required
-          placeholder="John Doe"
-        />
-
-        <Input
-          label="Phone Number"
-          type="tel"
-          name="phone"
-          value={formData.phone}
-          onChange={handleChange}
-          error={errors.phone}
-          required
-          placeholder="+1 (555) 123-4567"
-        />
-
-        <div>
-          <label className="block text-sm font-medium text-neutral-700 mb-2">
-            <Clock className="w-4 h-4 inline mr-1" />
-            {intent === 'brochure' ? 'Best time to reach you' : 'Preferred Callback Time'}
-          </label>
-          <select
-            name="preferredTime"
-            value={formData.preferredTime}
-            onChange={(e) => handleChange(e as any)}
-            className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 ${errors.preferredTime ? 'border-error' : 'border-neutral-300'
-              }`}
+        <div className="space-y-3 sm:space-y-4">
+          <Input
+            label="Full Name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            error={errors.name}
             required
-          >
-            <option value="">Select a time</option>
-            <option value="morning">Morning (9 AM - 12 PM)</option>
-            <option value="afternoon">Afternoon (12 PM - 4 PM)</option>
-            <option value="evening">Evening (4 PM - 7 PM)</option>
-          </select>
-          {errors.preferredTime && (
-            <p className="mt-1 text-sm text-error">{errors.preferredTime}</p>
-          )}
+            placeholder="John Doe"
+            className="bg-neutral-50 focus:bg-white py-2.5"
+          />
+
+          <Input
+            label="Phone Number"
+            type="tel"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            error={errors.phone}
+            required
+            placeholder="+1 (555) 123-4567"
+            className="bg-neutral-50 focus:bg-white py-2.5"
+          />
+
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1.5">
+              <Clock className="w-4 h-4 inline mr-1.5 text-slate-500" />
+              {intent === 'brochure' ? 'Best time to reach you' : 'Preferred Callback Time'}
+            </label>
+            <div className="relative">
+              <select
+                name="preferredTime"
+                value={formData.preferredTime}
+                onChange={(e) => handleChange(e as any)}
+                className={`w-full px-4 py-2.5 bg-neutral-50 focus:bg-white border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300 appearance-none ${errors.preferredTime ? 'border-red-500 focus:ring-red-500' : 'border-slate-300'
+                  }`}
+                required
+              >
+                <option value="">Select a time</option>
+                <option value="morning">Morning (9 AM - 12 PM)</option>
+                <option value="afternoon">Afternoon (12 PM - 4 PM)</option>
+                <option value="evening">Evening (4 PM - 7 PM)</option>
+              </select>
+              <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-slate-500">
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                  <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd"></path>
+                </svg>
+              </div>
+            </div>
+            {errors.preferredTime && (
+              <p className="mt-1 text-sm text-red-600">{errors.preferredTime}</p>
+            )}
+          </div>
+
+          <Textarea
+            label="What would you like to discuss? (Optional)"
+            name="message"
+            value={formData.message}
+            onChange={handleChange}
+            rows={2}
+            placeholder="Tell us about yourself..."
+            className="bg-neutral-50 focus:bg-white min-h-[60px] sm:min-h-[100px] py-2.5"
+          />
         </div>
 
-        <Textarea
-          label="What would you like to discuss? (Optional)"
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          rows={4}
-          placeholder="Tell us about your career goals or questions..."
-        />
-
         {errors.submit && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-3">
-            <p className="text-sm text-red-600">{errors.submit}</p>
+          <div className="bg-red-50 border border-red-200 rounded-lg p-2.5 animate-in fade-in slide-in-from-top-1">
+            <p className="text-sm text-red-600 flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-red-600" />
+              {errors.submit}
+            </p>
           </div>
         )}
 
-        <div className="flex gap-4 pt-4">
+        <div className="flex flex-col-reverse sm:flex-row gap-3 pt-2">
           <Button
             type="button"
-            variant="outline"
+            // variant='outline'
             onClick={onClose}
-            className="flex-1"
+            className="flex-1 w-full sm:w-auto py-2.5 bg-slate-500 hover:bg-slate-700"
             disabled={isSubmitting}
           >
             Cancel
           </Button>
           <Button
             type="submit"
-            variant="primary"
-            className="flex-1 flex items-center justify-center"
+            className="flex-1 w-full sm:w-auto flex items-center justify-center bg-[#84994F] hover:bg-green-900 shadow-orange-200 py-2.5"
             disabled={isSubmitting}
           >
             {isSubmitting ? (
