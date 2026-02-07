@@ -48,45 +48,45 @@ export const Modal: React.FC<ModalProps> = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 overflow-y-auto"
             onClick={onClose}
-          />
-          
-          {/* Modal */}
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              transition={{ duration: 0.2 }}
-              className={cn(
-                'bg-white rounded-2xl shadow-2xl w-full',
-                sizeClasses[size]
-              )}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Header */}
-              {title && (
-                <div className="flex items-center justify-between p-6 border-b border-neutral-200">
-                  <h2 className="text-2xl font-heading font-bold text-neutral-900">
-                    {title}
-                  </h2>
-                  <button
-                    onClick={onClose}
-                    className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
-                    aria-label="Close"
-                  >
-                    <X className="w-5 h-5 text-neutral-600" />
-                  </button>
+          >
+            {/* Modal Container to center content and allow scroll */}
+            <div className="min-h-full flex items-center justify-center p-4">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                transition={{ duration: 0.2 }}
+                className={cn(
+                  'bg-white rounded-2xl shadow-2xl w-full relative',
+                  sizeClasses[size]
+                )}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Header */}
+                {title && (
+                  <div className="flex items-center justify-between p-4 sm:p-6 border-b border-neutral-200 sticky top-0 bg-white z-10 rounded-t-2xl">
+                    <h2 className="text-xl sm:text-2xl font-heading font-bold text-neutral-900 line-clamp-1">
+                      {title}
+                    </h2>
+                    <button
+                      onClick={onClose}
+                      className="p-2 hover:bg-neutral-100 rounded-lg transition-colors shrink-0"
+                      aria-label="Close"
+                    >
+                      <X className="w-5 h-5 text-neutral-600" />
+                    </button>
+                  </div>
+                )}
+
+                {/* Content */}
+                <div className={cn('p-4 sm:p-6', !title && 'pt-6')}>
+                  {children}
                 </div>
-              )}
-              
-              {/* Content */}
-              <div className={cn('p-6', !title && 'pt-6')}>
-                {children}
-              </div>
-            </motion.div>
-          </div>
+              </motion.div>
+            </div>
+          </motion.div>
         </>
       )}
     </AnimatePresence>
