@@ -1,10 +1,16 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { Phone, MessageCircle, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { CallbackModal } from '@/components/booking/CallbackModal';
-import { trackButtonClick, trackModalOpen, trackExternalLink } from '@/lib/analytics';
+import React, { useState } from "react";
+import { Phone, MessageCircle, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { CallbackModal } from "@/components/booking/CallbackModal";
+import {
+  trackButtonClick,
+  trackModalOpen,
+  trackExternalLink,
+} from "@/lib/analytics";
+
+const message = "Hi I'm interested. Please share details.";
 
 export const FloatingButton: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,8 +31,8 @@ export const FloatingButton: React.FC = () => {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => {
-                  trackButtonClick('floating_callback', 'floating_button');
-                  trackModalOpen('callback_modal');
+                  trackButtonClick("floating_callback", "floating_button");
+                  trackModalOpen("callback_modal");
                   setIsModalOpen(true);
                   setIsOpen(false);
                 }}
@@ -39,9 +45,12 @@ export const FloatingButton: React.FC = () => {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => {
-                  trackButtonClick('whatsapp', 'floating_button');
-                  trackExternalLink('https://wa.me/+919211460640', 'WhatsApp');
-                  window.open('https://wa.me/+919211460640', '_blank');
+                  trackButtonClick("whatsapp", "floating_button");
+                  trackExternalLink("https://wa.me/+919211460640", "WhatsApp");
+                  window.open(
+                    `https://wa.me/+919211460640?text=${encodeURIComponent(message)}`,
+                    "_blank",
+                  );
                 }}
                 className="w-12 h-12 sm:w-14 sm:h-14 bg-green-500 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-green-600 transition-colors"
                 aria-label="WhatsApp"
@@ -57,12 +66,16 @@ export const FloatingButton: React.FC = () => {
           onClick={() => setIsOpen(!isOpen)}
           className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full shadow-2xl flex items-center justify-center transition-all ${
             isOpen
-              ? 'bg-red-500 hover:bg-red-600 text-white'
-              : 'bg-gradient-to-r from-[#6d7f42] to-[#2b343a] hover:from-primary-700 hover:to-secondary-700 text-white'
+              ? "bg-red-500 hover:bg-red-600 text-white"
+              : "bg-gradient-to-r from-[#6d7f42] to-[#2b343a] hover:from-primary-700 hover:to-secondary-700 text-white"
           }`}
           aria-label="Contact Options"
         >
-          {isOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Phone className="w-5 h-5 sm:w-6 sm:h-6" />}
+          {isOpen ? (
+            <X className="w-5 h-5 sm:w-6 sm:h-6" />
+          ) : (
+            <Phone className="w-5 h-5 sm:w-6 sm:h-6" />
+          )}
         </motion.button>
       </div>
       <CallbackModal
@@ -72,4 +85,3 @@ export const FloatingButton: React.FC = () => {
     </>
   );
 };
-
