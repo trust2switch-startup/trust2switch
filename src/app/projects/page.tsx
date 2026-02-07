@@ -255,7 +255,7 @@ export default function ProjectsPage() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="group relative w-full flex justify-center items-center gap-2 py-3 px-4 text-sm font-medium rounded-lg text-white bg-emerald-500/90 hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-400/60 disabled:opacity-60 disabled:cursor-not-allowed transition shadow-lg shadow-emerald-900/30"
+                    className="group relative w-full flex justify-center items-center gap-2 py-3 px-4 text-sm font-medium rounded-lg text-white bg-[#84994F] hover:bg-green-900 focus:outline-none focus:ring-2 focus:ring-green-400/60 disabled:opacity-60 disabled:cursor-not-allowed transition shadow-lg shadow-green-900/30"
                   >
                     {isSubmitting ? (
                       <>
