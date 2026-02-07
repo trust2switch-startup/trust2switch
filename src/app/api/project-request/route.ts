@@ -21,33 +21,31 @@ export async function POST(req: NextRequest) {
       data: validatedData,
     });
 
-    // Send emails asynchronously (don't block response)
-    (async () => {
-      try {
-        console.log("Attempting to send project request emails...");
+    // Send emails (await to ensure completion in serverless environment)
+    try {
+      console.log("Attempting to send project request emails...");
 
-        // Send admin notification
-        const adminEmailResult = await sendProjectRequestAdminEmail(validatedData);
-        if (adminEmailResult.success) {
-          console.log("Project request admin email sent successfully");
-        } else {
-          console.error("Failed to send project request admin email:", adminEmailResult.error);
-        }
-
-        // Send user confirmation
-        const userEmailResult = await sendProjectRequestUserConfirmationEmail(
-          validatedData.email,
-          validatedData.name
-        );
-        if (userEmailResult.success) {
-          console.log("Project request user confirmation email sent successfully");
-        } else {
-          console.error("Failed to send project request user confirmation email:", userEmailResult.error);
-        }
-      } catch (emailError) {
-        console.error("Unexpected error sending project request emails:", emailError);
+      // Send admin notification
+      const adminEmailResult = await sendProjectRequestAdminEmail(validatedData);
+      if (adminEmailResult.success) {
+        console.log("Project request admin email sent successfully");
+      } else {
+        console.error("Failed to send project request admin email:", adminEmailResult.error);
       }
-    })();
+
+      // Send user confirmation
+      const userEmailResult = await sendProjectRequestUserConfirmationEmail(
+        validatedData.email,
+        validatedData.name
+      );
+      if (userEmailResult.success) {
+        console.log("Project request user confirmation email sent successfully");
+      } else {
+        console.error("Failed to send project request user confirmation email:", userEmailResult.error);
+      }
+    } catch (emailError) {
+      console.error("Unexpected error sending project request emails:", emailError);
+    }
 
     return NextResponse.json(
       {
