@@ -86,7 +86,7 @@ export async function GET(req: NextRequest) {
       select: [
         'id', 'slug', 'title', 'description', 'image', 'category', 'level',
         'duration', 'price', 'originalPrice', 'rating', 'reviews', 'students',
-        'isPopular', 'isNew', 'isVisible', 'createdAt'
+        'isPopular', 'isNew', 'isVisible', 'createdAt', 'tags'
       ]
     });
 
@@ -183,5 +183,3 @@ export const POST = withAuth(async (req) => {
     );
   }
 });
-
-
