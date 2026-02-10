@@ -83,6 +83,11 @@ export async function GET(req: NextRequest) {
       sort: orderBy,
       limit: pagination.limit,
       skip: pagination.skip,
+      select: [
+        'id', 'slug', 'title', 'description', 'image', 'category', 'level',
+        'duration', 'price', 'originalPrice', 'rating', 'reviews', 'students',
+        'isPopular', 'isNew', 'isVisible', 'createdAt'
+      ]
     });
 
     const total = await courseRepository.count(where);
