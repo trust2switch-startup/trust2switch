@@ -20,7 +20,10 @@ export async function GET() {
           notIn: ['School', 'school', 'K-12']
         }
       },
-      { sort: { createdAt: -1 } }
+      {
+        sort: { createdAt: -1 },
+        select: ['id', 'title', 'description', 'slug', 'category']
+      }
     );
 
     // Map categories to icons for frontend display

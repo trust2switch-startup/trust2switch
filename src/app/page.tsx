@@ -22,13 +22,13 @@ function getBaseUrl() {
 // Generate metadata dynamically
 export async function generateMetadata(): Promise<Metadata> {
   let siteData = fallbackContent.site;
-  
+
   try {
     const baseUrl = getBaseUrl();
     const response = await fetch(`${baseUrl}/api/content`, {
-      cache: 'no-store',
+      next: { revalidate: 3600 },
     });
-    
+
     if (response.ok) {
       const data = await response.json();
       if (data.success && data.data?.site) {
@@ -92,12 +92,12 @@ export default async function Home() {
 
   try {
     const baseUrl = getBaseUrl();
-    
+
     // Fetch content
     const contentResponse = await fetch(`${baseUrl}/api/content`, {
-      cache: 'no-store',
+      next: { revalidate: 3600 },
     });
-    
+
     if (contentResponse.ok) {
       const contentData = await contentResponse.json();
       if (contentData.success && contentData.data) {
@@ -107,9 +107,9 @@ export default async function Home() {
 
     // Fetch courses
     const coursesResponse = await fetch(`${baseUrl}/api/courses?limit=6`, {
-      cache: 'no-store',
+      next: { revalidate: 3600 },
     });
-    
+
     if (coursesResponse.ok) {
       const coursesData = await coursesResponse.json();
       if (coursesData.success && Array.isArray(coursesData.data)) {
