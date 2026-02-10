@@ -12,7 +12,10 @@ export async function GET() {
 
     const subjects = await schoolSubjectRepository.find(
       {},
-      { sort: { order: 1, createdAt: -1 } }
+      {
+        sort: { order: 1, createdAt: -1 },
+        select: ['id', 'title', 'description', 'slug', 'icon']
+      }
     );
 
     return NextResponse.json({
